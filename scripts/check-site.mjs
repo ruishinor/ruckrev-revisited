@@ -1,3 +1,4 @@
+import {challengeCard} from '../src/data/challenge-card.mjs';
 import {communityPost} from '../src/data/community-posts.mjs';
 import { readFile, stat } from 'node:fs/promises';
 import { sections } from '../src/data/content.mjs';
@@ -43,4 +44,6 @@ console.log(`Verified ${urls} local URL occurrences across ${routes.length} rout
 
 for(const c of challenges){const record=await readFile(join(root,'challenge-records',c.id+'.txt'),'utf8');if(record!==completionSheet(c))throw Error('Incorrect completion record '+c.id);}
 for(const c of challenges){const post=await readFile(join(root,'challenge-posts',c.id+'.txt'),'utf8');if(post!==communityPost(c))throw Error('Incorrect community post '+c.id);}
+const logoBase64=(await readFile(join(root,'assets/brand-mark.png'))).toString('base64');
+for(const c of challenges){const svg=await readFile(join(root,'challenge-posts',c.id+'.svg'),'utf8');if(svg!==challengeCard(c,logoBase64))throw Error('Incorrect or missing branded card '+c.id);}
 await auditPhotoPlacements(root,routes,css,assessments);
