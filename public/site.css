@@ -280,3 +280,15 @@ html{scroll-padding-top:90px}
 /* Restored owner-selected original PNG silhouettes; recolor only, no new geometry. */
 svg.icon[data-icon="ruck"] .approved-glyph{mask:url("/assets/glyph-ruck.png") center / contain no-repeat;mask-mode:alpha}
 svg.icon[data-icon="run"] .approved-glyph{mask:url("/assets/glyph-run.png") center / contain no-repeat;mask-mode:alpha}
+
+/* Original assessment reference graphics; not documentary photographs. */
+.photo-kjk{--card-photo:url('/assets/assessment-kjk.svg');--detail-image:url('/assets/assessment-kjk.svg')}
+.photo-mjk{--card-photo:url('/assets/assessment-mjk.svg');--detail-image:url('/assets/assessment-mjk.svg')}
+.photo-fsk{--card-photo:url('/assets/assessment-fsk.svg');--detail-image:url('/assets/assessment-fsk.svg')}
+.photo-sfas{--card-photo:url('/assets/assessment-sfas.svg');--detail-image:url('/assets/assessment-sfas.svg')}
+.photo-seal-pst{--card-photo:url('/assets/assessment-seal-pst.svg');--detail-image:url('/assets/assessment-seal-pst.svg')}
+.photo-pararescue-ift{--card-photo:url('/assets/assessment-pararescue-ift.svg');--detail-image:url('/assets/assessment-pararescue-ift.svg')}
+.photo-gign{--card-photo:url('/assets/assessment-gign.svg');--detail-image:url('/assets/assessment-gign.svg')}
+.photo-cpat{--card-photo:url('/assets/assessment-cpat.svg');--detail-image:url('/assets/assessment-cpat.svg')}
+.photo-vessel-operator{--card-photo:url('/assets/assessment-vessel-operator.svg');--detail-image:url('/assets/assessment-vessel-operator.svg')}
+.reference-card-label{font-size:11px;color:#f2f6f7;background:#172329;padding:6px 9px;border:1px solid #829199;border-radius:5px;white-space:nowrap}

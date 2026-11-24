@@ -28,7 +28,7 @@ export function filterAssessments(data=assessments, f=FILTER_DEFAULTS) {
   if(f.sort==='country')result.sort((a,b)=>a.country.localeCompare(b.country,'en')||a.shortName.localeCompare(b.shortName,'en'));
   return result;
 }
-export function validSelection(ids,max=3){return [...new Set(ids)].filter(id=>Object.hasOwn(byId,id)).slice(0,max);}
+export function validSelection(ids,max=3){return [...new Set(ids)].filter(id=>Object.hasOwn(byId,id)&&byId[id].comparisonEligible!==false).slice(0,max);}
 export function parseSelection(s){return validSelection((s??'').split(','));}
 export function withParams(filters, selection, basePath='/testing-library/'){
   const url=new URL(basePath,'https://ruckrev.local');

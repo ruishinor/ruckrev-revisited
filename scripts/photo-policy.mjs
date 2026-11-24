@@ -6,7 +6,7 @@ import { join } from 'node:path';
 // visit to that page. Brand logos, flags and functional interface glyphs are
 // deliberately outside this photographic rule.
 const heroRoutes={'home-page':'/','training-hub':'/training/','learn-hub':'/learn/','lead-hub':'/lead/'};
-const filePattern=/\/assets\/([a-z0-9-]+\.webp)/g;
+const filePattern=/\/assets\/([a-z0-9-]+\.webp|assessment-[a-z0-9-]+\.svg)/g;
 export function assertPlacements(uses){
  const grouped=new Map();
  for(const use of uses){const list=grouped.get(use.asset)||[];list.push(use);grouped.set(use.asset,list);}
@@ -49,7 +49,7 @@ export async function auditPhotoPlacements(root,routes,css,assessments){
  const uses=cssPhotoUses(css,assessments);
  for(const route of routes){const page=route?`/${route}/`:'/';uses.push(...htmlPhotoUses(await readFile(join(root,route,'index.html'),'utf8'),page));}
  const grouped=assertPlacements(uses),hashes=new Map();
- for(const name of await readdir(join(root,'assets'))){if(/\.(?:png|jpe?g|gif|avif)$/i.test(name)&&!/^glyph-[a-z-]+\.png$|^brand-mark\.png$/.test(name))throw Error(`Use tracked WebP for editorial photographs: ${name}`);if(!name.endsWith('.webp'))continue;const bytes=await readFile(join(root,'assets',name));const hash=createHash('sha256').update(bytes).digest('hex');if(hashes.has(hash))throw Error(`Duplicate photo files: ${name} / ${hashes.get(hash)}`);hashes.set(hash,name);if(!grouped.has(name))throw Error(`Unused photograph: ${name}`);}
+ for(const name of await readdir(join(root,'assets'))){if(/\.(?:png|jpe?g|gif|avif)$/i.test(name)&&!/^glyph-[a-z-]+\.png$|^brand-mark\.png$/.test(name))throw Error(`Use tracked WebP for editorial photographs: ${name}`);if(!name.endsWith('.webp')&&!/^assessment-[a-z0-9-]+\.svg$/.test(name))continue;const bytes=await readFile(join(root,'assets',name));const hash=createHash('sha256').update(bytes).digest('hex');if(hashes.has(hash))throw Error(`Duplicate photo files: ${name} / ${hashes.get(hash)}`);hashes.set(hash,name);if(!grouped.has(name))throw Error(`Unused photograph: ${name}`);}
  for(const name of grouped.keys())await readFile(join(root,'assets',name));
  console.log(`Photo placement policy passed: ${grouped.size} distinct images, ${uses.length} editorial placements, no more than two per image; all pairs share one destination or assessment.`);
  return grouped;
