@@ -8,7 +8,7 @@ const root=resolve(fileURLToPath(new URL('../dist/',import.meta.url)));
 const app=await readFile(join(root,'src/app.mjs'),'utf8');
 const css=await readFile(join(root,'site.css'),'utf8');
 if(!app.includes('const isCompare')||!css.includes('.test-card'))throw Error('Core library files missing');
-for(const path of ['','testing-library/','testing-library/compare/',...assessments.map(a=>'testing-library/'+a.id+'/'),'training/','resources/','about/','references/','privacy/','terms/',...Object.keys(sections).map(s=>s.slice(1)),...Object.keys(entries).map(s=>s.slice(1))]){
+for(const path of ['','testing-library/','testing-library/compare/',...assessments.map(a=>'testing-library/'+a.id+'/'),'training/','resources/','about/','references/','privacy/','terms/','learn/','lead/','learn/first-three-rucks/',...Object.keys(sections).map(s=>s.slice(1)),...Object.keys(entries).map(s=>s.slice(1))]){
  const f=join(root,path,'index.html');const html=await readFile(f,'utf8');
  if(!html.includes('src/app.mjs')||!html.includes('site.css')||!html.includes('<main')||!html.includes('<h1'))throw Error(`HTML imports missing: ${path}`);
 }
@@ -18,7 +18,7 @@ for(const flag of ['us','no','dk','au','gb','nl','se'])if(!(await stat(join(root
 for(const p of ['favicon.svg','favicon.png','favicon.ico','apple-touch-icon.png','assets/brand-mark.png','assets/brand-mark.svg'])if(!(await stat(join(root,p))).size)throw Error(`Missing RR hex brand asset: ${p}`);
 console.log('Static route and asset checks passed.');
 // Check every exported page's root-relative links, module imports and local images.
-const routes=['','training','resources','about','testing-library','testing-library/compare',...assessments.map(a=>'testing-library/'+a.id),...Object.keys(sections).map(x=>x.slice(1,-1)),...Object.keys(entries).map(x=>x.slice(1,-1)),'references','privacy','terms'];
+const routes=['','training','resources','about','testing-library','testing-library/compare',...assessments.map(a=>'testing-library/'+a.id),...Object.keys(sections).map(x=>x.slice(1,-1)),...Object.keys(entries).map(x=>x.slice(1,-1)),'references','privacy','terms','learn','lead','learn/first-three-rucks'];
 let urls=0;
 for(const route of routes){
  const html=await readFile(join(root,route,'index.html'),'utf8');

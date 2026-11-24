@@ -28,15 +28,34 @@ test('source detail shows correct country and linked source',async({page})=>{
  await expect(page.getByRole('link',{name:/Visit Forsvaret/})).toHaveAttribute('href',/forsvaret\.no/);
 });
 test('mobile navigation, filters, cards and comparison are usable',async({page})=>{
- await page.setViewportSize({width:390,height:844});
- await page.goto('/testing-library/');
- await expect(page.locator('.test-card')).toHaveCount(8);
- await page.getByRole('button',{name:'Open menu'}).click();
- await expect(page.getByRole('navigation',{name:'Mobile navigation'})).toBeVisible();
- await page.getByRole('button',{name:'Close menu'}).click();
- await expect(page.getByRole('navigation',{name:'Mobile navigation'})).toBeHidden();
- const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth);
- expect(overflow).toBe(false);
+ test.setTimeout(60000);
+ const assertFits=async(label)=>{
+  const dims=await page.evaluate(()=>{
+   const panel=document.querySelector('.filters-panel');
+   return {viewport:innerWidth,document:document.documentElement.scrollWidth,filterContent:panel?.scrollWidth??0,filterWidth:panel?.clientWidth??0};
+  });
+  expect(dims.document,`${label}: document width ${JSON.stringify(dims)}`).toBeLessThanOrEqual(dims.viewport);
+  expect(dims.filterContent,`${label}: filter panel width ${JSON.stringify(dims)}`).toBeLessThanOrEqual(dims.filterWidth+1);
+ };
+ for(const width of [320,390,414,690]){
+  await page.setViewportSize({width,height:844});
+  await page.goto('/testing-library/');
+  await expect(page.locator('.test-card')).toHaveCount(8);
+  await page.getByRole('button',{name:'Open menu'}).click();
+  await expect(page.getByRole('navigation',{name:'Mobile navigation'})).toBeVisible();
+  await page.getByRole('button',{name:'Close menu'}).click();
+  await expect(page.getByRole('navigation',{name:'Mobile navigation'})).toBeHidden();
+  await assertFits(`${width}px initial`);
+  for(const name of ['PFQ','RASP','Artillerijeger'])await page.getByRole('checkbox',{name:`Compare ${name}`,exact:true}).check();
+  await expect(page.locator('.tray-item')).toHaveCount(3);
+  await assertFits(`${width}px selected grid`);
+  await page.getByRole('button',{name:'List',exact:true}).click();
+  await assertFits(`${width}px selected list`);
+  await page.getByRole('link',{name:'Compare 3 tests',exact:true}).click();
+  await expect(page.getByRole('heading',{name:'Compare fitness tests'})).toBeVisible();
+  await expect(page.locator('thead th')).toHaveCount(4);
+  await assertFits(`${width}px comparison page`);
+ }
 });
 test('training hub has a working goal-based week builder and useful next steps',async({page})=>{
  await page.goto('/training/');
@@ -66,10 +85,7 @@ test('expanded sources, footer pages and upgraded image assets resolve',async({p
 
 test('library pictograms have consistent contrast treatment across controls',async({page})=>{
  await page.goto('/testing-library/');
- const filter='none';
- await expect(page.locator('.category-pill:not(.active) .icon-asset').first()).toHaveCSS('filter',filter);
- await expect(page.locator('.filter-control .icon-asset').first()).toHaveCSS('filter',filter);
- await expect(page.locator('.test-card .icon-asset').first()).toHaveCSS('filter',filter);
+ for(const selector of ['.category-pill:not(.active) svg.icon','.filter-control svg.icon','.test-card svg.icon']){const glyph=page.locator(selector).first();await expect(glyph).toHaveCSS('color','rgb(139, 0, 0)');await expect(glyph).toHaveCSS('background-color','rgba(0, 0, 0, 0)');await expect(glyph).toHaveAttribute('fill','none');}
  await expect(page.locator('.category-pill.active svg.icon')).toHaveCSS('color','rgb(255, 255, 255)');
  await expect(page.locator('.filter-control > svg.icon').first()).toHaveCSS('color','rgb(139, 0, 0)');
  await expect(page.locator('.tray-submit svg.icon')).toHaveCSS('color','rgb(255, 255, 255)');
@@ -109,8 +125,38 @@ test('training and resources use meaningful distinct glyphs and accessible exact
  await expect(icons).toHaveCount(7);
  expect(await icons.evaluateAll(els=>els.map(x=>x.dataset.icon))).toEqual(['article','journal','route','calendar','book','people','toolbox']);
  await expect(icons.first()).toHaveCSS('color','rgb(139, 0, 0)');
- await expect(icons.first()).toHaveCSS('background-color','rgb(184, 193, 195)');
+ await expect(icons.first()).toHaveCSS('background-color','rgba(0, 0, 0, 0)');
+ await expect(icons.first()).toHaveAttribute('fill','none');
  await page.goto('/training/');
  expect(await page.locator('.resource-tile-icon [data-icon]').evaluateAll(els=>els.map(x=>x.dataset.icon))).toEqual(['plan','workout','target','barbell']);
  await expect(page.getByRole('button',{name:'Build the week'}).locator('svg.icon')).toHaveCSS('color','rgb(255, 255, 255)');
+});
+
+
+test('home uses the brand title, plain red hero, and actual Learn Train Lead destinations',async({page})=>{
+ await page.goto('/');await expect(page).toHaveTitle('Rucking Revolution');
+ const purpose=page.locator('.home-hero h1 em');await expect(purpose).toHaveCSS('color','rgb(139, 0, 0)');await expect(purpose).toHaveCSS('background-color','rgba(0, 0, 0, 0)');
+ await expect(page.locator('.hero-fact')).toHaveCount(0);await expect(page.getByRole('heading',{name:'What is rucking?'})).toBeVisible();
+ for(const [name,href] of [['Explore learn','/learn/'],['Explore train','/training/'],['Explore lead','/lead/']])await expect(page.getByRole('link',{name,exact:true})).toHaveAttribute('href',href);
+ await expect(page.getByRole('link',{name:'Free guide: the first three rucks'})).toHaveAttribute('href','/learn/first-three-rucks/');
+});
+test('mobile home and core hubs fit narrow viewports; branded header remains visible while scrolling',async({page})=>{
+ for(const width of [320,390]){
+  await page.setViewportSize({width,height:844});
+  for(const path of ['/','/learn/','/training/','/lead/','/resources/','/privacy/']){
+   await page.goto(path);await expect(page.locator('main h1')).toBeVisible();
+   const dims=await page.evaluate(()=>({viewport:innerWidth,document:document.documentElement.scrollWidth}));expect(dims.document).toBeLessThanOrEqual(dims.viewport);
+   await page.evaluate(()=>window.scrollTo(0,Math.min(600,document.body.scrollHeight-innerHeight)));await expect.poll(()=>page.locator('.site-header').evaluate(el=>Math.round(el.getBoundingClientRect().top))).toBe(0);await expect(page.getByRole('link',{name:'Rucking Revolution home'})).toBeVisible();
+  }
+ }
+});
+test('target-date progression and assessment-specific preparation work',async({page})=>{
+ await page.goto('/training/ruck-plans/');const date=new Date();date.setDate(date.getDate()+42);const target=[date.getFullYear(),String(date.getMonth()+1).padStart(2,'0'),String(date.getDate()).padStart(2,'0')].join('-');
+ await page.locator('#block-date').fill(target);await page.getByRole('button',{name:'Build training block'}).click();await expect(page.locator('#block-output')).toContainText('6 full weeks');await expect(page.locator('#block-output .progression-weeks section')).toHaveCount(6);
+ await page.goto('/training/assessment-prep/');await page.locator('#prep-test').selectOption('artillerijaeger');await expect(page.locator('#prep-output')).toContainText('22 kg');await expect(page.locator('#prep-output a')).toHaveAttribute('href','/testing-library/artillerijaeger/');
+});
+test('published route profiles and legal rights pages expose their actual sources',async({page})=>{
+ await page.goto('/resources/routes/sognsvann-loop/');await expect(page.getByRole('heading',{name:'Sognsvann lakeside loop',level:1})).toBeVisible();await expect(page.getByRole('link',{name:'Published route, map and elevation profile'})).toHaveAttribute('href','https://ut.no/turforslag/115076');
+ await page.goto('/privacy/');await expect(page.locator('#privacy-rights')).toContainText('Request erasure');await expect(page.locator('#article-17')).toContainText('does not remove browser history');
+ await page.locator('#privacy-link').fill(new URL('/testing-library/?country=Norway&compare=rasp',page.url()).href);const download=page.waitForEvent('download');await page.getByRole('button',{name:'Download browser choices'}).click();expect((await download).suggestedFilename()).toBe('rucking-revolution-browser-choices.json');
 });

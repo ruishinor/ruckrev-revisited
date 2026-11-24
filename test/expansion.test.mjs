@@ -69,11 +69,11 @@ test('public pages present the site directly and keep legal and publisher links'
  const privacy=await renderRoute('/privacy/');assert.match(privacy,/Technical information/);assert.match(privacy,/Retention and your choices/);
 });
 
-test('icon accents use a common contrasting dark-surface presentation',async()=>{
+test('interface glyphs use transparent red stencils and light CTA exceptions',async()=>{
  const css=await readFile(resolve(root,'public/site.css'),'utf8');
+ const {icon}=await import('../src/lib/icons.mjs');
  assert.match(css,/--rr-brand-red:#8B0000/);
- assert.match(css,/--rr-glyph-dark-surface:#8B0000/);
- assert.match(css,/\.icon\.icon-asset\{filter:none\}/);
- assert.doesNotMatch(css,/\.category-pill \.icon-asset\{[^}]*filter:/);
- assert.match(css,/\.category-pill\.active \.icon-asset,\.view-switch button\.active \.icon-asset\{filter:brightness\(0\) invert\(1\)\}/);
+ assert.doesNotMatch(css,/--glyph-back|#B8C1C3/);
+ assert.match(css,/\.home-hero h1 em\{color:#8B0000;background:transparent/);
+ for(const name of ['ruck','barbell','article','calendar','arrow','run','compare','menu']){const glyph=icon(name);assert.match(glyph,/<svg class="icon"/);assert.match(glyph,/fill="none" stroke="currentColor"/);assert.doesNotMatch(glyph,/<img|background/);}
 });

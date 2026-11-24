@@ -9,7 +9,7 @@ const dist=join(root,'dist');
 await rm(dist,{recursive:true,force:true});await mkdir(dist,{recursive:true});
 for(const p of ['src','public'])await cp(join(root,p),p==='public'?dist:join(dist,p),{recursive:true});
 const baseRoutes=['','training','resources','about','testing-library','testing-library/compare',...assessments.map(a=>'testing-library/'+a.id)];
-const extraRoutes=[...Object.keys(sections).map(x=>x.slice(1,-1)),...Object.keys(entries).map(x=>x.slice(1,-1)),'references','privacy','terms'];
+const extraRoutes=[...Object.keys(sections).map(x=>x.slice(1,-1)),...Object.keys(entries).map(x=>x.slice(1,-1)),'references','privacy','terms','learn','lead','learn/first-three-rucks'];
 let i=0;
 for(const p of [...baseRoutes,...extraRoutes]){
  const dest=join(dist,p);await mkdir(dest,{recursive:true});
@@ -20,7 +20,7 @@ for(const p of [...baseRoutes,...extraRoutes]){
  await import(`../src/app.mjs?build=${++i}`);
  if(!app.innerHTML.includes('<main'))throw Error('Missing static markup: '+p);
  const h1=app.innerHTML.match(/<h1[^>]*>(.*?)<\/h1>/s)?.[1]?.replace(/<br\s*\/?\s*>/g,' ').replace(/<[^>]+>/g,'')||'Rucking Revolution';
- html=html.replace('<title>Rucking Revolution</title>',`<title>${h1} | Rucking Revolution</title>`).replace('<div id="app"></div>',`<div id="app">${app.innerHTML}</div>`);
+ html=html.replace('<title>Rucking Revolution</title>',`<title>${p?h1+' | Rucking Revolution':'Rucking Revolution'}</title>`).replace('<div id="app"></div>',`<div id="app">${app.innerHTML}</div>`);
  await writeFile(join(dest,'index.html'),html);
 }
 const files=['index.html','site.css','src/app.mjs','src/data/assessments.mjs','src/lib/catalog.mjs','src/lib/icons.mjs','src/data/content.mjs','src/data/guides.mjs','src/lib/resource-pages.mjs'];

@@ -1,4 +1,6 @@
 export const paths={
+ compare:'<rect x="3" y="3" width="8" height="15" rx="1.5"/><rect x="13" y="6" width="8" height="15" rx="1.5"/><path d="M5 7h4m6 3h4M5 11h4m6 3h4"/>',
+ filter:'<path d="M3 4h18l-7 8v6l-4 2v-8z"/>',
  article:'<path d="M5 3h10l4 4v14H5zM14 3v5h5M8 12h8M8 16h8"/>',
  journal:'<rect x="5" y="3" width="15" height="18" rx="2"/><path d="M8 3v18M3 7h4M3 12h4M3 17h4m4-2 2 2 5-5"/>',
  route:'<circle cx="5" cy="5" r="2"/><circle cx="19" cy="19" r="2"/><path d="M7 5h8a4 4 0 0 1 0 8H9a3 3 0 0 0 0 6h8"/>',
@@ -28,5 +30,4 @@ export const paths={
  book:'<path d="M3 5c4-2 7-1 9 1 2-2 5-3 9-1v15c-4-2-7-1-9 1-2-2-5-3-9-1zM12 6v15"/>',people:'<circle cx="9" cy="8" r="3"/><path d="M2 20v-2a7 7 0 0 1 14 0v2m1-15a3 3 0 0 1 0 6m1 3a5 5 0 0 1 4 5v1"/>',
  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/>',scale:'<path d="M12 3v18M4 7h16M3 18l4-11 4 11a4 4 0 0 1-8 0Zm10 0 4-11 4 11a4 4 0 0 1-8 0Z"/>',
 };
-const premium=Object.freeze({ruck:'ruck',run:'run',compare:'compare',layers:'layers',globe:'globe',shield:'shield',chevrons:'chevrons',barbell:'barbell',waves:'waves',search:'search',grid:'grid',tag:'filter',sort:'sort',close:'close'});
-export function icon(name, size=20){if(premium[name])return `<img class="icon icon-asset" data-icon="${name}" src="/assets/glyph-${premium[name]}.png" width="${size}" height="${size}" loading="lazy" alt="" aria-hidden="true"/>`;return `<svg class="icon" data-icon="${Object.hasOwn(paths,name)?name:'info'}" viewBox="0 0 24 24" width="${size}" height="${size}" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round" stroke-linecap="round">${paths[name]??paths.info}</svg>`}
+export function icon(name, size=20){const key=name==='tag'?'filter':Object.hasOwn(paths,name)?name:'info';return `<svg class="icon" data-icon="${name}" viewBox="0 0 24 24" width="${size}" height="${size}" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">${paths[key]}</svg>`;}
