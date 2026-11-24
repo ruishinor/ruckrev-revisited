@@ -222,3 +222,42 @@ test('early event filter input survives delayed application startup',async({page
   await expect(page.locator('.guide-card:visible h3')).toHaveText(['Jurassic Coast Ultra Challenge','London to Brighton Ultra Challenge']);
  }finally{release();}
 });
+
+test('early library controls survive startup and clearing cannot restore a stale query',async({page})=>{
+ let release;const gate=new Promise(resolve=>{release=resolve;});
+ await page.route('**/src/app.mjs',async route=>{await gate;await route.continue();});
+ try{
+  await page.goto('/testing-library/?sort=name#library-search',{waitUntil:'commit'});
+  await page.locator('#test-search').fill('beep');
+  await page.locator('#filter-country').selectOption('Australia');
+  await page.getByRole('checkbox',{name:'Compare RASP',exact:true}).check();
+  release();
+  await expect(page.locator('#result-count')).toHaveText('1 test');
+  await expect(page.locator('#test-search')).toHaveValue('beep');
+  await expect(page.locator('#filter-country')).toHaveValue('Australia');
+  await expect(page.locator('#filter-sort')).toHaveValue('name');
+  await expect(page.locator('#compare-tray')).toContainText('RASP');
+  await expect(page).toHaveURL(/#library-search$/);
+  await page.locator('#test-search').fill('nonexistent');
+  await page.getByRole('button',{name:'Clear filters',exact:true}).click();
+  await expect(page.locator('#test-search')).toHaveValue('');
+  await expect(page.locator('.test-card')).toHaveCount(8);
+  await page.waitForTimeout(250);
+  await expect(page.locator('.test-card')).toHaveCount(8);
+  await expect(page.locator('#compare-tray')).toContainText('1 test selected');
+ }finally{release();}
+});
+
+test('comparison link clipboard success and denial are reported accessibly',async({page})=>{
+ await page.addInitScript(()=>{
+  window.__copied='';window.__denyCopy=false;
+  Object.defineProperty(navigator,'clipboard',{configurable:true,value:{async writeText(value){await Promise.resolve();if(window.__denyCopy)throw Error('Denied');window.__copied=value;}}});
+ });
+ await page.goto('/testing-library/compare/?ids=rasp,ntoa-pfq');
+ const button=page.getByRole('button',{name:'Copy a link',exact:true});
+ await button.click();await expect(page.locator('#copy-compare-status')).toHaveText('Link copied');
+ expect(await page.evaluate(()=>window.__copied)).toBe(page.url());
+ await page.evaluate(()=>{window.__denyCopy=true;});
+ await button.click();await expect(page.locator('#copy-compare-status')).toHaveText('Copy the address from your browser.');
+ await expect(button).toBeFocused();
+});

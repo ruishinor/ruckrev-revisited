@@ -12,6 +12,8 @@ if(!app.includes('const isCompare')||!css.includes('.test-card'))throw Error('Co
 for(const path of ['','testing-library/','testing-library/compare/',...assessments.map(a=>'testing-library/'+a.id+'/'),'training/','resources/','about/','references/','privacy/','terms/','learn/','lead/','learn/first-three-rucks/',...Object.keys(sections).map(s=>s.slice(1)),...Object.keys(entries).map(s=>s.slice(1))]){
  const f=join(root,path,'index.html');const html=await readFile(f,'utf8');
  if(!/<html\b[^>]*\blang="en"/.test(html))throw Error(`English document language missing: ${path}`);
+ if(!/<meta name="referrer" content="no-referrer"\s*\/?\s*>/.test(html))throw Error(`Referrer policy differs from HTTP policy: ${path}`);
+ for(const img of html.matchAll(/<img\b[^>]*>/g))if(!/\balt="[^"]*"/.test(img[0]))throw Error(`Image alternative text missing: ${path}`);
  if(/Fysiske tester i Forsvaret|Fysisk prøve til politiuddannelsen/.test(html))throw Error(`Untranslated assessment label: ${path}`);
  if(!html.includes('src/app.mjs')||!html.includes('site.css')||!html.includes('<main')||!html.includes('<h1'))throw Error(`HTML imports missing: ${path}`);
 }

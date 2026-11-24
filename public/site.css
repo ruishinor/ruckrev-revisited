@@ -196,3 +196,9 @@ svg.icon[data-icon],.category-pill:not(.active) svg.icon,.filter-control svg.ico
 /* Route inspection is deliberately independent of map providers. */
 .route-viewer{max-width:900px;margin:28px auto;min-width:0}.route-viewer input[type=file]{display:block;width:100%;max-width:100%;min-width:0;margin:10px 0 14px;color:var(--text)}.gpx-controls{display:flex;flex-wrap:wrap;gap:8px}.gpx-controls button{min-height:44px}.gpx-controls button:disabled{opacity:.55;cursor:not-allowed}.gpx-map,.gpx-profile{width:100%;height:auto;display:block;background:#131d22;border:1px solid var(--line);border-radius:6px}.gpx-profile[hidden],#gpx-results[hidden]{display:none}.gpx-track{fill:none;stroke:#e18484;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}.gpx-start{fill:#75d9a2;stroke:#091014;stroke-width:1.5}.gpx-finish{fill:#e18484;stroke:#091014;stroke-width:1.5}.gpx-controls :focus-visible,.route-viewer input:focus-visible{outline:2px solid #e18484;outline-offset:3px}.guide-body a,.route-viewer a{overflow-wrap:anywhere}#gpx-heading{scroll-margin-top:90px}
 @media print{.gpx-controls,.route-viewer input,.route-viewer label{display:none!important}.gpx-map,.gpx-profile{background:#fff;border-color:#555}.gpx-track{stroke:#8b0000}.route-viewer{break-inside:avoid}}
+
+/* Keep focused controls and anchor destinations below the sticky header. */
+html{scroll-padding-top:90px}
+:where(a,button,input,select,textarea,summary,[tabindex]){scroll-margin-block:12px}
+#copy-compare-status{font-size:14px;color:var(--text);align-self:center;overflow-wrap:anywhere}
+.compare-tools{flex-wrap:wrap;align-items:center}.compare-tools>#copy-compare-status:not(:empty){flex:1 1 100%}
