@@ -184,7 +184,7 @@ test('crew leadership practice filters and exports a distinct plan',async({page}
  await page.goto('/resources/ruck-clubs/start-a-crew/');await expect(page.getByRole('heading',{name:'From first ruck to regular crew',level:1})).toBeVisible();
 });
 
-test('events are directly navigable and filter by country and format',async({page})=>{await page.setViewportSize({width:1440,height:900});await page.goto('/');await page.getByRole('navigation',{name:'Main navigation'}).getByRole('link',{name:'Events',exact:true}).click();await expect(page).toHaveURL(/\/resources\/events\/$/);await page.locator('#event-country').selectOption('United Kingdom');await page.locator('#event-type').selectOption('Distance challenge');await expect(page.locator('.guide-card:visible')).toHaveCount(2);await expect(page.locator('.guide-card:visible').first().getByRole('link',{name:'Official organiser'})).toBeVisible();});
+test('events are directly navigable and filter by country and format',async({page})=>{await page.setViewportSize({width:1440,height:900});await page.goto('/');await page.getByRole('navigation',{name:'Main navigation'}).getByRole('link',{name:'Events',exact:true}).click();await expect(page).toHaveURL(/\/resources\/events\/$/);await page.locator('#event-country').selectOption('United Kingdom');await expect(page.locator('.guide-card:visible')).toHaveCount(3);await page.locator('#event-type').selectOption('Distance challenge');await expect(page.locator('.guide-card:visible')).toHaveCount(2);await expect(page.locator('.guide-card:visible').first().getByRole('link',{name:'Official organiser'})).toBeVisible();});
 test('mobile menu Escape restores focus without navigation',async({page})=>{await page.setViewportSize({width:390,height:844});await page.goto('/');const toggle=page.locator('.mobile-toggle');await toggle.click();await expect(page.locator('#mobile-nav')).toBeVisible();await page.locator('#mobile-nav a').first().focus();await page.keyboard.press('Escape');await expect(page.locator('#mobile-nav')).toBeHidden();await expect(toggle).toBeFocused();});
 
 test('route discovery distinguishes mapped profiles from templates',async({page})=>{await page.goto('/resources/routes/');await page.locator('#route-type').selectOption('Route profile');await expect(page.locator('.guide-card:visible')).toHaveCount(4);await expect(page.locator('.guide-card:visible').first().getByRole('link',{name:'Published map and elevation'})).toBeVisible();await page.locator('#route-type').selectOption('Route template');await expect(page.locator('.guide-card:visible')).toHaveCount(6);});
@@ -203,4 +203,22 @@ test('local native form submissions are blocked without JavaScript and worksheet
  const response=await page.goto('/resources/tools/');expect(response.headers()['content-security-policy']).toContain("form-action 'none'");expect(response.headers()['referrer-policy']).toBe('no-referrer');
  const download=page.waitForEvent('download');await page.getByRole('link',{name:'Route brief (.txt)',exact:true}).click();expect((await download).suggestedFilename()).toBe('route-brief.txt');
  const ctx=await browser.newContext({javaScriptEnabled:false});try{const nojs=await ctx.newPage();await nojs.goto(new URL('/resources/tools/',page.url()).href);const initial=nojs.url();let submissions=0;nojs.on('request',r=>{if(r.isNavigationRequest())submissions++;});await nojs.locator('#log-form input[name=date]').fill('2026-11-24');await nojs.locator('#log-form input[name=distance]').fill('5');await nojs.locator('#log-form input[name=load]').fill('10');await nojs.locator('#log-form input[name=minutes]').fill('60');await nojs.locator('#log-form textarea[name=notes]').fill('private-test-input');await nojs.getByRole('button',{name:'Download session CSV'}).click({noWaitAfter:true});await nojs.waitForTimeout(250);expect(nojs.url()).toBe(initial);expect(submissions).toBe(0);}finally{await ctx.close();}
+});
+
+// Deliberately hold the entry module while the visitor uses the exported HTML.
+test('early event filter input survives delayed application startup',async({page})=>{
+ let release;const gate=new Promise(resolve=>{release=resolve;});
+ await page.route('**/src/app.mjs',async route=>{await gate;await route.continue();});
+ try{
+  await page.goto('/resources/events/',{waitUntil:'commit'});
+  const country=page.locator('#event-country');
+  await country.selectOption('United Kingdom');
+  await expect(country).toHaveValue('United Kingdom');
+  release();
+  await expect(page.locator('#guide-count')).toHaveText('3 results');
+  await expect(country).toHaveValue('United Kingdom');
+  await page.locator('#event-type').selectOption('Distance challenge');
+  await expect(page.locator('.guide-card:visible')).toHaveCount(2);
+  await expect(page.locator('.guide-card:visible h3')).toHaveText(['Jurassic Coast Ultra Challenge','London to Brighton Ultra Challenge']);
+ }finally{release();}
 });
