@@ -13,18 +13,20 @@ node scripts/check-site.mjs
 npm run dev
 ```
 
-Open http://127.0.0.1:4173/. The build exports 123 routes to `dist/`, including complete pre-rendered page content. Interactive controls use JavaScript. The library contains eight formal assessments and the resource collections contain 92 individual entries, including 41 workouts with structured purpose, equipment and estimated session duration.
+Open http://127.0.0.1:4173/. The build exports 131 routes to `dist/`, including complete pre-rendered page content. Interactive controls use JavaScript. The library contains eight formal assessments and the resource collections contain 100 individual entries, including 41 workouts with structured purpose, equipment and estimated session duration.
 
 ## Structure
 
 - `src/app.mjs`: shared layout, route dispatch and testing-library interactions.
 - `src/data/assessments.mjs`: structured fitness tests and official publisher links.
 - `src/data/content.mjs`: section introductions, navigation and supporting guidance.
-- `src/data/guides.mjs`: searchable catalogues of workouts, exercises, articles, route templates, field-note exercises and organiser-linked events.
+- `src/data/guides.mjs`: searchable catalogues of workouts, exercises, articles, route templates, field-note exercises, published first-person reports, crew guides and organiser-linked events.
 - `src/lib/landing.mjs`: home, Learn, Lead, illustrated resource navigation and publication guide.
 - `src/lib/legal.mjs`: legal documents, local choice export and privacy contact pathways.
 - `src/lib/progression.mjs`: deadline-based training blocks and assessment-specific preparation.
 - `src/lib/resource-pages.mjs`: collection rendering, pace and assessment calculations, training-week planning, checklists and local exports.
+- `src/data/crew-development.mjs`: five crew guides and sixteen leadership practice exercises.
+- `src/lib/crew-practice.mjs`: filtered exercise selection and local practice plan export.
 - `src/lib/icons.mjs`: transparent semantic SVG stencil symbols; legacy PNG files are retained but are not used as UI glyphs.
 - `src/lib/catalog.mjs`: filter and comparison logic.
 - `public/`: local images, icons, flags, branding and styles.
