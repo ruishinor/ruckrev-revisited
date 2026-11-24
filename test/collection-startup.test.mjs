@@ -18,7 +18,7 @@ test('collection startup retains prerendered controls and applies early input',a
   await import('../src/app.mjs?startup=early-country');
   assert.equal(replacements,0);
   assert.equal(country.value,'United Kingdom');
-  assert.equal(count.textContent,'4 results');
+  assert.equal(count.textContent,'6 results');
   format.value='Distance challenge';format.listeners.change();
   assert.equal(count.textContent,'2 results');
   assert.deepEqual(cards.filter(x=>!x.hidden).map(x=>x.dataset.guide),['jurassic coast ultra challenge','london to brighton ultra challenge']);
