@@ -30,7 +30,7 @@ test('library filters and search combine correctly',()=>{
  assert.equal(filterAssessments(assessments,{...FILTER_DEFAULTS,country:'Norway'}).length,6);
  assert.equal(filterAssessments(assessments,{...FILTER_DEFAULTS,domain:'Police'}).length,5);
  assert.deepEqual(filterAssessments(assessments,{...FILTER_DEFAULTS,q:'beep'}).map(a=>a.id),['nsw-pct','foreign-legion']);
- assert.deepEqual(filterAssessments(assessments,{...FILTER_DEFAULTS,category:'water'}).map(a=>a.id),['rasp','artillerijaeger','kjk','mjk','fsk','seal-pst','vessel-operator']);
+ assert.deepEqual(filterAssessments(assessments,{...FILTER_DEFAULTS,category:'water'}).map(a=>a.id),['rasp','artillerijaeger','kjk','mjk','fsk','seal-pst','pararescue-ift','vessel-operator']);
  assert.equal(filterAssessments(assessments,{...FILTER_DEFAULTS,category:'water',country:'Australia'}).length,0);
 });
 test('selection is de-duplicated and never exceeds three',()=>{
