@@ -13,4 +13,5 @@ for(const path of ['','testing-library/','testing-library/compare/','testing-lib
 for(const item of ['mountain-atmosphere.webp','rasp.webp','pfq.webp','artillerijaeger.webp','norway.webp','nsw-police.webp','danish-police.webp','icon.svg'])if(!(await stat(join(root,'assets',item))).size)throw Error(`Missing: ${item}`);
 for(const item of ['progress-ruck.webp','glyph-ruck.png','glyph-run.png','glyph-compare.png','glyph-layers.png','glyph-filter.png'])if(!(await stat(join(root,'assets',item))).size)throw Error(`Missing generated asset: ${item}`);
 for(const flag of ['us','no','dk','au'])if(!(await stat(join(root,'assets','flags',flag+'.svg'))).size)throw Error(`Missing flag: ${flag}`);
+for(const p of ['favicon.svg','favicon.png','favicon.ico','apple-touch-icon.png','assets/brand-mark.png','assets/brand-mark.svg'])if(!(await stat(join(root,p))).size)throw Error(`Missing RR hex brand asset: ${p}`);
 console.log('Static route and asset checks passed.');

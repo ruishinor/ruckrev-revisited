@@ -65,3 +65,18 @@ body::before{height:1230px;background:linear-gradient(180deg,rgba(2,8,11,.26) 0%
 @media(max-width:1250px){.footer-top{grid-template-columns:repeat(4,minmax(140px,1fr));gap:26px}.footer-brand{grid-column:span 4;max-width:660px}.action-strip{grid-template-columns:1fr}.action-links a:first-child{border-left:0}}
 @media(max-width:900px){.resource-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.article-content-grid{grid-template-columns:1fr}.action-links{gap:4px}.action-links a{padding:9px}.footer-top{grid-template-columns:repeat(2,minmax(140px,1fr))}.footer-brand{grid-column:span 2}.library-page .action-strip{margin-top:-45px}}
 @media(max-width:690px){.resource-tiles{grid-template-columns:1fr;gap:11px}.resource-tile{min-height:160px;padding:19px}.action-strip{gap:12px;padding:18px;margin-bottom:35px}.action-links{grid-template-columns:1fr}.action-links a{border-left:0;border-top:1px solid #778a9161;padding:12px 0}.action-intro h2{font-size:27px}.progress-banner{min-height:320px;padding:24px;background-image:linear-gradient(90deg,#101b20fa,#152027ba),url('/assets/progress-ruck.webp')}.footer-top{gap:23px;padding:32px 0}.footer-brand .footer-wordmark strong{font-size:13px}.footer-column{min-width:0}.footer-bottom{flex-direction:column;align-items:start}.site-footer .footer-bottom nav{flex-wrap:wrap;gap:12px}.week-controls{flex-direction:column;align-items:stretch}.week-controls label{min-width:0;width:100%}.week-controls select{max-width:unset}.week-controls button{margin:8px 0 0}.library-page .results{padding-bottom:165px}.library-page .action-strip{margin-top:-100px;margin-bottom:165px}}
+
+/* RR hexadecimal brand red, original mark and high-contrast dark-surface icon treatment. */
+:root{--rr-brand-red:#8B0000;--rr-brand-hover:#A51C1C;--rr-glyph-dark-surface:#D14C4C}
+.brand-mark img{display:block;width:48px;height:48px;object-fit:contain}
+.footer-wordmark img{display:block;width:36px;height:36px;object-fit:contain;flex-shrink:0}
+/* Inline controls remain red where practical, with a lighter red on charcoal surfaces for visibility. */
+.icon:not(.icon-asset){color:var(--rr-glyph-dark-surface)}
+/* ImageGen icons are #8B0000 in their source PNGs; lighten only for dark-UI presentation. */
+.icon-asset{filter:invert(18%) brightness(1.5)}
+.button-primary .icon:not(.icon-asset),.tray-submit .icon:not(.icon-asset),
+.button-primary .icon-asset,.tray-submit .icon-asset{color:#fff;filter:brightness(0) invert(1)}
+.category-pill.active .icon:not(.icon-asset),.view-switch button.active .icon:not(.icon-asset){color:#fff}
+.category-pill.active .icon-asset,.view-switch button.active .icon-asset{filter:brightness(0) invert(1)}
+/* Brand marks, national flags and photographs are never hue-filtered. */
+@media(max-width:690px){.brand-mark img{width:41px;height:41px}}

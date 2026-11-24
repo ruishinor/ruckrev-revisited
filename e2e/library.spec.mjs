@@ -38,7 +38,7 @@ test('mobile navigation, filters, cards and comparison are usable',async({page})
 });
 test('training hub has a working goal-based week builder and useful next steps',async({page})=>{
  await page.goto('/training/');
- await expect(page.getByRole('heading',{name:'Training',exact:true})).toBeVisible();
+ await expect(page.getByRole('heading',{name:'Training',exact:true,level:1})).toBeVisible();
  await page.locator('#week-goal').selectOption('selection');
  await page.locator('#week-level').selectOption('regular');
  await page.getByRole('button',{name:/Build the week/}).click();

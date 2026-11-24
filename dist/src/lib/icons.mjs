@@ -14,5 +14,5 @@ export const paths={
  menu:'<path d="M3 6h18M3 12h18M3 18h18"/>',external:'<path d="M14 4h6v6m0-6-9 9M20 14v6H4V4h6"/>',
  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/>',scale:'<path d="M12 3v18M4 7h16M3 18l4-11 4 11a4 4 0 0 1-8 0Zm10 0 4-11 4 11a4 4 0 0 1-8 0Z"/>',
 };
-const premium=Object.freeze({chart:'grid',ruck:'ruck',run:'run',compare:'compare',layers:'layers',globe:'globe',shield:'shield',chevrons:'chevrons',barbell:'barbell',waves:'waves',search:'search',grid:'grid',tag:'filter',sort:'sort'});
+const premium=Object.freeze({chart:'grid',ruck:'ruck',run:'run',compare:'compare',layers:'layers',globe:'globe',shield:'shield',chevrons:'chevrons',barbell:'barbell',waves:'waves',search:'search',grid:'grid',tag:'filter',sort:'sort',close:'close'});
 export function icon(name, size=20){if(premium[name])return `<img class="icon icon-asset" src="/assets/glyph-${premium[name]}.png" width="${size}" height="${size}" loading="lazy" alt="" aria-hidden="true"/>`;return `<svg class="icon" viewBox="0 0 24 24" width="${size}" height="${size}" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round" stroke-linecap="round">${paths[name]??paths.info}</svg>`}
