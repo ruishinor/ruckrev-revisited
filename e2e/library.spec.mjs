@@ -2,17 +2,17 @@ import { test, expect } from '@playwright/test';
 test('library loads, search and clear filters work',async({page})=>{
  await page.goto('/testing-library/');
  await expect(page.getByRole('heading',{name:'TESTING LIBRARY'})).toBeVisible();
- await expect(page.locator('.test-card')).toHaveCount(17);
+ await expect(page.locator('.test-card')).toHaveCount(26);
  await page.getByRole('searchbox',{name:'Search tests, countries or activities'}).fill('beep');
  await expect(page.locator('.test-card')).toHaveCount(2);
  await expect(page.getByRole('heading',{name:'NSW Police PCT'})).toBeVisible();
  await page.getByRole('button',{name:'Clear filters'}).click();
- await expect(page.locator('.test-card')).toHaveCount(17);
+ await expect(page.locator('.test-card')).toHaveCount(26);
 });
 test('categories, grid/list and comparison work',async({page})=>{
  await page.goto('/testing-library/');
  await page.getByRole('button',{name:'Running & Aerobic'}).click();
- await expect(page.locator('.test-card')).toHaveCount(17);
+ await expect(page.locator('.test-card')).toHaveCount(22);
  await page.getByRole('button',{name:'List'}).click();
  await expect(page.locator('#card-grid')).toHaveClass(/list-view/);
  await expect(page.locator('#compare-tray')).toContainText('0 tests selected');
@@ -40,7 +40,7 @@ test('mobile navigation, filters, cards and comparison are usable',async({page})
  for(const width of [320,390,414,690]){
   await page.setViewportSize({width,height:844});
   await page.goto('/testing-library/');
-  await expect(page.locator('.test-card')).toHaveCount(17);
+  await expect(page.locator('.test-card')).toHaveCount(26);
   await page.getByRole('button',{name:'Open menu'}).click();
   await expect(page.getByRole('navigation',{name:'Mobile navigation'})).toBeVisible();
   await page.getByRole('button',{name:'Close menu'}).click();
@@ -73,7 +73,7 @@ test('expanded sources, footer pages and upgraded image assets resolve',async({p
  await expect(page.locator('.apa-reference')).toContainText('National Tactical Officers Association');
  await page.getByRole('link',{name:'References',exact:true}).click();
  await expect(page.getByRole('heading',{name:'References'})).toBeVisible();
- await expect(page.locator('.bibliography-item')).toHaveCount(17);
+ await expect(page.locator('.bibliography-item')).toHaveCount(26);
  await page.goto('/resources/');
  await page.getByRole('link',{name:/Rucking routes/}).first().click();
  await expect(page.getByRole('heading',{name:'Rucking routes'})).toBeVisible();
@@ -163,7 +163,7 @@ test('published route profiles and legal rights pages expose their actual source
 
 test('workout filters combine purpose, equipment and estimated duration',async({page})=>{await page.goto('/training/workouts/');await page.locator('#guide-purpose').selectOption('Strength');await page.locator('#guide-equipment').selectOption('Sandbag');await page.locator('#guide-duration').selectOption('30');const items=page.locator('.guide-card:visible');expect(await items.count()).toBeGreaterThan(0);for(const item of await items.all()){await expect(item).toHaveAttribute('data-purpose','Strength');expect((await item.getAttribute('data-equipment')).split('|')).toContain('Sandbag');expect(Number(await item.getAttribute('data-minutes'))).toBeLessThanOrEqual(30);} });
 
- test('assessment photos are distinct and comparisons do not repeat them',async({page})=>{await page.goto('/testing-library/');const photos=await page.locator('.card-photo').evaluateAll(els=>els.map(el=>getComputedStyle(el).getPropertyValue('--card-photo').trim()).filter(Boolean));expect(photos.length).toBe(17);expect(new Set(photos).size).toBe(17);await expect(page.locator('.card-photo.text-only-assessment')).toHaveCount(0);const decoded=await page.locator('.card-photo').evaluateAll(async els=>Promise.all(els.map(async el=>{const raw=getComputedStyle(el).getPropertyValue('--card-photo').trim();const url=raw.slice(4,-1).replace(/^['"]|['"]$/g,'');const img=new Image();img.src=url;await img.decode();return {id:el.closest('.test-card').dataset.id,url,width:img.naturalWidth,height:img.naturalHeight};})));expect(decoded.every(x=>x.url.startsWith('/assets/')&&x.width>0&&x.height>0)).toBeTruthy();const ids=await page.locator('.test-card').evaluateAll(els=>els.map(e=>e.dataset.id));for(const id of ids){await page.goto('/testing-library/'+id+'/');const hero=page.locator('.detail-hero');await expect(hero).toBeVisible();await expect(hero).not.toHaveClass(/text-only-assessment/);const image=await hero.evaluate(async el=>{const url=getComputedStyle(el).getPropertyValue('--detail-image').trim().slice(4,-1).replace(/^['"]|['"]$/g,'');const img=new Image();img.src=url;await img.decode();return {url,width:img.naturalWidth};});expect(image.url).toBe(decoded.find(x=>x.id===id).url);expect(image.width).toBeGreaterThan(0);}await page.goto('/testing-library/compare/?ids=ntoa-pfq,rasp,army-aft');await expect(page.locator('.compare-table thead img:not(.flag)')).toHaveCount(0);await page.goto('/training/workouts/hill-repeats/');await expect(page.locator('.guide-entry-image')).toHaveAttribute('src','/assets/workout-hill-repeats.webp');});
+ test('assessment photos are distinct and comparisons do not repeat them',async({page})=>{await page.goto('/testing-library/');const photos=await page.locator('.card-photo').evaluateAll(els=>els.map(el=>getComputedStyle(el).getPropertyValue('--card-photo').trim()).filter(Boolean));expect(photos.length).toBe(26);expect(new Set(photos).size).toBe(26);await expect(page.locator('.card-photo.text-only-assessment')).toHaveCount(0);const decoded=await page.locator('.card-photo').evaluateAll(async els=>Promise.all(els.map(async el=>{const raw=getComputedStyle(el).getPropertyValue('--card-photo').trim();const url=raw.slice(4,-1).replace(/^['"]|['"]$/g,'');const img=new Image();img.src=url;await img.decode();return {id:el.closest('.test-card').dataset.id,url,width:img.naturalWidth,height:img.naturalHeight};})));expect(decoded.every(x=>x.url.startsWith('/assets/')&&x.width>0&&x.height>0)).toBeTruthy();const ids=await page.locator('.test-card').evaluateAll(els=>els.map(e=>e.dataset.id));for(const id of ids){await page.goto('/testing-library/'+id+'/');const hero=page.locator('.detail-hero');await expect(hero).toBeVisible();await expect(hero).not.toHaveClass(/text-only-assessment/);const image=await hero.evaluate(async el=>{const url=getComputedStyle(el).getPropertyValue('--detail-image').trim().slice(4,-1).replace(/^['"]|['"]$/g,'');const img=new Image();img.src=url;await img.decode();return {url,width:img.naturalWidth};});expect(image.url).toBe(decoded.find(x=>x.id===id).url);expect(image.width).toBeGreaterThan(0);}await page.goto('/testing-library/compare/?ids=ntoa-pfq,rasp,army-aft');await expect(page.locator('.compare-table thead img:not(.flag)')).toHaveCount(0);await page.goto('/training/workouts/hill-repeats/');await expect(page.locator('.guide-entry-image')).toHaveAttribute('src','/assets/workout-hill-repeats.webp');});
 
 test('field notes distinguish original accounts from practice cases and export a local review',async({page})=>{
  await page.goto('/resources/field-notes/');await page.locator('#field-type').selectOption('report');await expect(page.locator('.guide-card:visible')).toHaveCount(3);await page.locator('#field-type').selectOption('case');await expect(page.locator('.guide-card:visible')).toHaveCount(8);
@@ -241,9 +241,9 @@ test('early library controls survive startup and clearing cannot restore a stale
   await page.locator('#test-search').fill('nonexistent');
   await page.getByRole('button',{name:'Clear filters',exact:true}).click();
   await expect(page.locator('#test-search')).toHaveValue('');
-  await expect(page.locator('.test-card')).toHaveCount(17);
+  await expect(page.locator('.test-card')).toHaveCount(26);
   await page.waitForTimeout(250);
-  await expect(page.locator('.test-card')).toHaveCount(17);
+  await expect(page.locator('.test-card')).toHaveCount(26);
   await expect(page.locator('#compare-tray')).toContainText('1 test selected');
  }finally{release();}
 });
@@ -327,7 +327,7 @@ test('adventure directory separates unconfirmed leads and includes archive refer
 test('adventure facets match a single option and reset without affecting archive sections',async({page})=>{await page.goto('/resources/events/');await page.locator('#event-country').selectOption('New Zealand');await page.locator('#event-facet-participation').selectOption('team');await page.locator('#event-facet-days').selectOption('one');await expect(page.locator('.guide-card:visible')).toHaveCount(0);await page.locator('#event-facet-days').selectOption('few');await expect(page.locator('.guide-card:visible')).toHaveCount(1);await expect(page.locator('.guide-card:visible')).toContainText('Coast to Coast');await page.getByRole('button',{name:'Reset event filters'}).click();await expect(page.locator('.guide-card:visible')).toHaveCount(46);await expect(page.locator('#event-facet-participation')).toHaveValue('all');await page.goto('/resources/events/mds-legendary/');await expect(page.getByRole('heading',{name:'Participant experiences and discussions'})).toHaveCount(0);await expect(page.locator('a[href*="reddit.com"],a[href*="web.archive.org"]')).toHaveCount(0);});
 
 
-test('resource totals and original training plans are visible',async({page})=>{await page.goto('/resources/');await expect(page.getByRole('link',{name:/Events & challenges \(46\)/})).toBeVisible();await page.goto('/training/ruck-plans/');await expect(page.getByRole('heading',{name:'Training plans (16)'})).toBeVisible();await page.getByRole('link',{name:'Your first 12 weeks of rucking'}).click();await expect(page.getByRole('heading',{name:'Week by week'})).toBeVisible();await page.goto('/resources/events/');await expect(page.locator('#guide-count')).toHaveText('46 results');await expect(page.getByText('(46 total)',{exact:true})).toBeVisible();await page.locator('#event-country').selectOption('United Kingdom');await expect(page.locator('#guide-count')).toHaveText('6 results');await expect(page.getByText('(46 total)',{exact:true})).toBeVisible();await page.goto('/testing-library/');await expect(page.getByText('(17 total)',{exact:true})).toBeVisible();});
+test('resource totals and original training plans are visible',async({page})=>{await page.goto('/resources/');await expect(page.getByRole('link',{name:/Events & challenges \(46\)/})).toBeVisible();await page.goto('/training/ruck-plans/');await expect(page.getByRole('heading',{name:'Training plans (16)'})).toBeVisible();await page.getByRole('link',{name:'Your first 12 weeks of rucking'}).click();await expect(page.getByRole('heading',{name:'Week by week'})).toBeVisible();await page.goto('/resources/events/');await expect(page.locator('#guide-count')).toHaveText('46 results');await expect(page.getByText('(46 total)',{exact:true})).toBeVisible();await page.locator('#event-country').selectOption('United Kingdom');await expect(page.locator('#guide-count')).toHaveText('6 results');await expect(page.getByText('(46 total)',{exact:true})).toBeVisible();await page.goto('/testing-library/');await expect(page.getByText('(26 total)',{exact:true})).toBeVisible();});
 test('event category icons have text, respect mixed entry formats and fit mobile cards',async({page})=>{
  await page.setViewportSize({width:390,height:844});await page.goto('/resources/events/');
  const card=title=>page.locator('.guide-card').filter({has:page.getByRole('heading',{name:title,exact:true})});
@@ -419,3 +419,5 @@ test('P4 sourced notes remain distinct from firsthand accounts and hypothetical 
  await expect(page.getByRole('link',{name:'Wayback Machine archive lookup'})).toHaveCount(0);await expect(page.locator('a[href*="thesportinglodge.com"]')).toHaveCount(0);
  await expect(page.getByRole('heading',{name:'Related event'})).toBeVisible();
 });
+
+test('specialist and occupational references are first-class cards with scoped detail and no comparison control',async({page})=>{await page.goto('/testing-library/');await expect(page.getByRole('heading',{name:'Specialist selection research'})).toHaveCount(0);await expect(page.getByRole('heading',{name:'Published specialist intake benchmarks'})).toHaveCount(0);await expect(page.getByRole('heading',{name:'More published assessment references'})).toHaveCount(0);await page.getByRole('searchbox',{name:'Search tests, countries or activities'}).fill('Kystjeger');const card=page.locator('.test-card[data-id="kjk"]');await expect(card).toBeVisible();await expect(card.getByText('Reference only')).toBeVisible();await expect(card.locator('input[data-select]')).toHaveCount(0);await card.getByRole('link').click();await expect(page.getByRole('heading',{name:'Kystjeger — KJK'})).toBeVisible();await expect(page.locator('.assessment-table')).toContainText('June 2026 initial intake');await expect(page.locator('.assessment-table')).toContainText('General recruitment');await page.goto('/testing-library/compare/?ids=kjk,rasp');await expect(page.getByRole('heading',{name:'Compare tests',exact:true})).toBeVisible();await page.goto('/testing-library/cpat/');await expect(page.locator('.assessment-table')).toContainText('10:20');await expect(page.locator('.assessment-table')).toContainText('Ceiling breach and pull');});

@@ -6,10 +6,10 @@ import { dirname, resolve, join } from 'node:path';
 import { assessments, byId, categories } from '../src/data/assessments.mjs';
 import { FILTER_DEFAULTS, filterAssessments, validSelection, parseSelection, normalizeParams, withParams } from '../src/lib/catalog.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
-test('catalogue has seventeen distinct assessments and distinct formal publishers',()=>{
- assert.equal(assessments.length,17);
- assert.equal(new Set(assessments.map(a=>a.id)).size,17);
- assert.equal(new Set(assessments.map(a=>a.name)).size,17);
+test('catalogue has twenty-six distinct assessments and distinct formal publishers',()=>{
+ assert.equal(assessments.length,26);
+ assert.equal(new Set(assessments.map(a=>a.id)).size,26);
+ assert.equal(new Set(assessments.map(a=>a.name)).size,26);
  assert.equal(byId.artillerijaeger.country,'Norway');
  assert.equal(byId['nsw-pct'].metric.label,'Multi-stage fitness test');
  assert.equal(byId['danish-police'].metric.label,'2,400 m run');
@@ -20,17 +20,17 @@ test('every test has a working link, short description and distinct locally bund
   assert.ok(item.name&&item.overview&&item.shortName&&item.metric.label);
   assert.ok(item.source?.url?.startsWith('https://'),`Missing original source for ${item.id}`);
   const url=new URL(item.source.url); assert.ok(url.hostname.includes('.'));
-  assert.match(item.image,/^[a-z0-9-]+\.webp$/);const image=await readFile(join(root,'public/assets',item.image));assert.equal(image.toString('ascii',0,4),'RIFF');assert.equal(image.toString('ascii',8,12),'WEBP');assert.ok(image.length>10000);assert.equal(assessments.filter(a=>a.image===item.image).length,1);
+  const image=await readFile(join(root,'public/assets',item.image));if(item.imageKind==='reference-graphic'){assert.match(item.image,/^assessment-[a-z0-9-]+\.svg$/);assert.match(image.toString('utf8'),/^<svg /);assert.equal(item.comparisonEligible,false);}else{assert.match(item.image,/^[a-z0-9-]+\.webp$/);assert.equal(image.toString('ascii',0,4),'RIFF');assert.equal(image.toString('ascii',8,12),'WEBP');assert.ok(image.length>10000);}assert.equal(assessments.filter(a=>a.image===item.image).length,1);
   const dir=await stat(join(root,'testing-library',item.id,'index.html'));
   assert.ok(dir.size>100);
  }
 });
 test('library filters and search combine correctly',()=>{
- assert.equal(filterAssessments().length,17);
- assert.equal(filterAssessments(assessments,{...FILTER_DEFAULTS,country:'Norway'}).length,2);
- assert.equal(filterAssessments(assessments,{...FILTER_DEFAULTS,domain:'Police'}).length,4);
+ assert.equal(filterAssessments().length,26);
+ assert.equal(filterAssessments(assessments,{...FILTER_DEFAULTS,country:'Norway'}).length,6);
+ assert.equal(filterAssessments(assessments,{...FILTER_DEFAULTS,domain:'Police'}).length,5);
  assert.deepEqual(filterAssessments(assessments,{...FILTER_DEFAULTS,q:'beep'}).map(a=>a.id),['nsw-pct','foreign-legion']);
- assert.deepEqual(filterAssessments(assessments,{...FILTER_DEFAULTS,category:'water'}).map(a=>a.id),['rasp','artillerijaeger']);
+ assert.deepEqual(filterAssessments(assessments,{...FILTER_DEFAULTS,category:'water'}).map(a=>a.id),['rasp','artillerijaeger','kjk','mjk','fsk','seal-pst','vessel-operator']);
  assert.equal(filterAssessments(assessments,{...FILTER_DEFAULTS,category:'water',country:'Australia'}).length,0);
 });
 test('selection is de-duplicated and never exceeds three',()=>{
@@ -53,3 +53,5 @@ test('site copy avoids jargon and unsupported performance targets',async()=>{
  assert.doesNotMatch(content,/evidence\b/i);
  assert.doesNotMatch(content,/20 km loaded march|3,000 m run in 14 minutes/i);
 });
+
+test('reference-only entries are searchable but cannot enter comparison through URL or selection',()=>{assert.equal(assessments.filter(a=>a.comparisonEligible===false).length,9);assert.deepEqual(parseSelection('kjk,rasp,seal-pst,ntoa-pfq'),['rasp','ntoa-pfq']);assert.deepEqual(filterAssessments(assessments,{...FILTER_DEFAULTS,q:'Fartøysoperatør'}).map(a=>a.id),['vessel-operator']);});

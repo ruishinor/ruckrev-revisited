@@ -45,8 +45,8 @@ test('the revised training page prompts action and includes a goal selector',asy
 });
 test('references appear in details, comparison and bibliography',async()=>{
  const detail=await renderRoute('/testing-library/ntoa-pfq/');assert.match(detail,/apa-reference/);assert.match(detail,/NTOA/);
- const page=await renderRoute('/references/');assert.equal((page.match(/bibliography-item/g)||[]).length,17);
- const sources=new Set(assessments.map(x=>x.source.publisher));assert.equal(sources.size,15); // Norwegian general and Artillerijeger use same publisher.
+ const page=await renderRoute('/references/');assert.equal((page.match(/bibliography-item/g)||[]).length,26);
+ const sources=new Set(assessments.map(x=>x.source.publisher));assert.equal(sources.size,19); // Norwegian general and Artillerijeger use same publisher.
 });
 test('new images and icon set are bundled in public assets',async()=>{
  for(const item of ['mountain-atmosphere.webp','progress-ruck.webp','glyph-ruck.png','glyph-run.png','glyph-compare.png','glyph-globe.png','glyph-shield.png','glyph-filter.png','glyph-waves.png']){
