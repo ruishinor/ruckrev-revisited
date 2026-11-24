@@ -4,6 +4,7 @@ import { fieldReports } from './field-reports.mjs';
 import { additionalWorkouts, applyWorkoutDetails } from './workout-programmes.mjs';
 import {newTrainingArticles,newTrainingWorkouts} from './training-expansion.mjs';
 import { enrichArticles } from './editorial-connections.mjs';
+import { pathwayArticles, pathwayGuides, pathwayWorkouts, attachLegacyProgrammes } from './training-pathways.mjs';
 // Structured editorial material. Distances, loads and sessions are examples, not entry standards.
 const make=(base,rows,kind)=>rows.map(([slug,title,level,summary,meta,blocks,extra={}])=>({path:base+slug+'/',parent:base,slug,title,level,summary,meta,blocks,kind,...extra}));
 const work=(title,items)=>({title,items});
@@ -73,6 +74,7 @@ fieldNotes.push(...make("/resources/field-notes/",[["night-navigation","Night ro
 workouts.push(...make('/training/workouts/',additionalWorkouts,'Workout'));
 applyWorkoutDetails(workouts);
 workouts.push(...make('/training/workouts/',newTrainingWorkouts,'Workout'));
+workouts.push(...make('/training/workouts/',pathwayWorkouts,'Workout'));
 // Published route profiles: distance and ascent refer to the linked route, not a guarantee of conditions.
 routes.push(...make('/resources/routes/',[
  ['sognsvann-loop','Sognsvann lakeside loop','Beginner','A short gravel route for repeatable pacing and load checks.','Oslo, Norway · 3.7 km · 17 m total ascent',[para('Route profile','The published route follows a gravel path around the lake. It is a loop with a low elevation gain. The profile is suitable for planning a short, repeatable ruck, subject to weather and access.'),work('Rucking application',['Use the same start and finish for repeatable measurements.','Record the actual route, elapsed time and pack load.','Check surface conditions and respect other users.']),para('Map and access','The linked UT.no route includes a map and elevation profile. It is a privately submitted route suggestion; confirm the actual path and conditions before departure.')],{country:'NO',links:[['Published route, map and elevation profile','https://ut.no/turforslag/115076']]}],
@@ -112,7 +114,11 @@ expandEvents(events);
 routes.push(...newRoutes);
 expandArticles(articles);
 articles.push(...make('/resources/articles/',newTrainingArticles,'Article'));
+articles.push(...make('/resources/articles/',[...pathwayArticles,...pathwayGuides],'Article'));
 enrichArticles(articles);
+attachLegacyProgrammes(articles);
+// Read-only programme catalogue for consumers such as the personal training workspace.
+export const trainingProgrammes=Object.freeze(articles.filter(a=>a.programme).map(a=>a.programme));
 export const collections=Object.freeze(Object.fromEntries([workouts,exercises,articles,routes,fieldNotes,events,crewGuides].map(items=>[items[0].parent,items])));
 export const entries=Object.freeze(Object.fromEntries(Object.values(collections).flat().map(x=>[x.path,x])));
 export const featured=[{...articles[0],icon:'article'},{...workouts[7],icon:'workout'},{...events[0],icon:'calendar'}];
