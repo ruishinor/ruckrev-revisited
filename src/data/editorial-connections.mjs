@@ -42,6 +42,8 @@ const additions={
  'training-when-progress-stalls':[p('Change the question, not just the workload','Suppose your usual 8 km loop has stopped getting faster. First check whether the pack, weather, stops and effort are comparable. If your legs feel fine but breathing is limiting you, add a short unloaded aerobic session or controlled pace changes. If the hills are the problem, use short uphill practice. If you are simply worn down, make the next week easier. Keep the other sessions familiar, then compare again in a few weeks. One change makes it much easier to work out what helped.')]
 };
 const worksheets={
+ 'eight-week-relay-rehearsal':{path:'/downloads/rr-relay-rehearsal.txt',label:'Download the relay rehearsal worksheet'},
+ 'twelve-week-mountain-walking-base':{path:'/downloads/rr-mountain-walking.txt',label:'Download the mountain walking worksheet'},
  'eight-week-winter-night-walk':{path:'/downloads/rr-winter-night-walk.txt',label:'Download the winter night walk worksheet'},
  'twelve-week-urban-ultra-base':{path:'/downloads/rr-urban-ultra-base.txt',label:'Download the long urban walking worksheet'},
  'six-week-event-rehearsal':{path:'/downloads/rr-event-rehearsal.txt',label:'Download the six-week event rehearsal worksheet (text)'},
