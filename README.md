@@ -15,6 +15,8 @@ npm run dev
 
 Open http://127.0.0.1:4173/. The build exports the current route catalogue to `dist/`, including complete pre-rendered page content. Interactive controls use JavaScript. Counts on the site are derived from the actual catalogues.
 
+Generated `dist/` is ignored by Git. Build locally or let CI/Vercel build from source. See [repository maintenance](docs/repository-maintenance.md) for the route inventory, header policy and dependency update procedure.
+
 ## Structure
 
 - `src/app.mjs`: shared layout, route dispatch and testing-library interactions.
