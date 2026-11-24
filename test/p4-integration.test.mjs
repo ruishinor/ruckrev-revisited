@@ -8,7 +8,7 @@ import {renderCollection,renderEntry} from '../src/lib/resource-pages.mjs';
 import {p4Articles} from '../src/data/p4-editorial.mjs';
 import {p4FieldNotes} from '../src/data/p4-field-notes.mjs';
 test('P4 additions resolve through the existing catalogue and renderer',()=>{
- const articles=collections['/resources/articles/'];assert.equal(articles.length,52);assert.match(renderCollection(articles),/id="guide-topic"/);
+ const articles=collections['/resources/articles/'];assert.equal(articles.length,54);assert.match(renderCollection(articles),/id="guide-topic"/);
  for(const a of p4Articles){const entry=entries['/resources/articles/'+a[0]+'/'];assert.ok(entry);assert.ok(entries[entry.related[0].path]);for(const r of entry.topicRelated)assert.ok(entries[r.path]);assert.match(renderEntry(entry),/More on /);}
  const notes=collections['/resources/field-notes/'];assert.equal(notes.length,16);assert.equal(notes.filter(n=>n.report).length,3);assert.equal(notes.filter(n=>!n.report&&!n.noteType).length,8);
  for(const n of p4FieldNotes){assert.ok(entries[n.path]);assert.ok(entries[n.fieldEvent.path]);assert.match(renderEntry(n),/Related event/);assert.ok(renderCollection(notes).includes(`data-note-kind="${n.noteType}"`));}
