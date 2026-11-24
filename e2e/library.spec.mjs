@@ -1,0 +1,38 @@
+import { test, expect } from '@playwright/test';
+test('library loads, search and clear filters work',async({page})=>{
+ await page.goto('/testing-library/');
+ await expect(page.getByRole('heading',{name:'TESTING LIBRARY'})).toBeVisible();
+ await expect(page.locator('.test-card')).toHaveCount(6);
+ await page.getByRole('searchbox',{name:'Search tests, countries or activities'}).fill('beep');
+ await expect(page.locator('.test-card')).toHaveCount(1);
+ await expect(page.getByRole('heading',{name:'NSW Police PCT'})).toBeVisible();
+ await page.getByRole('button',{name:'Clear filters'}).click();
+ await expect(page.locator('.test-card')).toHaveCount(6);
+});
+test('categories, grid/list and comparison work',async({page})=>{
+ await page.goto('/testing-library/');
+ await page.getByRole('button',{name:'Running & Aerobic'}).click();
+ await expect(page.locator('.test-card')).toHaveCount(6);
+ await page.getByRole('button',{name:'List'}).click();
+ await expect(page.locator('#card-grid')).toHaveClass(/list-view/);
+ await page.getByRole('link',{name:/Compare 3 tests/}).click();
+ await expect(page.getByRole('heading',{name:'Compare fitness tests'})).toBeVisible();
+ await expect(page.locator('thead th')).toHaveCount(4);
+});
+test('source detail shows correct country and linked source',async({page})=>{
+ await page.goto('/testing-library/artillerijaeger/');
+ await expect(page.getByRole('heading',{name:'Artillerijeger'})).toBeVisible();
+ await expect(page.getByText('8 km pack run',{exact:true})).toBeVisible();
+ await expect(page.getByRole('link',{name:/Visit Forsvaret/})).toHaveAttribute('href',/forsvaret\.no/);
+});
+test('mobile navigation, filters, cards and comparison are usable',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.goto('/testing-library/');
+ await expect(page.locator('.test-card')).toHaveCount(6);
+ await page.getByRole('button',{name:'Open menu'}).click();
+ await expect(page.getByRole('navigation',{name:'Mobile navigation'})).toBeVisible();
+ await page.getByRole('button',{name:'Close menu'}).click();
+ await expect(page.getByRole('navigation',{name:'Mobile navigation'})).toBeHidden();
+ const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth);
+ expect(overflow).toBe(false);
+});

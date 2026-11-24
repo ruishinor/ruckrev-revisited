@@ -1,0 +1,14 @@
+{
+  "name": "ruckrev-revisited",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Civilian-first Rucking Revolution v2 website",
+  "scripts": {
+    "dev": "npm run build && node scripts/dev.mjs",
+    "test": "node --test test/*.test.mjs",
+    "build": "node scripts/build.mjs",
+    "verify": "npm test && npm run build"
+  },
+  "engines": { "node": ">=20" }
+}

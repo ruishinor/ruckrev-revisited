@@ -1,0 +1,17 @@
+export const paths={
+ chart:'<path d="M4 21V14m6 7V9m6 12V4m4 17V11"/>',ruck:'<path d="M7 9V7a5 5 0 0 1 10 0v2M6 8h12l2 12H4L6 8Zm4 0V6a2 2 0 0 1 4 0v2M8 14h8"/>',
+ shield:'<path d="m12 2 8 4v6c0 5-4 8-8 10-4-2-8-5-8-10V6l8-4Zm0 4v10"/>',
+ chevrons:'<path d="m5 15 7-7 7 7M5 20l7-7 7 7"/>',barbell:'<path d="M3 9v6m4-9v12m10-12v12m4-9v6M7 12h10"/>',
+ run:'<circle cx="15" cy="4" r="2"/><path d="m12 8 3 3 4 1m-7-4-3 5-4 2m8-3-2 5 4 4m-4-5-4 5"/>',
+ waves:'<path d="M2 9c3-3 5 3 8 0s5-3 8 0 4 0 4 0M2 16c3-3 5 3 8 0s5-3 8 0 4 0 4 0"/>',
+ search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',arrow:'<path d="M4 12h16m-7-7 7 7-7 7"/>',
+ down:'<path d="m5 9 7 7 7-7"/>',close:'<path d="m5 5 14 14M19 5 5 19"/>',grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+ list:'<path d="M9 5h12M9 12h12M9 19h12M4 5h.01M4 12h.01M4 19h.01"/>',check:'<path d="m5 12 5 5L20 7"/>',
+ globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-6 6-6 12 0 18M12 3c6 6 6 12 0 18"/>',
+ layers:'<path d="m12 2 9 6-9 6-9-6 9-6Zm-9 12 9 6 9-6M3 10l9 6 9-6"/>',refresh:'<path d="M20 7v5h-5M4 17v-5h5M5 9a8 8 0 0 1 14-2l1 1M4 16l1 1a8 8 0 0 0 14-2"/>',
+ tag:'<path d="M2 3h10l10 10-9 9L3 12V3Zm5 5h.01"/>',sort:'<path d="M4 4h15M4 9h11M4 14h7m1 4 4 4 4-4m-4-3v7"/>',
+ info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/>',back:'<path d="M20 12H4m7-7-7 7 7 7"/>',
+ menu:'<path d="M3 6h18M3 12h18M3 18h18"/>',external:'<path d="M14 4h6v6m0-6-9 9M20 14v6H4V4h6"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/>',scale:'<path d="M12 3v18M4 7h16M3 18l4-11 4 11a4 4 0 0 1-8 0Zm10 0 4-11 4 11a4 4 0 0 1-8 0Z"/>',
+};
+export function icon(name, size=20){return `<svg class="icon" viewBox="0 0 24 24" width="${size}" height="${size}" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round" stroke-linecap="round">${paths[name]??paths.info}</svg>`}

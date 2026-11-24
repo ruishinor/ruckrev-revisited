@@ -1,0 +1,30 @@
+name: Verify v2
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test
+      - run: npm run build
+      - run: node scripts/check-site.mjs
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --no-package-lock @playwright/test@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npx playwright test --config=playwright.config.mjs
