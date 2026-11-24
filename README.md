@@ -13,7 +13,7 @@ node scripts/check-site.mjs
 npm run dev
 ```
 
-Open http://127.0.0.1:4173/. The build exports 142 routes to `dist/`, including complete pre-rendered page content. Interactive controls use JavaScript. The library contains eight formal assessments and the resource collections contain 111 individual entries, including 41 workouts with structured purpose, equipment and estimated session duration.
+Open http://127.0.0.1:4173/. The build exports 154 routes to `dist/`, including complete pre-rendered page content. Interactive controls use JavaScript. The library contains eight formal assessments and the resource collections contain 123 individual entries, including 41 workouts with structured purpose, equipment and estimated session duration.
 
 ## Structure
 
@@ -53,3 +53,5 @@ The delivery policy blocks native form submissions with CSP `form-action 'none'`
 The Testing Library retains early edits to prerendered search, select and comparison checkbox controls when JavaScript starts. Query-string choices still apply where controls have not been edited. Search updates immediately; clearing filters preserves the selected comparison items. Other static pages retain their form input during initialization. The comparison link reports clipboard success or failure without changing the button's accessible name. Static checks enforce English document language, a matching `no-referrer` meta policy and image `alt` attributes; these are limited checks, not an accessibility certification.
 
 The event directory also filters by inclusive published start-date ranges and known/unknown dates. The local GPX track preview supports bounded pan and zoom using native buttons or mouse dragging; no map tiles or external requests are used. Geographical route profiles remain linked to their source maps.
+
+International event entries distinguish organiser-confirmed dates from conflicting calendars. The detailed NSW activity disclosures separate published procedures from independent preparation. Flag artwork is locally bundled from flag-icons v7.5.0 under its MIT license. Any imported historical event photograph retains its source and date; no remote image is required at runtime.
