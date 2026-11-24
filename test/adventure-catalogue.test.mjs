@@ -17,8 +17,8 @@ test('military fitness catalogue covers ten nations without treating every entry
  assert.ok(!byId['canada-force'].category.includes('selection'));
 });
 test('new and existing events retain references, preserve uncertain dates and separate research leads',()=>{
- const events=collections['/resources/events/'];assert.equal(events.length,27);assert.equal(adventureEvents.length,9);
- assert.equal(events.filter(x=>!x.eventDate).length,8);
+ const events=collections['/resources/events/'];assert.equal(events.length,37);assert.equal(adventureEvents.length,9);
+ assert.equal(events.filter(x=>!x.eventDate).length,17);
  for(const e of events){assert.equal(e.citation.url,e.links[0][1]);assert.match(renderEventCitation(e),/web\.archive\.org\/web\/\*/);assert.match(renderEntry(e),/Reference and archive/);}
  const road=entries['/resources/events/road-to-valhalla/'];assert.equal(road.eventDate,'2027-11-11');assert.match(road.meta,/248 km/);assert.match(renderEntry(road),/Historical rules, not yet confirmed for 2027/);
  assert.ok(!events.some(x=>x.eventCountry==='Ukraine'));assert.match(renderUnconfirmedEvents(),/Odesa 100 km/);assert.match(renderCollection(events),/Unconfirmed adventures and event leads/);
