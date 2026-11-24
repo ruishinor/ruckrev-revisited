@@ -1,0 +1,8 @@
+{
+  "status": "archived-not-published",
+  "language": "nb-NO",
+  "description": "Norwegian UI copy reserved for a future optional locale. English remains the public language.",
+  "navigation": {"home": "Hjem", "training": "Trening", "testingLibrary": "Testbibliotek", "resources": "Ressurser", "about": "Om oss"},
+  "library": {"title": "TESTBIBLIOTEK", "search": "Søk etter tester, land og øvelser", "compare": "Sammenlign tester", "references": "Kilder"},
+  "training": {"title": "Trening", "subtitle": "Tren mot din neste utfordring. Bygg kapasitet, utholdenhet og styrke med målrettede økter."}
+}
