@@ -61,3 +61,14 @@ test('expanded sources, footer pages and upgraded image assets resolve',async({p
  const flag=await page.request.get('/assets/flags/no.svg');
  expect(flag.ok()).toBe(true);
 });
+
+test('library pictograms have consistent contrast treatment across controls',async({page})=>{
+ await page.goto('/testing-library/');
+ const filter='invert(0.2) brightness(1.6)';
+ await expect(page.locator('.category-pill:not(.active) .icon-asset').first()).toHaveCSS('filter',filter);
+ await expect(page.locator('.filter-control .icon-asset').first()).toHaveCSS('filter',filter);
+ await expect(page.locator('.test-card .icon-asset').first()).toHaveCSS('filter',filter);
+ await expect(page.locator('.category-pill.active .icon-asset')).toHaveCSS('filter','brightness(0) invert(1)');
+ await expect(page.locator('.filter-control > svg.icon').first()).toHaveCSS('color','rgb(215, 82, 82)');
+ await expect(page.locator('.tray-submit svg.icon')).toHaveCSS('color','rgb(255, 255, 255)');
+});

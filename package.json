@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Civilian-first Rucking Revolution v2 website",
+  "description": "Rucking Revolution website",
   "scripts": {
     "dev": "npm run build && node scripts/dev.mjs",
     "test": "node --test test/*.test.mjs",

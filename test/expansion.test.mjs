@@ -10,22 +10,23 @@ function fakeDocument(){
  const passive={addEventListener(){},setAttribute(){},getAttribute(){return 'false';},focus(){},value:''};
  return {app,doc:{title:'',body:{append(){}},querySelector(s){if(s==='#app')return app;if(s==='h1')return {textContent:'Test page'};if(['.mobile-toggle','#library-search','#test-search','#main'].includes(s))return passive;return null;}}};
 }
-async function renderRoute(path){const {app,doc}=fakeDocument();globalThis.document=doc;globalThis.location={pathname:path,search:'',hash:''};await import(`../src/app.mjs?expansion=${encodeURIComponent(path)}`);return app.innerHTML;}
-test('all curated content pages are complete, sourced and built as local routes',async()=>{
+let renderCount=0;
+async function renderRoute(path){const {app,doc}=fakeDocument();globalThis.document=doc;globalThis.location={pathname:path,search:'',hash:''};await import(`../src/app.mjs?expansion=${encodeURIComponent(path)}-${++renderCount}`);return app.innerHTML;}
+test('all resource pages render useful local content',async()=>{
  assert.ok(Object.keys(sections).length>=10);
  for(const [path,data] of Object.entries(sections)){
   assert.ok(data.title&&data.lead&&data.blocks?.length>=2);
-  assert.match(data.source,/github\.com\/ruishinor\/rucking-revolution/);
   const html=await renderRoute(path);
   assert.match(html,/<h1>/);
-  assert.match(html,/View the original material/);
+  assert.match(html,/article-section/);
+  assert.doesNotMatch(html,/github\.com\/ruishinor\//i);
   assert.doesNotMatch(html,/We couldn.t find that page/);
   const f=await stat(resolve(root,'dist',path.slice(1),'index.html')).catch(()=>null);
   // dist might not be built yet on a fresh checkout, so verify the source content here.
   if(f)assert.ok(f.size>100);
  }
 });
-test('footer includes original categories and only usable local or external routes',async()=>{
+test('footer includes navigation categories and only usable local or external routes',async()=>{
  const local=footerColumns.flatMap(c=>c.items.map(i=>i[1])).filter(x=>x.startsWith('/'));
  for(const href of local){assert.ok(['/','/about/','/training/','/testing-library/','/resources/'].includes(href)||Boolean(sections[href]),`Missing footer page ${href}`);}
  const html=await renderRoute('/');
@@ -50,8 +51,29 @@ test('new images and icon set are bundled in public assets',async()=>{
  }
  for(const code of ['us','no','au','dk'])assert.ok((await stat(resolve(root,'public/assets/flags',`${code}.svg`))).size>100);
 });
-test('public-facing original site copy favours rucking terms and no clinical or militaristic slogans',async()=>{
+test('public-facing site copy favours rucking terms and no clinical or militaristic slogans',async()=>{
  const s=(await readFile(resolve(root,'src/app.mjs'),'utf8'))+'\n'+(await readFile(resolve(root,'src/data/content.mjs'),'utf8'));
  assert.doesNotMatch(s,/\bwalks?\b|\bwalking\b/i);
  assert.doesNotMatch(s,/\bevidence\b|\boperator\b|\bmission-ready\b/i);
+});
+
+test('public pages present the site directly and keep legal and publisher links',async()=>{
+ for(const path of ['/','/training/','/resources/','/about/','/privacy/','/terms/',...Object.keys(sections)]){
+  const html=await renderRoute(path);
+  assert.doesNotMatch(html,/github\.com\/ruishinor\//i);
+  const legal=html.match(/<nav aria-label="Legal and sources">(.*?)<\/nav>/s)?.[1];
+  assert.deepEqual([...legal.matchAll(/href="([^"]+)"/g)].map(m=>m[1]),['/privacy/','/terms/','/references/']);
+ }
+ const about=await renderRoute('/about/');assert.match(about,/Build for the long run/);assert.match(about,/Learn to lead/);
+ const terms=await renderRoute('/terms/');assert.match(terms,/Applicable law/);assert.match(terms,/Assessment standards/);
+ const privacy=await renderRoute('/privacy/');assert.match(privacy,/Technical information/);assert.match(privacy,/Retention and your choices/);
+});
+
+test('icon accents use a common contrasting dark-surface presentation',async()=>{
+ const css=await readFile(resolve(root,'public/site.css'),'utf8');
+ assert.match(css,/--rr-brand-red:#8B0000/);
+ assert.match(css,/--rr-glyph-dark-surface:#D75252/);
+ assert.match(css,/\.icon\.icon-asset\{filter:invert\(20%\) brightness\(1\.6\)\}/);
+ assert.doesNotMatch(css,/\.category-pill \.icon-asset\{[^}]*filter:/);
+ assert.match(css,/\.category-pill\.active \.icon-asset,\.view-switch button\.active \.icon-asset\{filter:brightness\(0\) invert\(1\)\}/);
 });

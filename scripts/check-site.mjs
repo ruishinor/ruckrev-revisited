@@ -6,7 +6,7 @@ const root=resolve(fileURLToPath(new URL('../dist/',import.meta.url)));
 const app=await readFile(join(root,'src/app.mjs'),'utf8');
 const css=await readFile(join(root,'site.css'),'utf8');
 if(!app.includes('const isCompare')||!css.includes('.test-card'))throw Error('Core library files missing');
-for(const path of ['','testing-library/','testing-library/compare/','testing-library/artillerijaeger/','training/','resources/','about/','references/','privacy/','terms/','credits/',...Object.keys(sections).map(s=>s.slice(1))]){
+for(const path of ['','testing-library/','testing-library/compare/','testing-library/artillerijaeger/','training/','resources/','about/','references/','privacy/','terms/',...Object.keys(sections).map(s=>s.slice(1))]){
  const f=join(root,path,'index.html');const html=await readFile(f,'utf8');
  if(!html.includes('src/app.mjs')||!html.includes('site.css'))throw Error(`HTML imports missing: ${path}`);
 }

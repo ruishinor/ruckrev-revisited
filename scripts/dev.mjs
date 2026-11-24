@@ -19,4 +19,4 @@ createServer(async(req,res)=>{
   res.writeHead(200,{'content-type':mime[extname(file)]||'application/octet-stream','x-content-type-options':'nosniff','referrer-policy':'strict-origin-when-cross-origin','cache-control':'no-store','content-security-policy':"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"});
   res.end(req.method==='HEAD'?undefined:data);
  }catch(e){res.writeHead(500);res.end('Server error');}
-}).listen(port,'127.0.0.1',()=>console.log(`Rucking Revolution v2: http://127.0.0.1:${port}`));
+}).listen(port,'127.0.0.1',()=>console.log(`Rucking Revolution: http://127.0.0.1:${port}`));
