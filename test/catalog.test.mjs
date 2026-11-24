@@ -15,12 +15,12 @@ test('catalogue has seventeen distinct assessments and distinct formal publisher
  assert.equal(byId['danish-police'].metric.label,'2,400 m run');
  assert.equal(byId['ntoa-pfq'].components.length,5);
 });
-test('every test has working link format, short description and a locally bundled image where appropriate',async()=>{
+test('every test has a working link, short description and distinct locally bundled imagery',async()=>{
  for(const item of assessments){
   assert.ok(item.name&&item.overview&&item.shortName&&item.metric.label);
   assert.ok(item.source?.url?.startsWith('https://'),`Missing original source for ${item.id}`);
   const url=new URL(item.source.url); assert.ok(url.hostname.includes('.'));
-  if(item.image)assert.ok((await stat(join(root,'public/assets',item.image))).size>200);else assert.equal(item.image,null);
+  assert.match(item.image,/^[a-z0-9-]+\.webp$/);const image=await readFile(join(root,'public/assets',item.image));assert.equal(image.toString('ascii',0,4),'RIFF');assert.equal(image.toString('ascii',8,12),'WEBP');assert.ok(image.length>10000);assert.equal(assessments.filter(a=>a.image===item.image).length,1);
   const dir=await stat(join(root,'testing-library',item.id,'index.html'));
   assert.ok(dir.size>100);
  }
