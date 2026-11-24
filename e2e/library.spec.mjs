@@ -106,7 +106,7 @@ test('selection starts empty, preserves keyboard focus and does not cover footer
  await expect(page.getByRole('link',{name:'Compare 2 tests'})).toBeVisible();
 });
 test('catalogues, plan, pace and assessment gap tools work',async({page})=>{
- await page.goto('/training/workouts/');await expect(page.locator('.guide-card')).toHaveCount(45);
+ await page.goto('/training/workouts/');await expect(page.locator('.guide-card')).toHaveCount(50);
  await page.locator('#guide-search').fill('hill repeats');await expect(page.locator('.guide-card:visible h3')).toHaveText(['Hill repeats','Controlled uphill repeats']);
  await page.getByRole('link',{name:'Open workout: Hill repeats',exact:true}).click();await expect(page.getByRole('heading',{name:'Hill repeats',level:1})).toBeVisible();
  await page.goto('/resources/tools/');await page.locator('#pace-distance').fill('10');await page.locator('#pace-minutes').fill('90');await page.getByRole('button',{name:'Calculate pace'}).click();await expect(page.locator('#pace-output')).toContainText('9:00 min/km');
@@ -177,7 +177,7 @@ test('navigation hover, transparent visible icons and darker primary buttons',as
 });
 
 test('crew leadership practice filters and exports a distinct plan',async({page})=>{
- await page.goto('/resources/ruck-clubs/');await expect(page.locator('.guide-card')).toHaveCount(5);
+ await page.goto('/resources/ruck-clubs/');await expect(page.locator('.guide-card')).toHaveCount(10);
  await page.locator('#drill-focus').selectOption('Communication');await page.locator('#drill-level').selectOption('Foundation');await page.locator('#drill-count').selectOption('3');
  await expect(page.locator('#drill-download')).toBeDisabled();await page.getByRole('button',{name:'Draw exercises'}).click();await expect(page.locator('#drill-output h3')).toHaveCount(2);await expect(page.locator('#drill-output')).toContainText('all matching exercises');
  const dl=page.waitForEvent('download');await page.getByRole('button',{name:'Download practice plan'}).click();expect((await dl).suggestedFilename()).toBe('ruck-crew-practice.txt');
@@ -321,7 +321,7 @@ test('adventure directory separates unconfirmed leads and includes archive refer
 test('adventure facets match a single option and reset without affecting archive sections',async({page})=>{await page.goto('/resources/events/');await page.locator('#event-country').selectOption('New Zealand');await page.locator('#event-facet-participation').selectOption('team');await page.locator('#event-facet-days').selectOption('one');await expect(page.locator('.guide-card:visible')).toHaveCount(0);await page.locator('#event-facet-days').selectOption('few');await expect(page.locator('.guide-card:visible')).toHaveCount(1);await expect(page.locator('.guide-card:visible')).toContainText('Coast to Coast');await page.getByRole('button',{name:'Reset event filters'}).click();await expect(page.locator('.guide-card:visible')).toHaveCount(37);await expect(page.locator('#event-facet-participation')).toHaveValue('all');await page.goto('/resources/events/mds-legendary/');await expect(page.getByRole('heading',{name:'Participant experiences and discussions'})).toBeVisible();await expect(page.locator('a[href="https://web.archive.org/web/*/https://www.reddit.com/r/ultrarunning/comments/13y1huf/"]')).toBeVisible();});
 
 
-test('resource totals and original training plans are visible',async({page})=>{await page.goto('/resources/');await expect(page.getByRole('link',{name:/Events & challenges \(37\)/})).toBeVisible();await page.goto('/training/ruck-plans/');await expect(page.getByRole('heading',{name:'Training plans (4)'})).toBeVisible();await page.getByRole('link',{name:'Your first 12 weeks of rucking'}).click();await expect(page.getByRole('heading',{name:'Week by week'})).toBeVisible();await page.goto('/resources/events/');await expect(page.locator('#guide-count')).toHaveText('37 results');await expect(page.getByText('(37 total)',{exact:true})).toBeVisible();await page.locator('#event-country').selectOption('United Kingdom');await expect(page.locator('#guide-count')).toHaveText('6 results');await expect(page.getByText('(37 total)',{exact:true})).toBeVisible();await page.goto('/testing-library/');await expect(page.getByText('(16 total)',{exact:true})).toBeVisible();});
+test('resource totals and original training plans are visible',async({page})=>{await page.goto('/resources/');await expect(page.getByRole('link',{name:/Events & challenges \(37\)/})).toBeVisible();await page.goto('/training/ruck-plans/');await expect(page.getByRole('heading',{name:'Training plans (11)'})).toBeVisible();await page.getByRole('link',{name:'Your first 12 weeks of rucking'}).click();await expect(page.getByRole('heading',{name:'Week by week'})).toBeVisible();await page.goto('/resources/events/');await expect(page.locator('#guide-count')).toHaveText('37 results');await expect(page.getByText('(37 total)',{exact:true})).toBeVisible();await page.locator('#event-country').selectOption('United Kingdom');await expect(page.locator('#guide-count')).toHaveText('6 results');await expect(page.getByText('(37 total)',{exact:true})).toBeVisible();await page.goto('/testing-library/');await expect(page.getByText('(16 total)',{exact:true})).toBeVisible();});
 test('event category icons have text, respect mixed entry formats and fit mobile cards',async({page})=>{
  await page.setViewportSize({width:390,height:844});await page.goto('/resources/events/');
  const card=title=>page.locator('.guide-card').filter({has:page.getByRole('heading',{name:title,exact:true})});
@@ -345,4 +345,71 @@ test('training article links connect to actual event and report pages',async({pa
  await page.goto('/resources/articles/how-to-train-for-carrying/');await page.locator('.article-connections').getByRole('link',{name:'Milton Memorial Tough field report'}).click();
  await expect(page).toHaveURL(/\/resources\/field-notes\/milton-memorial-frankfurt-2024\/$/);await expect(page.getByRole('heading',{name:'First-person account'})).toBeVisible();
  await page.goto('/resources/articles/build-a-personal-challenge-calendar/');const worksheet=page.getByRole('link',{name:'Download the challenge calendar (CSV)'});await expect(worksheet).toHaveAttribute('download','');const url=await worksheet.getAttribute('href');expect((await page.request.get(url)).ok()).toBeTruthy();
+});
+
+test('P3 programmes, workouts and related links are discoverable',async({page})=>{
+ await page.goto('/training/ruck-plans/');
+ await page.getByRole('link',{name:'Sixteen weeks for consecutive long days',exact:true}).click();
+ await expect(page.getByRole('heading',{name:'Week by week'})).toBeVisible();
+ await expect(page.getByText(/^16: Easier week/)).toBeVisible();
+ await expect(page.locator('.article-connections').getByRole('link',{name:'Nijmegen Four Days Marches',exact:true})).toHaveAttribute('href','/resources/events/nijmegen/');
+ await page.goto('/training/workouts/');
+ await page.locator('#guide-search').fill('step-down control');
+ await page.locator('#guide-purpose').selectOption('Strength');
+ await page.locator('#guide-duration').selectOption('30');
+ await expect(page.locator('.guide-card:visible h3')).toHaveText(['Step-down control']);
+ await page.getByRole('link',{name:'Open workout: Step-down control',exact:true}).click();
+ await expect(page.getByRole('heading',{name:'Working dose'})).toBeVisible();
+});
+
+test('P4 directory combines search, country, activity and status filters',async({page})=>{
+ await page.goto('/resources/crew-directory/');
+ await expect(page.locator('#crew-dir-count')).toHaveText('12 of 12 communities');
+ await page.locator('#crew-dir-country').selectOption('Norway');
+ await expect(page.locator('#crew-dir-count')).toHaveText('2 of 12 communities');
+ await page.locator('#crew-dir-type').selectOption('Rucking');
+ await expect(page.locator('[data-crew-record]:visible')).toHaveCount(1);
+ await expect(page.locator('[data-crew-record]:visible')).toContainText('Polaris Rucking Crew');
+ await page.locator('#crew-dir-status').selectOption('Historical');
+ await expect(page.locator('#crew-dir-count')).toContainText('0 of 12');
+ await page.locator('#crew-dir-status').selectOption('all');
+ await page.locator('#crew-dir-country').selectOption('all');
+ await page.locator('#crew-dir-type').selectOption('all');
+ await page.locator('#crew-dir-search').fill('Singapore');
+ await expect(page.locator('[data-crew-record]:visible')).toHaveCount(1);
+});
+test('P4 article topics compose with search and show related articles',async({page})=>{
+ await page.goto('/resources/articles/');
+ await page.locator('#guide-topic').selectOption('Leadership');
+ await expect(page.locator('.guide-card:visible').first()).toHaveAttribute('data-topic','Leadership');
+ await page.locator('#guide-search').fill('good followership');
+ await expect(page.locator('.guide-card:visible')).toHaveCount(1);
+ await page.getByRole('link',{name:'Read article: Good followership is active work'}).click();
+ await expect(page.getByRole('heading',{name:'More on Leadership'})).toBeVisible();
+ await expect(page.locator('.article-connections')).toContainText('Milton Memorial');
+});
+test('P4 contribution is explicitly offline and downloads a template',async({page})=>{
+ await page.goto('/resources/contribute/');
+ await expect(page.getByText('No submission destination is currently configured for this page.',{exact:true})).toBeVisible();
+ const dl=page.waitForEvent('download');await page.getByRole('link',{name:'Download interview and consent template'}).click();
+ expect((await dl).suggestedFilename()).toBe('rr-interview-template.txt');
+ await expect(page.locator('main form')).toHaveCount(0);
+});
+test('P4 new crew exercises show their purpose, preparation and constraints',async({page})=>{
+ await page.goto('/resources/ruck-clubs/');await page.locator('#drill-focus').selectOption('Service');
+ await page.locator('#drill-level').selectOption('Applied');await page.locator('#drill-count').selectOption('2');
+ await page.getByRole('button',{name:'Draw exercises'}).click();
+ await expect(page.locator('#drill-output h3')).toHaveCount(2);
+ await expect(page.locator('#drill-output')).toContainText('Purpose:');
+ await expect(page.locator('#drill-output')).toContainText('Preparation:');
+ await expect(page.locator('#drill-output')).toContainText('Constraints:');
+});
+test('P4 sourced notes remain distinct from firsthand accounts and hypothetical cases',async({page})=>{
+ await page.goto('/resources/field-notes/');await page.locator('#field-type').selectOption('external-interview');
+ await expect(page.locator('.guide-card:visible')).toHaveCount(1);
+ await expect(page.locator('.guide-card:visible')).toContainText('Sourced interview');
+ await page.locator('.guide-card:visible a').first().click();
+ await expect(page.getByText('This is Rucking Revolution editorial commentary on a published source.',{exact:false})).toBeVisible();
+ await expect(page.getByRole('link',{name:'Wayback Machine archive lookup'})).toBeVisible();
+ await expect(page.getByRole('heading',{name:'Related event'})).toBeVisible();
 });

@@ -1,0 +1,59 @@
+const s=(title,text,items)=>({title,text,items});
+const guide=(slug,title,summary,blocks)=>({slug,title,summary,meta:'Crew development · practical module',blocks,kind:'Crew guide',level:'All',parent:'/resources/ruck-clubs/',path:`/resources/ruck-clubs/${slug}/`});
+export const p4CrewGuides=[
+ guide('assistant-leaders','Develop assistant leaders','Build a crew that can run well when the usual organiser is away.',[
+ s('Choose a manageable responsibility','Invite a willing member to learn a task they can realistically repeat.',['Start with greeting newcomers, route notes or a safe regroup.','Describe the task and its limits.','Agree how and when to ask for help.']),
+ s('Demonstrate, practise, hand over','Move from observation to supported practice.',['Walk a familiar route together.','Let the assistant brief the next segment.','Review the decision and information, not the person.']),
+ s('Plan for absence','A backup needs information and authority appropriate to the task.',['Share the route and cancellation procedure.','Confirm volunteer availability before publishing an invitation.','Cancel or shorten if no competent leader is available.']),
+ s('Keep the progression sustainable','Do not make volunteers responsible for everything at once.',['Rotate willing members.','Offer a way to step back without shame.','Record the next skill to practise.'])]),
+ guide('mixed-pace-and-fatigue','Keep a mixed-pace group together','Plan regrouping, shorter alternatives and a response to changing capacity.',[
+ s('Choose a shared pace','Advertise the purpose and terrain of the outing.',['Use a route with safe waiting areas.','Offer optional load rather than a uniform weight.','Agree who checks the back of the group.']),
+ s('Make regrouping predictable','Nobody should have to guess which direction the group took.',['Regroup at junctions and agreed stops.','Confirm the last participant has arrived before leaving.','Communicate changes to the whole group.']),
+ s('Respond to changes','A participant who needs help is not an obstacle to the plan.',['Stop somewhere safe and ask what is needed.','Adapt the route or arrange appropriate support.','Seek urgent medical help for serious symptoms; do not pressure anyone onward.']),
+ s('Review the route design','Change the outing if the same problem keeps appearing.',['Ask whether pace and breaks suited the group.','Check if a shorter route was genuinely available.','Adjust the next invitation.'])]),
+ guide('disagreement-and-contingencies','Handle disagreements and changing plans','Use clear decisions, realistic alternatives and shared responsibility.',[
+ s('Separate observation from interpretation','Start with what is actually known.',['Ask each person what they observed.','Identify what remains uncertain.','Check reliable route and weather information.']),
+ s('Compare realistic options','A plan can change without the group losing its purpose.',['Consider time, access, capacity and available support.','Choose a decision point before options disappear.','Share who is responsible for the final coordination.']),
+ s('Communicate the decision','Explain what changes and what stays the same.',['Invite relevant concerns.','Ask someone to repeat the revised plan.','Do not penalise people for raising safety concerns.']),
+ s('Review respectfully','Discuss actions and conditions instead of attacking character.',['Record one decision that helped.','Agree one change for next time.','Escalate serious safeguarding concerns through appropriate channels, not a group debate.'])]),
+ guide('service-and-volunteering','Make shared effort useful to others','Plan community activity around actual needs rather than a difficult-looking task.',[
+ s('Ask the partner first','A useful project starts with the organisation receiving the help.',['Agree a bounded task and named organiser.','Confirm permissions, equipment and supervision.','Do not self-deploy to an incident or collect goods nobody requested.']),
+ s('Choose an accessible activity','Offer several ways to take part.',['Clean-up: use approved litter routes and protective kit; leave hazardous waste to the responsible service.','Collection: agree accepted items, weight limits, storage and transport.','Event support: use the organiser’s volunteer briefing and assigned roles.']),
+ s('Keep service and challenge separate','The partner’s needs determine the work, not the crew’s desire for exertion.',['Do not add ballast to work that requires lifting or carrying.','Offer shorter or unloaded participation.','Ask permission before photographing recipients or volunteers.']),
+ s('Close the loop','Finish with the partner, not just the group.',['Confirm the requested work is complete.','Return equipment and report unresolved issues.','Ask whether the activity was useful and agree any follow-up.'])]),
+ guide('keep-a-crew-going','Keep a crew going over time','Build sustainable routines, shared roles and useful feedback.',[
+ s('Set a repeatable rhythm','Choose a frequency the crew can sustain.',['Publish upcoming dates and cancellation rules.','Avoid making every outing a major challenge.','Keep a clear newcomer invitation.']),
+ s('Share the invisible work','A route leader is only one part of a session.',['Rotate communications, route checking and welcomes.','Keep a backup for essential tasks.','Let people choose or decline responsibilities.']),
+ s('Look for barriers','Ask what makes participation difficult without requiring private disclosures.',['Check transport, cost, gear and time.','Describe access conditions honestly.','Ask what would make someone return.']),
+ s('Review once a month','Track only useful aggregate information.',['Count planned and completed sessions.','Ask volunteers about workload.','Choose one improvement with a date to review it.'])])
+];
+const d=(id,category,level,title,purpose,preparation,task,constraints,review)=>({id,category,level,title,purpose,preparation,task,constraints,review});
+export const p4Drills=[
+ d('welcome-check','Inclusion','Foundation','Rewrite the welcome','Make an invitation usable by a newcomer.','Bring the next public invitation.','Ask a willing member to identify three unanswered practical questions. Rewrite the invitation together.','No private disclosures; do not promise unchecked access.','What information was missing? What can be confirmed before publication?'),
+ d('pace-agreement','Inclusion','Foundation','Agree a shared pace','Practise matching the outing to the group.','Pick a familiar short loop with a safe regroup.','Agree a group pace and check in at the first stop. Offer a shorter finish.','No speed contest, forced load or public ranking.','Who had an opportunity to speak? Did the pace match the stated purpose?'),
+ d('access-audit','Inclusion','Applied','Check an access assumption','Turn a vague access promise into useful information.','Bring a route map and current public access information.','Compare the route with a specific hypothetical access need. Identify what you can and cannot confirm.','Do not simulate disability or guarantee accessibility.','What information is still missing? How can someone ask privately?'),
+ d('role-menu','Inclusion','Applied','Offer meaningful roles','Practise including people without compulsory tasks.','List tasks for the next ordinary outing.','Ask volunteers to choose optional roles and name a backup for essential work.','Declining a role must not affect participation.','Were roles manageable? Is any essential job still uncovered?'),
+ d('partner-brief','Service','Foundation','Clarify a service request','Understand a partner’s actual needs.','Use a hypothetical community-event request on paper.','Write three questions on scope, equipment and supervision. Draft a short reply describing what the crew can offer.','No unapproved contact or operational deployment.','What would you confirm before committing?'),
+ d('volunteer-roster','Service','Foundation','Cover a small volunteer task','Practise dependable task allocation.','Choose a harmless real crew task or paper example.','Assign willing people and a backup, with a clear start and finish.','Do not publish personal contact information.','Does everyone know their task and how to hand over?'),
+ d('donation-plan','Service','Applied','Plan a collection on paper','Avoid creating an unwanted logistics burden.','Use a fictional donation request with a fixed storage limit.','Decide what to accept, how to store and move it, and when the receiving partner will confirm acceptance.','No real collection until permission, handling and transport are agreed.','What happens if more items arrive than the partner can use?'),
+ d('close-the-loop','Service','Applied','Review a completed task','Check whether the work actually helped.','Use an ordinary completed activity or clearly labelled fictional case.','Compare the requested task with what was delivered. Identify one follow-up and owner.','No public attribution without permission; avoid blaming people.','How would the partner judge usefulness? What remains unresolved?')
+];
+const legacyDetails={
+ delegate:['Practise clear delegation.','Identify a familiar short segment with a safe finish.','Use a willing participant and retain support; no hazardous route changes.'],
+ 'check-in':['Make it easier to raise a concern.','Choose a safe private or small-group stopping point.','Do not ask for medical or other private details in front of others.'],
+ feedback:['Practise useful behavioural feedback.','Choose a real, ordinary action you observed.','Ask permission; no public shaming or ranking.'],
+ handover:['Transfer necessary information without taking over.','Bring the route brief and agreed fallback.','Keep an experienced person available; no unsupported high-risk role changes.'],
+ 'brief-back':['Confirm a message was understood.','Choose the next safe regroup point.','Practise at a stop, never at a crossing.'],
+ listen:['Hear different views before deciding.','Identify two suitable route options.','Do not pressure anyone to defend a personal access need.'],
+ message:['Communicate a changed plan clearly.','Pick a routine real or fictional change.','Do not interrupt navigation or necessary care.'],
+ signal:['Make a regroup cue understandable.','Identify a quiet, uncomplicated route segment.','A cue never overrides safe crossing or traffic rules.'],
+ 'pre-mortem':['Identify a preventable failure before departure.','Bring the route brief and public condition information.','Discuss scenarios only; do not create a hazard.'],
+ options:['Compare options against real constraints.','Identify a mapped shorter finish.','Check access and transport before relying on the alternative.'],
+ deadline:['Decide early enough to retain options.','Choose a real checkpoint and a fallback.','Do not treat the deadline as a reason to hurry unsafe movement.'],
+ assumptions:['Distinguish confirmed information from a guess.','Bring one route or facility assumption.','Use reliable public information; do not enter restricted areas to check.'],
+ alternate:['Make a shorter outing genuinely available.','Check a suitable alternative and transport.','No unsupported withdrawal when someone needs assistance.'],
+ 'role-swap':['Learn how a different responsibility works.','Identify two willing people and one manageable task.','Keep essential coverage and allow either person to decline.'],
+ 'changed-plan':['Practise responding to a route change.','Bring the actual route map and a fictional closure.','Do not enter unsafe or closed paths.'],
+ resource:['Adapt without compromising necessary equipment.','Choose a fictional missing nonessential item.','Never remove essential equipment or manufacture a real shortage.']
+};
+export function enrichLegacyDrill(drill){const details=legacyDetails[drill.id];return details?{...drill,purpose:details[0],preparation:details[1],constraints:details[2]}:drill;}
