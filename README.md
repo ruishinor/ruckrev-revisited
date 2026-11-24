@@ -4,12 +4,13 @@ A separate, civilian-first rebuilding of Rucking Revolution. The supplied design
 
 ## What is here
 
-- Home, Training, Testing Library, Resources and About pages.
+- Home, Training, Testing Library, Resources and About hubs plus dedicated training, article, field-note, route, reading, event-preparation, community and tools pages.
+- Practical goal-based three-session training-week builder.
 - Six source-linked fitness tests, each with its own detailed page.
 - Search, category filters, country/type/scoring/instructions filters, sorting, grid/list layouts, and up-to-three comparison.
 - A comparison page with original links, plus a shareable URL.
 - Responsive design, visible keyboard focus, native HTML controls and reduced-motion support.
-- Local image files derived from the two owner-supplied visual references. No remote images, trackers, cookies or sign-in.
+- New ImageGen photographic-style hero, six cohesive editorial card scenes and premium icon family; locally bundled SVG flags and original page-illustration work. No remote images, trackers, cookies or sign-in.
 - Static export and optional Vercel deployment, with a Content Security Policy and security-related headers.
 
 ## Run on your computer
@@ -24,7 +25,7 @@ npm run dev
 
 Open `http://127.0.0.1:4173/testing-library/`. `npm run build` creates a complete static site in `dist/`.
 
-On Windows you can publish **only this v2** into the empty `ruishinor/ruckrev-revisited` repository using `scripts/Publish-RuckrevV2.ps1` after signing in to GitHub CLI (`gh auth login`). The script refuses other repository names and existing destination folders.
+For an existing Windows checkout, use the separately delivered expansion bundle and installer. The original first-publish script is retained for historical reference and must not be rerun on a populated repository.
 
 ## Sources and editorial decisions
 
@@ -42,13 +43,14 @@ Official sources are linked on each test page and comparison. The public pages w
 ## Build and checks
 
 - `npm test`: Node's built-in test runner checks catalogue identity, links, queries, selection and HTML generation.
-- `npm run build`: copies local files and prepares 12 static routes.
+- `npm run build`: copies local files and prepares 27 static routes.
 - `node scripts/check-site.mjs`: checks exported pages and assets.
 - `.github/workflows/ci.yml`: performs unit/build checks and a Playwright Chromium browser suite in GitHub Actions.
-- `e2e/library.spec.mjs`: checks search, filtering, comparison, details, mobile navigation and overflow.
+- `e2e/library.spec.mjs`: checks search, filtering, comparison, detail citations, the training-week builder, content routes, mobile navigation and overflow.
+- `archive/nb-NO.json`: retained Norwegian interface strings (unpublished; English-only public site).
 
 Implementation choices follow the general direction of W3C WCAG 2.2, Playwright's role-based locators and web-first assertions, and OWASP's guidance on Content Security Policy. **No accessibility conformance claim is made until the browser and assistive-technology checks have actually been completed.**
 
 ## Limitations
 
-The screenshots show a single desktop page, so the remaining pages have been inferred from the source site's stated purpose and existing content. The fitness-test section is the most complete area of v2; supporting areas are a usable baseline, not a page-for-page migration of the original website. The GitHub connector currently returns HTTP 403 on write; pushing is therefore an owner-side operation until that access is repaired.
+The screenshots show a single desktop page, so the remaining pages have been inferred from the source site's stated purpose and existing content. The fitness-test section and interactive comparison remain the core of v2. Supporting pages now cover 11 curated topic areas, but are adapted summaries—not complete verbatim copies of every original article, event, resource or route. There is no live event-booking or newsletter service. The connected GitHub integration still cannot write binary assets, so the upgrade bundle publishes through the authenticated local checkout.

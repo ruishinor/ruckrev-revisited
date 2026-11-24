@@ -36,3 +36,28 @@ test('mobile navigation, filters, cards and comparison are usable',async({page})
  const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth);
  expect(overflow).toBe(false);
 });
+test('training hub has a working goal-based week builder and useful next steps',async({page})=>{
+ await page.goto('/training/');
+ await expect(page.getByRole('heading',{name:'Training',exact:true})).toBeVisible();
+ await page.locator('#week-goal').selectOption('selection');
+ await page.locator('#week-level').selectOption('regular');
+ await page.getByRole('button',{name:/Build the week/}).click();
+ await expect(page.locator('#week-result li')).toHaveCount(3);
+ await expect(page.locator('#week-result')).toContainText('benchmark practice');
+ await page.getByRole('link',{name:/Assessment prep/}).first().click();
+ await expect(page.getByRole('heading',{name:'Assessment preparation'})).toBeVisible();
+});
+test('expanded sources, footer pages and upgraded image assets resolve',async({page})=>{
+ await page.goto('/testing-library/ntoa-pfq/');
+ await expect(page.locator('.apa-reference')).toContainText('National Tactical Officers Association');
+ await page.getByRole('link',{name:'References',exact:true}).click();
+ await expect(page.getByRole('heading',{name:'References'})).toBeVisible();
+ await expect(page.locator('.bibliography-item')).toHaveCount(6);
+ await page.goto('/resources/');
+ await page.getByRole('link',{name:/Rucking routes/}).first().click();
+ await expect(page.getByRole('heading',{name:'Rucking routes'})).toBeVisible();
+ const img=await page.request.get('/assets/glyph-ruck.png');
+ expect(img.ok()).toBe(true);
+ const flag=await page.request.get('/assets/flags/no.svg');
+ expect(flag.ok()).toBe(true);
+});

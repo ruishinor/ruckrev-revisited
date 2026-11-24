@@ -34,3 +34,17 @@ The writing uses everyday language. Formal organisation and programme names rema
 - Current sourcing is specific to the entry being shown. Example: a current RASP overview states a pack weight but not a march time; do not silently import a time from a different assessment.
 - A sticky comparison tray can obscure content on smaller viewports. The CSS reserves bottom space and responsive layouts; browser testing remains necessary.
 - The site uses no analytics or personal-data collection. This avoids a consent workflow for now, but means actual user uptake cannot be measured within this implementation.
+
+## Expanded v2 pass (24 November 2026)
+
+- Replaced the low-resolution scenic imagery with an ImageGen panoramic mountain hero and six separate editorial image scenes; extracted a cohesive 14-icon family into local transparent PNGs. The assets are illustrative, not depictions of the named organisations. Country flags use local SVG files for accurate rendering at small sizes.
+- Reworked the homepage, Training, Resources and About copy around rucking, deliberate effort, progress and community. The comparison interface, test IDs, filters and published assessment fields remain unchanged.
+- Added 11 routed training/resource sections curated from the original repo’s read-only articles, workout, route, international-event, field-note and reading catalogues. Historical events and illustrative route descriptions are not presented as current live listings or accurate GPS routes.
+- Added a practical goal-based training-week builder. Its examples are deliberately broad and do not claim to be an official preparation programme.
+- Added an expanded footer drawn from the original site's mission, navigation, training/learning categories and contact links, with working Privacy, Terms, Credits and References pages.
+- Added publisher references on individual test detail pages, compare pages and a dedicated bibliography in APA-style formatting.
+- Archived Norwegian UI strings as `archive/nb-NO.json`; no Norwegian UI is currently published.
+- Added additional unit and browser tests to exercise the new pages and interactions.
+- Local unit tests, build, static asset checks and local route checks passed. Browser visual sign-off still requires execution through GitHub Actions / a real browser.
+
+The original repository was only read. No changes were sent to it. The deployment and PR process for this expansion remains separate from the initial implementation.
