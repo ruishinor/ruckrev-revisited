@@ -29,5 +29,57 @@
       ]
     }
   ],
-  "installCommand": "npm ci --omit=dev --ignore-scripts --no-audit --no-fund"
+  "installCommand": "npm ci --omit=dev --ignore-scripts --no-audit --no-fund",
+  "redirects": [
+    {
+      "source": "/resources/field-notes/dodentocht-reporter-2026",
+      "destination": "/resources/events/dodentocht/",
+      "permanent": true
+    },
+    {
+      "source": "/resources/field-notes/dodentocht-reporter-2026/",
+      "destination": "/resources/events/dodentocht/",
+      "permanent": true
+    },
+    {
+      "source": "/resources/field-notes/dodentocht-unfinished-2026",
+      "destination": "/resources/events/dodentocht/",
+      "permanent": true
+    },
+    {
+      "source": "/resources/field-notes/dodentocht-unfinished-2026/",
+      "destination": "/resources/events/dodentocht/",
+      "permanent": true
+    },
+    {
+      "source": "/resources/field-notes/classic-sweden-external-interview",
+      "destination": "/resources/events/fjallraven-classic-sweden/",
+      "permanent": true
+    },
+    {
+      "source": "/resources/field-notes/classic-sweden-external-interview/",
+      "destination": "/resources/events/fjallraven-classic-sweden/",
+      "permanent": true
+    },
+    {
+      "source": "/resources/field-notes/nijmegen-returning-after-change",
+      "destination": "/resources/events/nijmegen/",
+      "permanent": true
+    },
+    {
+      "source": "/resources/field-notes/nijmegen-returning-after-change/",
+      "destination": "/resources/events/nijmegen/",
+      "permanent": true
+    },
+    {
+      "source": "/resources/field-notes/nijmegen-marching-tradition",
+      "destination": "/resources/events/nijmegen/",
+      "permanent": true
+    },
+    {
+      "source": "/resources/field-notes/nijmegen-marching-tradition/",
+      "destination": "/resources/events/nijmegen/",
+      "permanent": true
+    }
+  ]
 }

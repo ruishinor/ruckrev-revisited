@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {p4Articles,editorialTopics,articleTopic} from '../src/data/p4-editorial.mjs';
 import {p4CrewGuides,p4Drills,enrichLegacyDrill} from '../src/data/p4-crew.mjs';
 import {crewDirectory,directoryMatch,directoryStatuses} from '../src/data/p4-directory.mjs';
-import {p4FieldNotes} from '../src/data/p4-field-notes.mjs';
+import {retiredFieldNotes,attachOriginalReading} from '../src/data/p4-field-notes.mjs';
 import {renderDirectory,renderContribution,bindDirectory,communitySections} from '../src/lib/p4-community.mjs';
 test('P4 articles are original structured entries with a topic and event or report link',()=>{
  assert.equal(p4Articles.length,11);assert.equal(new Set(p4Articles.map(a=>a[0])).size,11);
@@ -39,7 +39,8 @@ test('contribution templates stay local with an explicit manual email and no sub
  for(const name of ['rr-editorial-submission.txt','rr-interview-template.txt','rr-equipment-review.txt']){assert.ok(html.includes(`/downloads/${name}" download`));const body=readFileSync(new URL('../public/downloads/'+name,import.meta.url),'utf8');assert.match(body,/LOCAL ONLY/);}
  assert.ok(Object.values(communitySections).every(s=>s.blocks.length>=2));
 });
-test('external field notes distinguish attribution and never impersonate first-person interviews',()=>{
- assert.equal(p4FieldNotes.length,5);assert.equal(new Set(p4FieldNotes.map(n=>n.slug)).size,5);
- for(const n of p4FieldNotes){assert.ok(n.noteType&&n.fieldEvent.path);assert.equal(n.report,undefined);assert.match(n.blocks[0].text,/did not interview/);assert.ok(n.sources[0].url.startsWith('https://'));assert.match(n.sources[1].url,/^https:\/\/web.archive.org\/web\/\*\//);assert.match(n.sources[1].note,/not been confirmed/);}
+test('retired summaries preserve original source links on their event',()=>{
+ assert.equal(retiredFieldNotes.length,5);assert.equal(new Set(retiredFieldNotes.map(n=>n.path)).size,5);
+ const events=[...new Set(retiredFieldNotes.map(n=>n.event))].map(path=>({path}));attachOriginalReading(events);
+ for(const r of retiredFieldNotes){assert.equal(new URL(r.url).protocol,'https:');assert.ok(events.find(e=>e.path===r.event).originalReading.some(x=>x.url===r.url&&x.label===r.label));}
 });
