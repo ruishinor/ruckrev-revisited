@@ -175,3 +175,11 @@ test('navigation hover, transparent visible icons and darker primary buttons',as
  await page.goto('/training/strength/squat/');await expect(page.locator('.guide-entry-image')).toHaveAttribute('src','/assets/exercise-squat.webp');await expect(page.locator('.guide-entry-image')).toHaveAttribute('alt',/squat/);
  await page.goto('/training/strength/pull-up/');await expect(page.locator('.guide-entry-image')).toHaveCount(0);
 });
+
+test('crew leadership practice filters and exports a distinct plan',async({page})=>{
+ await page.goto('/resources/ruck-clubs/');await expect(page.locator('.guide-card')).toHaveCount(5);
+ await page.locator('#drill-focus').selectOption('Communication');await page.locator('#drill-level').selectOption('Foundation');await page.locator('#drill-count').selectOption('3');
+ await expect(page.locator('#drill-download')).toBeDisabled();await page.getByRole('button',{name:'Draw exercises'}).click();await expect(page.locator('#drill-output h3')).toHaveCount(2);await expect(page.locator('#drill-output')).toContainText('all matching exercises');
+ const dl=page.waitForEvent('download');await page.getByRole('button',{name:'Download practice plan'}).click();expect((await dl).suggestedFilename()).toBe('ruck-crew-practice.txt');
+ await page.goto('/resources/ruck-clubs/start-a-crew/');await expect(page.getByRole('heading',{name:'From first ruck to regular crew',level:1})).toBeVisible();
+});
