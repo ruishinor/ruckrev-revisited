@@ -6,10 +6,10 @@ import { dirname, resolve, join } from 'node:path';
 import { assessments, byId, categories } from '../src/data/assessments.mjs';
 import { FILTER_DEFAULTS, filterAssessments, validSelection, parseSelection, normalizeParams, withParams } from '../src/lib/catalog.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
-test('catalogue has sixteen distinct assessments and distinct formal publishers',()=>{
- assert.equal(assessments.length,16);
- assert.equal(new Set(assessments.map(a=>a.id)).size,16);
- assert.equal(new Set(assessments.map(a=>a.name)).size,16);
+test('catalogue has seventeen distinct assessments and distinct formal publishers',()=>{
+ assert.equal(assessments.length,17);
+ assert.equal(new Set(assessments.map(a=>a.id)).size,17);
+ assert.equal(new Set(assessments.map(a=>a.name)).size,17);
  assert.equal(byId.artillerijaeger.country,'Norway');
  assert.equal(byId['nsw-pct'].metric.label,'Multi-stage fitness test');
  assert.equal(byId['danish-police'].metric.label,'2,400 m run');
@@ -26,7 +26,7 @@ test('every test has working link format, short description and a locally bundle
  }
 });
 test('library filters and search combine correctly',()=>{
- assert.equal(filterAssessments().length,16);
+ assert.equal(filterAssessments().length,17);
  assert.equal(filterAssessments(assessments,{...FILTER_DEFAULTS,country:'Norway'}).length,2);
  assert.equal(filterAssessments(assessments,{...FILTER_DEFAULTS,domain:'Police'}).length,4);
  assert.deepEqual(filterAssessments(assessments,{...FILTER_DEFAULTS,q:'beep'}).map(a=>a.id),['nsw-pct','foreign-legion']);

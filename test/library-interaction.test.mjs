@@ -23,10 +23,10 @@ test('early search, country and comparison choice survive library startup; clear
   assert.match(updates.at(-1),/q=beep/);assert.match(updates.at(-1),/sort=name/);assert.match(updates.at(-1),/#library-search$/);
   search.value='nonexistent';search.listeners.input({target:search});assert.match(results,/No matches this time/);
   main.listeners.click({target:{closest(s){return s==='#clear-filters,#empty-clear'?{}:null;}}});
-  assert.equal(search.value,'');assert.equal(country.value,'all');assert.equal((results.match(/class="test-card"/g)||[]).length,16);
+  assert.equal(search.value,'');assert.equal(country.value,'all');assert.equal((results.match(/class="test-card"/g)||[]).length,17);
   assert.match(tray.innerHTML,/1 test selected/);
   await new Promise(resolve=>setTimeout(resolve,220));
-  assert.equal((results.match(/class="test-card"/g)||[]).length,16);
+  assert.equal((results.match(/class="test-card"/g)||[]).length,17);
  }finally{delete globalThis.document;delete globalThis.location;delete globalThis.history;}
 });
 
