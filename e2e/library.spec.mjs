@@ -128,7 +128,7 @@ test('training and resources use meaningful distinct glyphs and accessible exact
  await expect(icons.first()).toHaveCSS('background-color','rgba(0, 0, 0, 0)');
  await expect(icons.first()).toHaveAttribute('fill','none');
  await page.goto('/training/');
- expect(await page.locator('.resource-tile-icon [data-icon]').evaluateAll(els=>els.map(x=>x.dataset.icon))).toEqual(['plan','workout','target','barbell']);
+ expect(await page.locator('.resource-tile-icon [data-icon]').evaluateAll(els=>els.map(x=>x.dataset.icon))).toEqual(['plan','workout','target','barbell','route']);
  await expect(page.getByRole('button',{name:'Build the week'}).locator('svg.icon')).toHaveCSS('color','rgb(255, 255, 255)');
 });
 

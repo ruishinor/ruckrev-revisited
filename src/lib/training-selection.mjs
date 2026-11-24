@@ -1,0 +1,4 @@
+import {buildProgression} from './progression.mjs';
+import {addDays,session,newId} from './training-data.mjs';
+export {recommend} from './training-data.mjs';
+export function scheduleBlock({start,deadline,selection,load,programmeId}){const plan=buildProgression({today:start,deadline,baseline:selection.baseline,days:selection.days,goal:selection.goal,equipment:selection.equipment,load,step:0});const offsets=selection.days===2?[0,3]:selection.days===3?[0,2,4]:[0,2,4,6];return plan.rows.flatMap(w=>w.sessions.flatMap((title,i)=>i===3?[]:[session({date:addDays(start,(w.week-1)*7+offsets[i]),title,activity:i===2?'Strength':selection.equipment==='bodyweight'?'Walk':'Ruck',minutes:i===0?Math.max(10,Math.round(w.minutes*.65)):i===1?w.minutes:Math.min(20,selection.baseline),load:i===2?'':load},{id:newId(),kind:'plan',programmeId})]));}

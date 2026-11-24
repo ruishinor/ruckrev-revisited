@@ -97,7 +97,7 @@ export const sections={
 };
 export const footerColumns=[
  {title:'Explore',items:[['Home','/'],['Training','/training/'],['Testing Library','/testing-library/'],['Resources','/resources/'],['About','/about/']]},
- {title:'Training',items:[['Rucking plans','/training/ruck-plans/'],['Workouts','/training/workouts/'],['Assessment prep','/training/assessment-prep/'],['Strength & conditioning','/training/strength/']]},
- {title:'Resources',items:[['Articles','/resources/articles/'],['Field notes','/resources/field-notes/'],['Rucking routes','/resources/routes/'],['Events & challenges','/resources/events/'],['Reading','/resources/reading/'],['Start a ruck crew','/resources/ruck-clubs/'],['Find a crew','/resources/crew-directory/'],['Contribute','/resources/contribute/'],['Tools & templates','/resources/tools/']]},
+ {title:'Training',items:[['My Training','/my-training/'],['Rucking plans','/training/ruck-plans/'],['Workouts','/training/workouts/'],['Assessment prep','/training/assessment-prep/'],['Strength & conditioning','/training/strength/']]},
+ {title:'Resources',items:[['Challenge Library','/resources/challenges/'],['Articles','/resources/articles/'],['Field notes','/resources/field-notes/'],['Rucking routes','/resources/routes/'],['Events & challenges','/resources/events/'],['Reading','/resources/reading/'],['Start a ruck crew','/resources/ruck-clubs/'],['Find a crew','/resources/crew-directory/'],['Contribute','/resources/contribute/'],['Tools & templates','/resources/tools/']]},
  {title:'Connect',items:[['Email us','mailto:info@ruckingrevolution.org'],['Instagram','https://instagram.com/ruckingrevolution'],['Facebook','https://facebook.com/ruckingrevolution']]}
 ];

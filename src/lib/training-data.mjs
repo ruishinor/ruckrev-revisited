@@ -1,0 +1,42 @@
+// Device-local data contract. No catalogue bodies or external URLs are stored.
+export const VERSION=1, LIMIT=10000, MAX_BYTES=2_000_000;
+export const TYPES=['Ruck','Walk','Run','Strength','Cycle','Swim','Mobility','Other'];
+export const KINDS=['goal','session','plan','programme','saved','achievement','benchmark','reflection'];
+const fail=m=>{throw Error(m)};
+const plain=o=>o!==null&&typeof o==='object'&&!Array.isArray(o)&&[Object.prototype,null].includes(Object.getPrototypeOf(o));
+const keys=(o,allowed)=>{if(!plain(o)||Object.keys(o).some(k=>!allowed.includes(k)))fail('Unexpected record fields.');};
+const str=(v,n,required=false)=>{if(typeof v!=='string'||v.length>n||(required&&!v.trim()))fail('Check text fields.');return v;};
+const id=v=>{if(typeof v!=='string'||! /^[a-zA-Z0-9][a-zA-Z0-9_.:-]{0,99}$/.test(v))fail('Invalid record ID.');return v;};
+export function date(v){if(typeof v!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(v)||!Number.isFinite(Date.parse(v+'T00:00:00Z'))||new Date(v+'T00:00:00Z').toISOString().slice(0,10)!==v)fail('Enter a valid date.');return v;}
+export function localDate(now=new Date()){return [now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');}
+export function addDays(d,n){const t=new Date(date(d)+'T00:00:00Z');t.setUTCDate(t.getUTCDate()+n);return t.toISOString().slice(0,10);}
+const num=(v,max,min=0)=>{if(v===null)return null;if(typeof v!=='number'||!Number.isFinite(v)||v<min||v>max)fail('Check numeric measurements.');return v;};
+const one=(v,options)=>{if(!options.includes(v))fail('Invalid selection.');return v;};
+export function ref(v){if(v===null)return null;keys(v,['kind','id','label']);return {kind:one(v.kind,['event','challenge','workout','programme','article','assessment','checklist']),id:str(v.id,240,true),label:str(v.label,200,true)};}
+export function record(o){const common=['id','kind','date','title','notes','ref'];if(!plain(o))fail('Invalid record.');const base={id:id(o.id),kind:one(o.kind,KINDS),date:date(o.date),title:str(o.title,200,true),notes:str(o.notes,2000),ref:ref(o.ref)};let extra={};switch(o.kind){
+case 'session':case 'plan':{
+ const fields=['activity','distance','minutes','load','terrain','effort','elevation','programmeId','planId','status'];keys(o,[...common,...fields]);extra={activity:one(o.activity,TYPES),distance:num(o.distance,1000),minutes:num(o.minutes,10080,0.01),load:num(o.load,200),terrain:str(o.terrain,150),effort:num(o.effort,10,1),elevation:num(o.elevation,30000),programmeId:o.programmeId===null?null:id(o.programmeId),planId:o.planId===null?null:id(o.planId),status:one(o.status,o.kind==='session'?['completed']:['planned','skipped','replaced'])};if(o.kind==='session'&&extra.minutes===null)fail('Enter elapsed minutes.');if(o.kind==='plan'&&extra.planId!==null)fail('A plan cannot link to another plan.');break;}
+case 'benchmark':keys(o,[...common,'value','unit','conditions']);extra={value:num(o.value,1e9),unit:str(o.unit,40,true),conditions:str(o.conditions,200,true)};if(extra.value===null)fail('Enter a benchmark result.');break;
+case 'achievement':keys(o,[...common,'basis']);extra={basis:one(o.basis,['self-recorded','documented'])};break;
+case 'programme':case 'goal':keys(o,[...common,'status']);extra={status:one(o.status,['active','closed'])};break;
+default:keys(o,common);
+}return {...base,...extra};}
+export const empty=()=>({schemaVersion:VERSION,revision:0,records:[]});
+export function validate(o){keys(o,['schemaVersion','revision','records']);if(o.schemaVersion!==VERSION)fail('This backup uses an unsupported version.');if(!Number.isSafeInteger(o.revision)||o.revision<0||o.revision>=Number.MAX_SAFE_INTEGER||!Array.isArray(o.records)||o.records.length>LIMIT)fail('Invalid workspace size or revision.');const records=o.records.map(record),ids=new Set();const completed=new Set();for(const r of records){if(ids.has(r.id))fail('Duplicate record IDs.');ids.add(r.id);if(r.kind==='session'&&r.planId){if(completed.has(r.planId))fail('A planned session has multiple completion records.');completed.add(r.planId);}}const v={schemaVersion:VERSION,revision:o.revision,records};if(new TextEncoder().encode(JSON.stringify(v)).length>MAX_BYTES)fail('Workspace is too large. Export a backup before reducing records.');return v;}
+// v1 is the initial format; later versions must add explicit migration steps here.
+export function migrate(o){if(!plain(o))fail('Invalid backup.');return validate(o);}
+export function parseBackup(s){if(typeof s!=='string'||new TextEncoder().encode(s).length>MAX_BYTES)fail('Backup exceeds 2 MB.');let o;try{o=JSON.parse(s);}catch{fail('Invalid JSON backup.');}return migrate(o);}
+export function mergeBackup(current,incoming){const a=validate(current),b=validate(incoming),by=new Map(a.records.map(r=>[r.id,r]));let added=0,duplicates=0;for(const r of b.records){if(by.has(r.id)){if(JSON.stringify(by.get(r.id))!==JSON.stringify(r))fail('Backup conflicts with an existing record. Nothing imported.');duplicates++;}else{by.set(r.id,r);added++;}}return {state:validate({...a,records:[...by.values()]}),added,duplicates};}
+export function summary(records,start,end){const rows=records.filter(r=>r.kind==='session'&&r.date>=start&&r.date<=end);return {sessions:rows.length,minutes:rows.reduce((n,r)=>n+r.minutes,0),distance:rows.reduce((n,r)=>n+(r.distance??0),0),distanceCount:rows.filter(r=>r.distance!==null).length,longest:rows.reduce((n,r)=>Math.max(n,r.minutes),0),longestDistance:rows.reduce((n,r)=>Math.max(n,r.distance??0),0)};}
+export function weekStart(d){return addDays(d,-((new Date(d+'T00:00:00Z').getUTCDay()+6)%7));}
+export function csvCell(v){let s=String(v??'');if(/^[\s\u0000-\u001f\uFEFF]*[=+@\-＝＋＠－]|^[\t\r\n]/u.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';}
+export function csv(records){const fields=['date','title','activity','distance','minutes','load','terrain','effort','elevation','notes'];return fields.join(',')+'\r\n'+records.filter(r=>r.kind==='session').map(r=>fields.map(k=>csvCell(r[k])).join(',')).join('\r\n')+'\r\n';}
+export function newId(){return globalThis.crypto.randomUUID();}
+export function session(input,{id:rid=newId(),kind='session',programmeId=null,planId=null,status=kind==='session'?'completed':'planned'}={}){const n=v=>v===''||v==null?null:Number(v);return record({id:rid,kind,date:input.date,title:input.title||input.activity,notes:input.notes||'',ref:input.ref??null,activity:input.activity,distance:n(input.distance),minutes:n(input.minutes),load:n(input.load),terrain:input.terrain||'',effort:n(input.effort),elevation:n(input.elevation),programmeId,planId,status});}
+export function planStatus(r,records){return records.some(x=>x.kind==='session'&&x.planId===r.id)?'completed':r.status;}
+
+export function recommend({experience,returning,baseline,weekly,days,goal,equipment,terrain}){
+ if(!['beginner','regular','experienced'].includes(experience)||!['yes','no'].includes(returning)||!['flat','hills','mixed','indoor'].includes(terrain)||!['distance','selection','intensity','community'].includes(goal)||!['pack','weights','bodyweight'].includes(equipment)||!Number.isFinite(baseline)||baseline<10||baseline>600||!Number.isFinite(weekly)||weekly<20||weekly>1680||!Number.isInteger(days)||days<2||days>4)throw Error('Check your capacity, time and training days.');
+ const conservative=returning==='yes'||experience==='beginner';const available=Math.floor(weekly/days);if(available<10)throw Error('Allow at least ten minutes per chosen day, or choose fewer days.');
+ const capacity=Math.min(baseline,available);return {level:conservative?'Beginner':experience==='regular'?'Intermediate':'Advanced',baseline:capacity,goal,equipment,days,reason:`${conservative?'Start by rebuilding repeatable sessions.':'Start from work you can already repeat.'} Your ${weekly} minutes over ${days} days supports a starting session of up to ${capacity} minutes. ${terrain==='indoor'||terrain==='flat'?'Use accessible terrain; do not assume hills are required.':'Use familiar terrain before adding difficulty.'} No automatic increase in load or duration.`};
+}
