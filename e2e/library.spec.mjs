@@ -85,9 +85,9 @@ test('expanded sources, footer pages and upgraded image assets resolve',async({p
 
 test('library pictograms have consistent contrast treatment across controls',async({page})=>{
  await page.goto('/testing-library/');
- for(const selector of ['.category-pill:not(.active) svg.icon','.filter-control svg.icon','.test-card svg.icon']){const glyph=page.locator(selector).first();await expect(glyph).toHaveCSS('color','rgb(139, 0, 0)');await expect(glyph).toHaveCSS('background-color','rgba(0, 0, 0, 0)');await expect(glyph).toHaveAttribute('fill','none');}
+ for(const selector of ['.category-pill:not(.active) svg.icon','.filter-control svg.icon','.test-card svg.icon']){const glyph=page.locator(selector).first();await expect(glyph).toHaveCSS('color','rgb(203, 96, 96)');await expect(glyph).toHaveCSS('background-color','rgba(0, 0, 0, 0)');await expect(glyph).toHaveAttribute('fill','none');}
  await expect(page.locator('.category-pill.active svg.icon')).toHaveCSS('color','rgb(255, 255, 255)');
- await expect(page.locator('.filter-control > svg.icon').first()).toHaveCSS('color','rgb(139, 0, 0)');
+ await expect(page.locator('.filter-control > svg.icon').first()).toHaveCSS('color','rgb(203, 96, 96)');
  await expect(page.locator('.tray-submit svg.icon')).toHaveCSS('color','rgb(255, 255, 255)');
 });
 
@@ -124,7 +124,7 @@ test('training and resources use meaningful distinct glyphs and accessible exact
  const icons=page.locator('.resource-tile-icon [data-icon]');
  await expect(icons).toHaveCount(7);
  expect(await icons.evaluateAll(els=>els.map(x=>x.dataset.icon))).toEqual(['article','journal','route','calendar','book','people','toolbox']);
- await expect(icons.first()).toHaveCSS('color','rgb(139, 0, 0)');
+ await expect(icons.first()).toHaveCSS('color','rgb(203, 96, 96)');
  await expect(icons.first()).toHaveCSS('background-color','rgba(0, 0, 0, 0)');
  await expect(icons.first()).toHaveAttribute('fill','none');
  await page.goto('/training/');
@@ -163,4 +163,15 @@ test('published route profiles and legal rights pages expose their actual source
 
 test('workout filters combine purpose, equipment and estimated duration',async({page})=>{await page.goto('/training/workouts/');await page.locator('#guide-purpose').selectOption('Strength');await page.locator('#guide-equipment').selectOption('Sandbag');await page.locator('#guide-duration').selectOption('30');const items=page.locator('.guide-card:visible');expect(await items.count()).toBeGreaterThan(0);for(const item of await items.all()){await expect(item).toHaveAttribute('data-purpose','Strength');expect((await item.getAttribute('data-equipment')).split('|')).toContain('Sandbag');expect(Number(await item.getAttribute('data-minutes'))).toBeLessThanOrEqual(30);} });
 
- test('assessment photos are distinct and comparisons do not repeat them',async({page})=>{await page.goto('/testing-library/');const photos=await page.locator('.card-photo').evaluateAll(els=>els.map(el=>getComputedStyle(el).getPropertyValue('--card-photo').trim()).filter(Boolean));expect(photos.length).toBe(4);expect(new Set(photos).size).toBe(photos.length);await page.goto('/testing-library/compare/?ids=ntoa-pfq,rasp,army-aft');await expect(page.locator('.compare-table thead img:not(.flag)')).toHaveCount(0);await page.goto('/training/workouts/hill-repeats/');await expect(page.locator('.guide-entry-image')).toHaveCount(0);});
+ test('assessment photos are distinct and comparisons do not repeat them',async({page})=>{await page.goto('/testing-library/');const photos=await page.locator('.card-photo').evaluateAll(els=>els.map(el=>getComputedStyle(el).getPropertyValue('--card-photo').trim()).filter(Boolean));expect(photos.length).toBe(4);expect(new Set(photos).size).toBe(photos.length);await page.goto('/testing-library/compare/?ids=ntoa-pfq,rasp,army-aft');await expect(page.locator('.compare-table thead img:not(.flag)')).toHaveCount(0);await page.goto('/training/workouts/hill-repeats/');await expect(page.locator('.guide-entry-image')).toHaveAttribute('src','/assets/workout-hill-repeats.webp');});
+
+test('field notes distinguish original accounts from practice cases and export a local review',async({page})=>{
+ await page.goto('/resources/field-notes/');await page.locator('#field-type').selectOption('report');await expect(page.locator('.guide-card:visible')).toHaveCount(3);await page.locator('#field-type').selectOption('case');await expect(page.locator('.guide-card:visible')).toHaveCount(8);
+ await page.locator('#field-type').selectOption('all');for(const el of await page.locator('#field-review-form textarea').all())await el.fill('Review test');const download=page.waitForEvent('download');await page.getByRole('button',{name:'Download field review'}).click();expect((await download).suggestedFilename()).toBe('ruck-field-review.txt');
+ await page.goto('/resources/field-notes/dublin-heavy-2015/');await expect(page.locator('.field-narrative')).toContainText('Check your ego');await expect(page.getByRole('heading',{name:'Practical takeaways'})).toBeVisible();
+});
+test('navigation hover, transparent visible icons and darker primary buttons',async({page})=>{
+ await page.setViewportSize({width:1440,height:900});await page.goto('/');const nav=page.locator('.nav-desktop .nav-link').first();await nav.hover();await expect(nav).toHaveCSS('color','rgb(225, 132, 132)');const cta=page.locator('.home-hero .button-primary');await expect(cta).toHaveCSS('background-color','rgb(111, 0, 0)');await cta.hover();await expect(cta).toHaveCSS('background-color','rgb(139, 0, 0)');await expect(cta.locator('svg.icon')).toHaveCSS('color','rgb(255, 255, 255)');
+ await page.goto('/training/strength/squat/');await expect(page.locator('.guide-entry-image')).toHaveAttribute('src','/assets/exercise-squat.webp');await expect(page.locator('.guide-entry-image')).toHaveAttribute('alt',/squat/);
+ await page.goto('/training/strength/pull-up/');await expect(page.locator('.guide-entry-image')).toHaveCount(0);
+});

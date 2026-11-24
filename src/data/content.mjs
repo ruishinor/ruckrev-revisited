@@ -41,9 +41,10 @@ export const sections={
    {title:'Rucking with a purpose',text:'A ruck can support endurance, fitness, team connection, event preparation or community work. Choose which purpose you are training for.',items:['Pick an outcome you can observe.','Use the same route or test to compare progress.','Build shared challenges that leave room for different abilities.']}
   ]},
  '/resources/field-notes/':{
-  eyebrow:'WHAT CHANGED OUT THERE?',title:'Field notes',lead:'A good field note makes the next ruck better. Use these prompts to review cold-weather, night, multi-day and group efforts.',
+  eyebrow:'WHAT CHANGED OUT THERE?',title:'Field notes',lead:'Read first-person accounts of demanding events, work through practical review cases, and record what your own crew learned.',
 
   blocks:[
+   {title:'A useful review separates facts and interpretations',text:'Start with the plan and what actually happened. Discuss strengths, gaps and contributing factors without blaming people. Agree on one specific change, who will try it and when you will check the result.'},
    {title:'Cold-weather rucks',text:'When conditions change, pace, footing and the kit you thought was fine may change with them.',items:['Record surface, temperature and what you actually wore.','Note when you changed pace or route.','Write down equipment issues before you forget.']},
    {title:'Urban night navigation',text:'Reduced visibility makes familiar streets and surfaces feel different.',items:['Plan a legal, well-lit route and safe crossings.','Carry a light and keep your group visible.','Compare planned and actual route choices afterward.']},
    {title:'Team rucks and hard days',text:'Shared work is useful when you can explain what helped and what held the group back.',items:['Record how people handled changes in pace and load.','Identify moments where someone helped the group.','Change one thing for the next session.']}
@@ -80,6 +81,7 @@ export const sections={
   blocks:[
    {title:'Make the first meet-up easy to join',text:'A predictable time and meeting point remove a lot of friction for newcomers.',items:['Publish the route, distance and expected pace.','Explain whether people need a pack or can borrow one.','Offer a shorter option and clear regroup points.']},
    {title:'Make the challenge meaningful',text:'A crew should be capable of hard work without using difficulty as a barrier to entry.',items:['Plan routes that can stretch regular participants.','Give first-timers a clear entry point.','Ask people to help with planning, navigation and looking after each other.']},
+   {title:'Leadership in practice',items:['Lead by example and show up consistently; service is not a competition to carry the most.','Communicate clearly, listen to concerns and share decisions.','Develop other leaders by rotating navigation, pace setting and review responsibilities.','Adapt to conditions without sacrificing inclusion or safety.','Create a culture where people can ask for help, report problems and withdraw without humiliation.']},
    {title:'Review, adjust, repeat',text:'Keep a simple note of what went well and what needs to change.',items:['Check timing and route choices.','Invite useful feedback without making anyone perform.','Use the next ruck to test one improvement.']}
   ]},
  '/resources/tools/':{
