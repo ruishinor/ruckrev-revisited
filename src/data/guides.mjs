@@ -1,5 +1,6 @@
 import {p4Articles,articleTopic} from './p4-editorial.mjs';
-import {p4FieldNotes} from './p4-field-notes.mjs';
+import {attachOriginalReading} from './p4-field-notes.mjs';
+import {improveResources} from './editorial-improvements.mjs';
 import { expandEvents, newRoutes, expandArticles } from './event-route-editorial.mjs';
 import { crewGuides } from './crew-development.mjs';
 import { fieldReports } from './field-reports.mjs';
@@ -119,7 +120,8 @@ articles.push(...make('/resources/articles/',newTrainingArticles,'Article'));
 articles.push(...make('/resources/articles/',[...pathwayArticles,...pathwayGuides],'Article'));
 enrichArticles(articles);
  articles.push(...make('/resources/articles/',p4Articles,'Article'));
- fieldNotes.push(...p4FieldNotes);
+ attachOriginalReading(events);
+ improveResources(articles,routes,crewGuides);
  for(const a of articles){a.topic=articleTopic(a);a.topicRelated=articles.filter(x=>x!==a&&articleTopic(x)===a.topic).slice(0,3).map(x=>({path:x.path,label:x.title}));}
 attachLegacyProgrammes(articles);
 // Read-only programme catalogue for consumers such as the personal training workspace.

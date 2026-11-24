@@ -410,14 +410,16 @@ test('P4 new crew exercises show their purpose, preparation and constraints',asy
  await expect(page.locator('#drill-output')).toContainText('Preparation:');
  await expect(page.locator('#drill-output')).toContainText('Constraints:');
 });
-test('P4 sourced notes remain distinct from firsthand accounts and hypothetical cases',async({page})=>{
- await page.goto('/resources/field-notes/');await page.locator('#field-type').selectOption('external-interview');
- await expect(page.locator('.guide-card:visible')).toHaveCount(1);
- await expect(page.locator('.guide-card:visible')).toContainText('Sourced interview');
- await page.locator('.guide-card:visible a').first().click();
- await expect(page.getByText('This is Rucking Revolution editorial commentary on a published source.',{exact:false})).toBeVisible();
- await expect(page.getByRole('link',{name:'Wayback Machine archive lookup'})).toHaveCount(0);await expect(page.locator('a[href*="thesportinglodge.com"]')).toHaveCount(0);
- await expect(page.getByRole('heading',{name:'Related event'})).toBeVisible();
+test('field notes contain complete reports and practical cases; retired summaries link from events',async({page})=>{
+ await page.goto('/resources/field-notes/');await expect(page.locator('.guide-card')).toHaveCount(11);
+ await expect(page.locator('#field-type option')).toHaveCount(3);
+ await page.goto('/resources/events/dodentocht/');await expect(page.locator('.original-reading a[href*="brusselstimes.com"]')).toBeVisible();
+ await page.goto('/resources/events/fjallraven-classic-sweden/');await expect(page.locator('.original-reading a[href*="thesportinglodge.com"]')).toBeVisible();
+ await page.goto('/testing-library/vessel-operator/');await expect(page.getByRole('heading',{name:'What the test includes'})).toHaveCount(0);
+ await expect(page.locator('.grouped-standards .assessment-stage')).toHaveCount(2);
+ await expect(page.locator('.grouped-standards')).toContainText('June 2026 initial intake');await expect(page.locator('.grouped-standards')).toContainText('General recruitment');
+ await expect(page.locator('.grouped-standards')).toContainText('55:00');
+ await page.setViewportSize({width:390,height:844});await expect(page.locator('.grouped-standards')).toBeVisible();
 });
 
 test('specialist and occupational references are first-class cards with scoped detail and no comparison control',async({page})=>{await page.goto('/testing-library/');await expect(page.getByRole('heading',{name:'Specialist selection research'})).toHaveCount(0);await expect(page.getByRole('heading',{name:'Published specialist intake benchmarks'})).toHaveCount(0);await expect(page.getByRole('heading',{name:'More published assessment references'})).toHaveCount(0);await page.getByRole('searchbox',{name:'Search tests, countries or activities'}).fill('Kystjeger');const card=page.locator('.test-card[data-id="kjk"]');await expect(card).toBeVisible();await expect(card.getByText('Reference only')).toBeVisible();await expect(card.locator('input[data-select]')).toHaveCount(0);await card.getByRole('link').click();await expect(page.getByRole('heading',{name:'Kystjeger — KJK'})).toBeVisible();await expect(page.locator('.assessment-table')).toContainText('June 2026 initial intake');await expect(page.locator('.assessment-table')).toContainText('General recruitment');await page.goto('/testing-library/compare/?ids=kjk,rasp');await expect(page.getByRole('heading',{name:'Compare tests',exact:true})).toBeVisible();await page.goto('/testing-library/cpat/');await expect(page.locator('.assessment-table')).toContainText('10:20');await expect(page.locator('.assessment-table')).toContainText('Ceiling breach and pull');});

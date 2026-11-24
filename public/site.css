@@ -282,13 +282,28 @@ svg.icon[data-icon="ruck"] .approved-glyph{mask:url("/assets/glyph-ruck.png") ce
 svg.icon[data-icon="run"] .approved-glyph{mask:url("/assets/glyph-run.png") center / contain no-repeat;mask-mode:alpha}
 
 /* Original assessment reference graphics; not documentary photographs. */
-.photo-kjk{--card-photo:url('/assets/assessment-kjk.svg');--detail-image:url('/assets/assessment-kjk.svg')}
-.photo-mjk{--card-photo:url('/assets/assessment-mjk.svg');--detail-image:url('/assets/assessment-mjk.svg')}
-.photo-fsk{--card-photo:url('/assets/assessment-fsk.svg');--detail-image:url('/assets/assessment-fsk.svg')}
-.photo-sfas{--card-photo:url('/assets/assessment-sfas.svg');--detail-image:url('/assets/assessment-sfas.svg')}
+.photo-kjk{--card-photo:url('/assets/assessment-kjk.webp');--detail-image:url('/assets/assessment-kjk.webp')}
+.photo-mjk{--card-photo:url('/assets/assessment-mjk.webp');--detail-image:url('/assets/assessment-mjk.webp')}
+.photo-fsk{--card-photo:url('/assets/assessment-fsk.webp');--detail-image:url('/assets/assessment-fsk.webp')}
+.photo-sfas{--card-photo:url('/assets/assessment-sfas.webp');--detail-image:url('/assets/assessment-sfas.webp')}
 .photo-seal-pst{--card-photo:url('/assets/assessment-seal-pst.svg');--detail-image:url('/assets/assessment-seal-pst.svg')}
-.photo-pararescue-ift{--card-photo:url('/assets/assessment-pararescue-ift.svg');--detail-image:url('/assets/assessment-pararescue-ift.svg')}
+.photo-pararescue-ift{--card-photo:url('/assets/assessment-pararescue-ift.webp');--detail-image:url('/assets/assessment-pararescue-ift.webp')}
 .photo-gign{--card-photo:url('/assets/assessment-gign.svg');--detail-image:url('/assets/assessment-gign.svg')}
 .photo-cpat{--card-photo:url('/assets/assessment-cpat.svg');--detail-image:url('/assets/assessment-cpat.svg')}
-.photo-vessel-operator{--card-photo:url('/assets/assessment-vessel-operator.svg');--detail-image:url('/assets/assessment-vessel-operator.svg')}
+.photo-vessel-operator{--card-photo:url('/assets/assessment-vessel-operator.webp');--detail-image:url('/assets/assessment-vessel-operator.webp')}
 .reference-card-label{font-size:11px;color:#f2f6f7;background:#172329;padding:6px 9px;border:1px solid #829199;border-radius:5px;white-space:nowrap}
+
+/* Editorial reading and specialist standards: scoped, no global typography override. */
+main .guide-body{width:100%;max-width:74ch;margin-inline:auto;min-width:0}
+main .guide-body>h1{font-size:clamp(1.9rem,3.4vw,3.2rem);line-height:1.12;letter-spacing:-.025em;overflow-wrap:normal;word-break:normal;margin:12px 0 18px}
+main .guide-body>.page-lead{font-size:clamp(1rem,1.4vw,1.18rem);line-height:1.6;margin:0 0 14px}
+main .guide-body .guide-meta{font-size:.88rem;line-height:1.5;overflow-wrap:anywhere}
+main .guide-body .field-narrative{white-space:pre-wrap;overflow-wrap:anywhere;font-size:1rem;line-height:1.8}
+main .guide-body .field-account{max-width:none;border-bottom:1px solid var(--line);padding-bottom:24px}
+main .guide-body h2{font-size:clamp(1.2rem,2.1vw,1.55rem);line-height:1.3;margin-bottom:12px}
+main .guide-body .original-reading li{margin-bottom:10px}
+.assessment-table .grouped-standards{width:100%;min-width:0;table-layout:fixed}
+.assessment-table .grouped-standards th,.assessment-table .grouped-standards td{white-space:normal;overflow-wrap:anywhere;vertical-align:top;text-align:left;padding:12px 14px}
+.assessment-table .grouped-standards thead th:first-child{width:46%}
+.assessment-table .grouped-standards .assessment-stage th{padding-top:18px;padding-bottom:10px;background:var(--panel,#18262c);color:var(--rr-heading-red);font-weight:700;font-size:1.02rem;border-top:2px solid var(--line)}
+@media(max-width:520px){main .guide-body>h1{font-size:1.85rem;overflow-wrap:anywhere}.assessment-table .grouped-standards th,.assessment-table .grouped-standards td{padding:9px 7px;font-size:.86rem}}
