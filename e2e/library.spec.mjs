@@ -322,3 +322,27 @@ test('adventure facets match a single option and reset without affecting archive
 
 
 test('resource totals and original training plans are visible',async({page})=>{await page.goto('/resources/');await expect(page.getByRole('link',{name:/Events & challenges \(37\)/})).toBeVisible();await page.goto('/training/ruck-plans/');await expect(page.getByRole('heading',{name:'Training plans (4)'})).toBeVisible();await page.getByRole('link',{name:'Your first 12 weeks of rucking'}).click();await expect(page.getByRole('heading',{name:'Week by week'})).toBeVisible();await page.goto('/resources/events/');await expect(page.locator('#guide-count')).toHaveText('37 results');await expect(page.getByText('(37 total)',{exact:true})).toBeVisible();await page.locator('#event-country').selectOption('United Kingdom');await expect(page.locator('#guide-count')).toHaveText('6 results');await expect(page.getByText('(37 total)',{exact:true})).toBeVisible();await page.goto('/testing-library/');await expect(page.getByText('(16 total)',{exact:true})).toBeVisible();});
+test('event category icons have text, respect mixed entry formats and fit mobile cards',async({page})=>{
+ await page.setViewportSize({width:390,height:844});await page.goto('/resources/events/');
+ const card=title=>page.locator('.guide-card').filter({has:page.getByRole('heading',{name:title,exact:true})});
+ const ruck=card('Sanford City Rucks');await expect(ruck.locator('.event-marker')).toHaveText('Rucking');await expect(ruck.locator('svg[data-icon="ruck"]')).toBeVisible();
+ await expect(ruck.locator('svg[data-icon="ruck"]')).toHaveAttribute('aria-hidden','true');
+ await expect(ruck.locator('svg[data-icon="ruck"]')).toHaveCSS('background-color','rgba(0, 0, 0, 0)');
+ await expect(card('Kathmandu Coast to Coast').locator('.event-marker').last()).toHaveText('Team option');
+ await expect(card('Red Bull Dolomitenmann').locator('.event-marker').last()).toHaveText('Team event');
+ await expect(card('Wilderness Traverse').locator('.event-marker').last()).toHaveText('Team event');
+ await expect(card('World’s Toughest Mudder').locator('.event-marker').last()).toHaveText('Team option');
+ await expect(card('Spartan Death Race').locator('.event-markers svg')).toHaveCount(0);
+ await page.locator('#event-country').selectOption('New Zealand');await expect(page.locator('.guide-card:visible')).toHaveCount(1);
+ await expect(page.locator('#guide-count')).toHaveText('1 results');await expect(page.getByText('(37 total)',{exact:true})).toBeVisible();
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBeTruthy();
+});
+test('training article links connect to actual event and report pages',async({page})=>{
+ await page.goto('/resources/articles/intensity-drives-adaptation/');
+ await expect(page.getByRole('heading',{name:'Try this on your own route'})).toBeVisible();
+ await page.locator('.article-connections').getByRole('link',{name:'Fan Dance mountain challenge',exact:true}).click();
+ await expect(page).toHaveURL(/\/resources\/events\/fan-dance\/$/);await expect(page.getByRole('heading',{name:'Reference and archive'})).toBeVisible();
+ await page.goto('/resources/articles/how-to-train-for-carrying/');await page.locator('.article-connections').getByRole('link',{name:'Milton Memorial Tough field report'}).click();
+ await expect(page).toHaveURL(/\/resources\/field-notes\/milton-memorial-frankfurt-2024\/$/);await expect(page.getByRole('heading',{name:'First-person account'})).toBeVisible();
+ await page.goto('/resources/articles/build-a-personal-challenge-calendar/');const worksheet=page.getByRole('link',{name:'Download the challenge calendar (CSV)'});await expect(worksheet).toHaveAttribute('download','');const url=await worksheet.getAttribute('href');expect((await page.request.get(url)).ok()).toBeTruthy();
+});
