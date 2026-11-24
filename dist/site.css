@@ -219,3 +219,6 @@ html{scroll-padding-top:90px}
 .assessment-table:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
 
 .assessment-score-detail{margin:12px 0;border:1px solid var(--border);border-radius:6px;padding:10px 12px}.assessment-score-detail summary{cursor:pointer;min-height:32px;display:list-item;color:var(--text);font-weight:600}.assessment-score-detail caption{text-align:left;padding:8px 0;font-weight:600}.assessment-score-detail .assessment-table{margin-bottom:4px}
+
+/* Local map and event discovery: equal keyboard/touch controls and responsive filters. */
+.gpx-pan{margin-top:8px}.gpx-pan button{min-width:44px;min-height:44px}.gpx-map{cursor:default}.gpx-map:not([viewBox="0 0 640 360"]){cursor:grab}.gpx-map:active{cursor:grabbing}#gpx-view-status{margin:8px 0 12px}#event-filter-message{padding:10px 0;color:var(--text)}#event-filter-message[hidden]{display:none}.guide-filter input[type=date]{color-scheme:dark;min-width:0}#event-reset{min-height:44px}
