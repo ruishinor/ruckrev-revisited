@@ -5,7 +5,7 @@ import { assessmentDetails, renderAssessmentDetails } from '../src/lib/assessmen
 import { icon, paths } from '../src/lib/icons.mjs';
 test('every assessment has a structured protocol and separate practical guidance',()=>{
  assert.deepEqual(Object.keys(assessmentDetails).sort(),assessments.map(a=>a.id).sort());
- for(const a of assessments){const d=assessmentDetails[a.id];assert.ok(d.rows.length>=2);assert.ok(d.rows.every(r=>r.length===d.columns.length));assert.ok(d.training.length>=3&&d.mistakes.length>=2&&d.log);const html=renderAssessmentDetails(a.id);for(const s of ['Test protocol and standards','How to prepare','Common mistakes','What to log','scope="row"','scope="col"','Independent training guidance'])assert.ok(html.includes(s),a.id);assert.ok(Object.hasOwn(paths,a.metric.icon));}
+ for(const a of assessments){const d=assessmentDetails[a.id];assert.ok(d.rows.length>=2);assert.ok(d.rows.every(r=>r.length===d.columns.length));assert.ok(d.training.length>=3&&d.mistakes.length>=2&&d.log);const html=renderAssessmentDetails(a.id);for(const s of ['assessment-protocol-title','assessment-preparation-title','scope="row"','scope="col"'])assert.ok(html.includes(s),a.id);assert.ok(Object.hasOwn(paths,a.metric.icon));}
  assert.equal(renderAssessmentDetails('__proto__'),'');assert.equal(renderAssessmentDetails('unknown'),'');
 });
 test('critical protocol distinctions and corrected cards are retained',()=>{

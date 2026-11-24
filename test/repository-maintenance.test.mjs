@@ -12,6 +12,7 @@ test('shared inventory retains every original route and template; rejects duplic
  const base=['','training','resources','about','testing-library','testing-library/compare',...assessments.map(a=>'testing-library/'+a.id)];
  const extra=[...Object.keys(sections).map(x=>x.slice(1,-1)),...Object.keys(entries).map(x=>x.slice(1,-1)),'references','privacy','terms','learn','lead','learn/first-three-rucks','my-training',...challengeRoutes.map(x=>x.slice(1,-1))];
  assert.deepEqual(routeInventory.map(x=>x.path),[...base,...extra]);
+ const preserved=JSON.parse(await read('test/fixtures/preserved-route-paths.json'));const current=new Set(routeInventory.map(x=>x.path));for(const path of preserved)assert.ok(current.has(path),`Existing public route removed without reviewed migration: ${path}`);
  for(const x of routeInventory){assert.equal(x.template,base.includes(x.path)&&x.path?x.path+'/index.html':'index.html');assert.ok((await stat(new URL('../'+x.template,import.meta.url))).isFile());}
  const fixture={sectionPaths:[],entryPaths:[],assessmentIds:[],challengePaths:[]};
  assert.throws(()=>makeRouteInventory({...fixture,sectionPaths:['/training/']}),/Duplicate route/);
