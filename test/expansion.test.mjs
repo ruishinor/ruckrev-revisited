@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { sections, footerColumns } from '../src/data/content.mjs';
+import {challengeRoutes} from '../src/data/challenges.mjs';
+const customFooterRoutes=[...challengeRoutes];
 import { assessments } from '../src/data/assessments.mjs';
 const root=resolve(import.meta.dirname,'..');
 function fakeDocument(){
@@ -28,7 +30,8 @@ test('all resource pages render useful local content',async()=>{
 });
 test('footer includes navigation categories and only usable local or external routes',async()=>{
  const local=footerColumns.flatMap(c=>c.items.map(i=>i[1])).filter(x=>x.startsWith('/'));
- for(const href of local){assert.ok(['/','/about/','/training/','/testing-library/','/resources/'].includes(href)||Boolean(sections[href]),`Missing footer page ${href}`);}
+ for(const href of local){assert.ok(['/','/about/','/training/','/testing-library/','/resources/'].includes(href)||Boolean(sections[href])||customFooterRoutes.includes(href),`Missing footer page ${href}`);}
+ for(const href of local.filter(x=>customFooterRoutes.includes(x))){const rendered=await renderRoute(href);assert.match(rendered,/<h1>/);assert.doesNotMatch(rendered,/We couldn.t find that page/);}
  const html=await renderRoute('/');
  assert.match(html,/Rucking plans/);assert.match(html,/Field notes/);assert.match(html,/Instagram/);
  assert.match(html,/You don’t need to do it alone/);

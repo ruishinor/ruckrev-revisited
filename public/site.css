@@ -227,3 +227,10 @@ html{scroll-padding-top:90px}
 .course-diagram{margin:1.25rem 0;max-width:100%;min-width:0}.course-diagram svg{display:block;width:100%;max-width:420px;height:auto;margin:0 auto}.course-diagram figcaption{margin-top:.65rem;font-size:.9rem;line-height:1.5}.event-reference a,.unconfirmed-events a{overflow-wrap:anywhere}.unconfirmed-events article+article{margin-top:1rem}.unconfirmed-events{margin-top:2rem}
 /* Event categories: labeled, decorative local outline icons. */
 .event-markers{display:inline-flex;align-items:center;flex-wrap:wrap;gap:6px 14px;max-width:100%}.event-marker{display:inline-flex;align-items:center;gap:6px;min-width:0}.event-marker svg.icon{width:24px;height:24px;flex:0 0 24px;background:transparent;box-shadow:none}.article-connections a{text-decoration:underline;text-underline-offset:3px}.article-connections p{overflow-wrap:anywhere}
+
+/* P2 challenge library */
+.challenge-types{margin-block:24px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.challenge-library .challenge-month{margin-block:24px}.challenge-library .challenge-month .guide-filter{max-width:320px}.challenge-library #challenge-empty[hidden]{display:none}
+.challenge-card .guide-meta .icon{vertical-align:middle}.challenge-record dd{margin:8px 0 18px;overflow-wrap:anywhere}.challenge-record dt{font-weight:600}.challenge-related a{text-decoration:underline;text-underline-offset:3px}
+@media(max-width:800px){.challenge-types{grid-template-columns:1fr}}
+@media print{.challenge-detail,.challenge-detail h1,.challenge-detail h2,.challenge-detail h3,.challenge-detail p,.challenge-detail dt,.challenge-detail dd,.challenge-detail .eyebrow,.challenge-detail a{color:#111!important;background:#fff!important}.challenge-detail .breadcrumbs,.challenge-detail .challenge-related,.challenge-detail .hero-actions{display:none!important}.challenge-record{break-inside:avoid}.challenge-detail .content-panel{border-color:#aaa}}
