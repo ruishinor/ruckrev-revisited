@@ -176,7 +176,7 @@ body:has(main.training-hub)::before{height:460px;background-image:linear-gradien
 
 /* Dark red is the identity and filled-control palette; foreground accents need visible contrast. */
 :root{--rr-icon-red:#CB6060;--rr-nav-hover:#E18484;--rr-button-red:#6F0000;--rr-button-hover:#8B0000}
-svg.icon[data-icon],.category-pill:not(.active) svg.icon,.filter-control svg.icon,.editorial-row svg.icon{color:var(--rr-icon-red);stroke-width:2.4;background:transparent;box-shadow:none}
+svg.icon[data-icon],.category-pill:not(.active) svg.icon,.filter-control svg.icon,.editorial-row svg.icon{color:var(--rr-icon-red);stroke-width:2;background:transparent;box-shadow:none}
 .button-primary,.tray-submit,.category-pill.active,.view-switch button.active{background:var(--rr-button-red);border-color:#8B0000;box-shadow:none;color:#fff}
 .button-primary:hover,.tray-submit:hover,.category-pill.active:hover,.view-switch button.active:hover{background:var(--rr-button-hover);border-color:#A00000}
 .button-primary svg.icon,.tray-submit svg.icon,.category-pill.active svg.icon,.view-switch button.active svg.icon{color:#fff}
@@ -202,3 +202,20 @@ html{scroll-padding-top:90px}
 :where(a,button,input,select,textarea,summary,[tabindex]){scroll-margin-block:12px}
 #copy-compare-status{font-size:14px;color:var(--text);align-self:center;overflow-wrap:anywhere}
 .compare-tools{flex-wrap:wrap;align-items:center}.compare-tools>#copy-compare-status:not(:empty){flex:1 1 100%}
+
+/* Assessment-specific scalable vector metrics and readable standards tables. */
+.metric-row>svg.icon,.activity-highlight>svg.icon{width:28px;height:28px;flex:0 0 28px;color:var(--rr-icon-red);stroke-width:2;overflow:visible}
+.activity-highlight>svg.icon{width:32px;height:32px;flex-basis:32px}
+.assessment-protocol,.assessment-preparation{min-width:0}
+.detail-grid>div{min-width:0}
+.assessment-table{overflow-x:auto;margin:14px 0 20px;max-width:100%}
+.assessment-table table{width:100%;border-collapse:collapse;min-width:360px;text-align:left}
+.assessment-table th,.assessment-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top;text-align:left;white-space:normal;overflow-wrap:normal}
+.assessment-table thead th{background:#202b30;color:#f1f4f5;font-weight:650}
+.assessment-table tbody th{font-weight:600;color:#f1f4f5}
+.assessment-table td{color:var(--muted)}
+.assessment-protocol h3,.assessment-preparation h3{font-size:16px;margin:18px 0 8px}
+.assessment-protocol a{text-decoration:underline;text-underline-offset:3px}
+.assessment-table:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+
+.assessment-score-detail{margin:12px 0;border:1px solid var(--border);border-radius:6px;padding:10px 12px}.assessment-score-detail summary{cursor:pointer;min-height:32px;display:list-item;color:var(--text);font-weight:600}.assessment-score-detail caption{text-align:left;padding:8px 0;font-weight:600}.assessment-score-detail .assessment-table{margin-bottom:4px}
