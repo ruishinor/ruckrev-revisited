@@ -261,3 +261,16 @@ test('comparison link clipboard success and denial are reported accessibly',asyn
  await button.click();await expect(page.locator('#copy-compare-status')).toHaveText('Copy the address from your browser.');
  await expect(button).toBeFocused();
 });
+
+ test('assessment standards and consistent metric vectors are visible',async({page})=>{
+ await page.goto('/testing-library/');
+ await expect(page.locator('.test-card[data-id="danish-police"] .metric-row')).toContainText('12:00');
+ await expect(page.locator('.test-card[data-id="nsw-pct"] .metric-row svg[data-icon="shuttle"]')).toBeVisible();
+ await expect(page.locator('.test-card[data-id="uk-police-jrft"] .metric-row svg[data-icon="shuttle"]')).toBeVisible();
+ for(const id of ['ntoa-pfq','rasp','norwegian-armed-forces','artillerijaeger','nsw-pct','danish-police','army-aft','uk-police-jrft']){
+  await page.goto('/testing-library/'+id+'/');
+  await expect(page.getByRole('heading',{name:'Test protocol and standards'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'How to prepare'})).toBeVisible();
+  await expect(page.locator('.assessment-table tbody tr').first()).toBeVisible();
+ }
+ });

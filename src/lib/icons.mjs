@@ -14,10 +14,11 @@ export const paths={
  clipboard:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2M8 10h8M8 14h8M8 18h5"/>',
  source:'<path d="M5 3h10l4 4v14H5zM14 3v5h5m-10 7 2 2 4-5"/>',
 
- chart:'<path d="M4 21V14m6 7V9m6 12V4m4 17V11"/>',ruck:'<path d="M7 9V7a5 5 0 0 1 10 0v2M6 8h12l2 12H4L6 8Zm4 0V6a2 2 0 0 1 4 0v2M8 14h8"/>',
+ chart:'<path d="M4 21V14m6 7V9m6 12V4m4 17V11"/>',ruck:'<rect x="5" y="6" width="14" height="15" rx="3"/><path d="M9 6V4a3 3 0 0 1 6 0v2M5 12h14M8 16h8v5M8 9h1m6 0h1"/>',
  shield:'<path d="m12 2 8 4v6c0 5-4 8-8 10-4-2-8-5-8-10V6l8-4Zm0 4v10"/>',
  chevrons:'<path d="m5 15 7-7 7 7M5 20l7-7 7 7"/>',barbell:'<path d="M3 9v6m4-9v12m10-12v12m4-9v6M7 12h10"/>',
- run:'<circle cx="15" cy="4" r="2"/><path d="m12 8 3 3 4 1m-7-4-3 5-4 2m8-3-2 5 4 4m-4-5-4 5"/>',
+ run:'<circle cx="15.8" cy="4.2" r="2.05"/><path d="m4 9 4.6-1.8 3.4 1.4 3.6 3.7 4.2-.4M12 8.6l-3 5.2 4.8 2.6 3.3 5M9 13.8l-2.7 4.7L2.5 21"/>',
+ shuttle:'<path d="M3 7h17m-3-3 3 3-3 3M21 17H4m3-3-3 3 3 3M3 3v2m18 14v2"/>',
  waves:'<path d="M2 9c3-3 5 3 8 0s5-3 8 0 4 0 4 0M2 16c3-3 5 3 8 0s5-3 8 0 4 0 4 0"/>',
  search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',arrow:'<path d="M4 12h16m-7-7 7 7-7 7"/>',
  down:'<path d="m5 9 7 7 7-7"/>',close:'<path d="m5 5 14 14M19 5 5 19"/>',grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',

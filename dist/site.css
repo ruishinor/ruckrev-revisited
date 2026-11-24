@@ -202,3 +202,18 @@ html{scroll-padding-top:90px}
 :where(a,button,input,select,textarea,summary,[tabindex]){scroll-margin-block:12px}
 #copy-compare-status{font-size:14px;color:var(--text);align-self:center;overflow-wrap:anywhere}
 .compare-tools{flex-wrap:wrap;align-items:center}.compare-tools>#copy-compare-status:not(:empty){flex:1 1 100%}
+
+/* Assessment-specific scalable vector metrics and readable standards tables. */
+.metric-row>svg.icon,.activity-highlight>svg.icon{width:28px;height:28px;flex:0 0 28px;color:#e47777;stroke-width:1.9;overflow:visible}
+.activity-highlight>svg.icon{width:32px;height:32px;flex-basis:32px}
+.assessment-protocol,.assessment-preparation{min-width:0}
+.detail-grid>div{min-width:0}
+.assessment-table{overflow-x:auto;margin:14px 0 20px;max-width:100%}
+.assessment-table table{width:100%;border-collapse:collapse;min-width:360px;text-align:left}
+.assessment-table th,.assessment-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top;text-align:left;white-space:normal;overflow-wrap:normal}
+.assessment-table thead th{background:#202b30;color:#f1f4f5;font-weight:650}
+.assessment-table tbody th{font-weight:600;color:#f1f4f5}
+.assessment-table td{color:var(--muted)}
+.assessment-protocol h3,.assessment-preparation h3{font-size:16px;margin:18px 0 8px}
+.assessment-protocol a{text-decoration:underline;text-underline-offset:3px}
+.assessment-table:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
