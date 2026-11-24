@@ -24,7 +24,7 @@ test('categories, grid/list and comparison work',async({page})=>{
 test('source detail shows correct country and linked source',async({page})=>{
  await page.goto('/testing-library/artillerijaeger/');
  await expect(page.getByRole('heading',{name:'Artillerijeger'})).toBeVisible();
- await expect(page.getByText('8 km pack run',{exact:true})).toBeVisible();
+ await expect(page.locator('.activity-highlight').getByText('8 km pack run',{exact:true})).toBeVisible();
  await expect(page.getByRole('link',{name:'Visit Norwegian Armed Forces',exact:true})).toHaveAttribute('href','https://www.forsvaret.no/utdanning/utdanninger/artillerijeger');
 });
 test('mobile navigation, filters, cards and comparison are usable',async({page})=>{
@@ -274,3 +274,17 @@ test('comparison link clipboard success and denial are reported accessibly',asyn
   await expect(page.locator('.assessment-table tbody tr').first()).toBeVisible();
  }
  });
+
+test('Tabler icon geometry, palette and accessibility are consistent',async({page})=>{
+ await page.goto('/testing-library/');
+ const run=page.locator('.test-card[data-id="danish-police"] .metric-row svg[data-icon="run"]');
+ await expect(run).toBeVisible();
+ await expect(run).toHaveAttribute('focusable','false');
+ await expect(run).toHaveAttribute('aria-hidden','true');
+ await expect(run.locator('path')).toHaveCount(4);
+ await expect(run.locator('path').first()).toHaveAttribute('d','M12 4a1 1 0 1 0 2 0a1 1 0 1 0 -2 0');
+ await expect(run).toHaveCSS('color','rgb(203, 96, 96)');
+ await expect(run).toHaveCSS('stroke-width','2px');
+ await page.goto('/testing-library/artillerijaeger/');
+ await expect(page.locator('.activity-highlight svg[data-icon="ruck"]')).toHaveCSS('color','rgb(203, 96, 96)');
+});
