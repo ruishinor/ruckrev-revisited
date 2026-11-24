@@ -1,0 +1,34 @@
+import {addDays,date,localDate,weekStart,record,session,validate,planStatus} from './training-data.mjs';
+const offsets={Mon:0,Tue:1,Wed:2,Thu:3,Fri:4,Sat:5,Sun:6};
+const activities={walk:'Walk',ruck:'Ruck',run:'Run',strength:'Strength',cycle:'Cycle',swim:'Swim',mobility:'Mobility',other:'Other'};
+export function makeProgrammeImport(programme,start,existing,{today=localDate(),workoutReference=()=>null}={}){
+ date(start);date(today);if(start<today||weekStart(start)!==start)throw Error('Choose today or a future Monday for week one.');
+ if(!programme||programme.scheduleFormat!=='structured'||!Array.isArray(programme.weeks)||!programme.weeks.length)throw Error('Choose a programme with a structured schedule. Older plans remain readable as week notes.');
+ const id=`import:${programme.id}:${start}`,ref={kind:'programme',id:programme.path,label:programme.title};
+ if(existing.some(r=>r.id===id||r.programmeId===id))throw Error('This programme and start date are already in your workspace. Choose a different start date.');
+ const parent=record({id,kind:'programme',date:start,title:programme.title,notes:'Imported published example schedule. '+programme.baseline+' '+programme.adaptation,ref,status:'active'});
+ const planned=[],weeks=[];
+ for(const [i,w] of programme.weeks.entries()){
+  if(w.number!==i+1||!Array.isArray(w.sessions)||!w.sessions.length)throw Error('Invalid programme week.');
+  const rows=[];for(const s of w.sessions){if(!Object.hasOwn(offsets,s.day)||!Object.hasOwn(activities,s.kind)||!Number.isInteger(s.minutes)||s.minutes<1)throw Error('Invalid programme session.');
+   const when=addDays(start,i*7+offsets[s.day]);const notes=[s.objective,`Effort: ${s.effort}.`,w.objective,`Week ${w.number}${w.phase==='easier'?' (easier)':''}. Follow the programme guidance; no load has been assigned.`].join(' ');
+   const row=session({date:when,title:`Week ${w.number}: ${activities[s.kind]} (${s.effort})`,activity:activities[s.kind],minutes:s.minutes,notes,ref:s.workoutPath?workoutReference(s.workoutPath)||ref:ref},{id:`${id}:${w.number}:${s.day}`,kind:'plan',programmeId:id});rows.push(row);planned.push(row);
+  } weeks.push({number:w.number,phase:w.phase,objective:w.objective,rows:rows.sort((a,b)=>a.date.localeCompare(b.date))});
+ }
+ const records=[...existing,parent,...planned];validate({schemaVersion:1,revision:0,records});
+ const dates=new Set(planned.map(r=>r.date));const overlapping=existing.filter(r=>r.kind==='plan'&&planStatus(r,existing)==='planned'&&dates.has(r.date)).length;
+ return {records,parent,planned,weeks,overlapping,active:existing.filter(r=>r.kind==='programme'&&r.status==='active').length,minutes:planned.reduce((n,r)=>n+r.minutes,0)};
+}
+export function renderProgrammeImport(){return `<section class="content-panel" id="training-structured-import"><h2>Import a published training programme</h2><p>Bring the actual sessions into your calendar, including easier weeks, durations and training notes. This does not choose a load for you or replace existing work.</p><form id="training-structured-form"><div class="tool-grid"><label for="training-structured-choice">Structured programme</label><select id="training-structured-choice" required disabled><option value="">Choose a programme</option></select><label for="training-structured-start">Week one starts on (Monday)</label><input id="training-structured-start" type="date" required disabled></div><button type="submit" class="button button-secondary" disabled>Preview programme schedule</button></form><div id="training-structured-preview" aria-live="polite"></div><button type="button" class="button button-primary" id="training-structured-confirm" disabled>Add programme to calendar</button><p>Older week-note plans remain available to read; they are not converted into invented sessions.</p></section>`;}
+export function bindProgrammeImport({programmes,records,save,status,workoutReference,onCalendar}){
+ const $=s=>document.querySelector(s),form=$('#training-structured-form');if(!form)return;const choice=$('#training-structured-choice'),start=$('#training-structured-start'),out=$('#training-structured-preview'),confirm=$('#training-structured-confirm');const el=(tag,text)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;return e;};
+ let preview=null,pending=false;const clear=()=>{preview=null;confirm.disabled=true;out.replaceChildren();};clear();
+ const available=programmes.filter(p=>p.scheduleFormat==='structured');for(const p of available){const option=el('option',`${p.title} (${p.weeks.length} weeks)`);option.value=p.id;choice.append(option);}
+ const today=localDate(),mon=weekStart(today);start.min=today;start.value=mon<today?addDays(mon,7):mon;choice.disabled=false;start.disabled=false;form.querySelector('button').disabled=false;
+ // Optional deep link from a catalogue plan; never imports without preview and explicit confirmation.
+ const requested=new URLSearchParams(location.search).get('programme');if(available.some(p=>p.id===requested))choice.value=requested;
+ function build(){return makeProgrammeImport(available.find(p=>p.id===choice.value),start.value,records(),{workoutReference});}
+ for(const input of [choice,start])input.addEventListener('change',clear);
+ form.addEventListener('submit',e=>{e.preventDefault();clear();try{const p=build();preview={choice:choice.value,start:start.value,overlap:p.overlapping,active:p.active};out.append(el('p',`${p.planned.length} sessions · ${p.weeks.length} weeks · ${p.minutes} planned minutes. ${p.overlapping} existing planned sessions share dates. ${p.active} active programmes will remain unchanged.`));const info=el('p',p.parent.notes);out.append(info);for(const w of p.weeks){const details=el('details');details.append(el('summary',`Week ${w.number} · ${w.rows.reduce((n,r)=>n+r.minutes,0)} min${w.phase==='easier'?' · easier':''}`),el('p',w.objective));const list=el('ul');for(const row of w.rows)list.append(el('li',`${row.date} · ${row.activity} · ${row.minutes} min — ${row.notes}`));details.append(list);out.append(details);}confirm.disabled=false;}catch(e){out.append(el('p',e.message));}});
+ confirm.addEventListener('click',async()=>{if(pending||!preview)return;pending=true;confirm.disabled=true;try{if(preview.choice!==choice.value||preview.start!==start.value)throw Error('Schedule changed. Preview again.');const p=build();if(p.overlapping!==preview.overlap||p.active!==preview.active)throw Error('Existing plans changed. Preview again.');if(await save(p.records,'Published programme and planned sessions saved. Existing records retained.')){const d=start.value;clear();out.append(el('p',`${p.planned.length} sessions added. Review them in the calendar.`));onCalendar(d);}else clear();}catch(e){clear();out.append(el('p',e.message));status(e.message);}finally{pending=false;}});
+}
