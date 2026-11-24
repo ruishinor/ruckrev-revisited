@@ -1,0 +1,9 @@
+# Leadership and community continuity
+
+Baseline: PR #28, `fba36615ecdd86d8010aa350b313a04c4e72042d`.
+
+- Six category pathways use all 24 existing drills. Foundation-first suggestions are optional, not qualification requirements. Practised and adapted reviews count once per drill; stopped/deferred reviews are retained but do not count as reviewed practice. No competence score, certification or automatic progression.
+- Crew planning downloads are unchanged. An explicit save stores the plan locally; the workspace retains its original fields and a separately editable review, with outcome, next change and optional follow-up date. Practice reviews can link to an outing and an existing active personal goal. Practice history preserves stopped and deferred records. Deleting a related record retains historical references; no cascade deletion.
+- The original standalone crew review tool still downloads a text file; its link directs users to the connected review workflow before recording a saved outing. No data is automatically transferred or published. No group accounts, synchronization, shared roster or external data transmission. Do not record other people's private information. Follow-up dates are displayed only; no scheduled notification or automatic completion is implied.
+- Schema and IndexedDB version 3 extend the existing workspace with two record types. Versions 1 and 2 migrate without inventing records. Older database opens are blocked; a rollback to an older app cannot safely use the upgraded DB. JSON backups include crew records; activity CSV remains completed physical sessions only. Preserve a backup before upgrade if rollback matters.
+- Existing source artwork, catalogue counts, training tools, tests and release gates remain unchanged except the two explicit version expectations. Browser verification includes linked practice, review retention and version 2 migration.
