@@ -16,6 +16,9 @@ jobs:
         with:
           node-version: '22'
           package-manager-cache: false
+      - name: Reject tracked build output
+        run: |
+          test -z "$(git ls-files -- dist/)"
       - run: npm test
       - run: npm run build
       - run: node scripts/check-site.mjs
