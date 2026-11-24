@@ -1,6 +1,6 @@
 const note=(slug,title,summary,noteType,kind,sourceLabel,url,eventSlug,eventTitle,blocks,sourceNote)=>({
  slug,title,summary,noteType,kind,parent:'/resources/field-notes/',path:`/resources/field-notes/${slug}/`,level:'All',meta:`${kind} · source checked 24 November 2026`,
- blocks:[{title:'About this note',text:'This is Rucking Revolution editorial commentary on a published source. We did not interview the subject or participate in the reported event. Read the original for the complete account.'},...blocks],
+ blocks:[{title:'About this note',text:'This is Rucking Revolution editorial commentary on a published source. We did not interview the subject or participate in the reported event.'},...blocks],
  fieldEvent:{path:`/resources/events/${eventSlug}/`,label:eventTitle},
  sources:[{label:sourceLabel,url,note:sourceNote},{label:'Wayback Machine archive lookup',url:`https://web.archive.org/web/*/${url}`,note:'Archive index only; an available snapshot has not been confirmed.'}]
 });
