@@ -1,3 +1,4 @@
+import {communityPost} from '../src/data/community-posts.mjs';
 import { cp, mkdir, rm, readFile, writeFile, stat } from 'node:fs/promises';
 import { sections } from '../src/data/content.mjs';
 import { entries } from '../src/data/guides.mjs';
@@ -26,6 +27,8 @@ for(const p of [...baseRoutes,...extraRoutes]){
 }
 await mkdir(join(dist,'challenge-records'),{recursive:true});
 for(const c of challenges)await writeFile(join(dist,'challenge-records',c.id+'.txt'),completionSheet(c),'utf8');
+await mkdir(join(dist,'challenge-posts'),{recursive:true});
+for(const c of challenges)await writeFile(join(dist,'challenge-posts',c.id+'.txt'),communityPost(c),'utf8');
 const files=['index.html','site.css','src/app.mjs','src/data/assessments.mjs','src/lib/catalog.mjs','src/lib/icons.mjs','src/data/content.mjs','src/data/guides.mjs','src/lib/resource-pages.mjs'];
 for(const p of files){const s=await stat(join(dist,p));if(!s.size)throw Error(`Empty build file: ${p}`);}
 console.log(`Built dist/ with ${baseRoutes.length+extraRoutes.length} static routes and locally bundled visual assets.`);

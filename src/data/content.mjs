@@ -1,3 +1,4 @@
+import {readingBooks,readingResearchLead} from './reading.mjs';
 import {communitySections} from '../lib/p4-community.mjs';
 export const sections={
  ...communitySections,
@@ -69,14 +70,8 @@ export const sections={
   ]},
  '/resources/reading/':{
   eyebrow:'BOOKS WITH SOMETHING TO SAY',title:'Recommended reading',lead:'Books about endurance, preparation, persistence and teamwork worth exploring.',
-
-  blocks:[
-   {title:'Endure — Alex Hutchinson',text:'An accessible exploration of endurance and the limits people experience in demanding efforts.'},
-   {title:'Fixing Your Feet — John Vonhof',text:'Practical guidance on looking after your feet during distance training and long events.'},
-   {title:'Born to Run — Christopher McDougall',text:'Stories about long-distance running, people and why movement matters.'},
-   {title:'Grit — Angela Duckworth',text:'A look at persistence, commitment and working toward difficult goals.'},
-   {title:'The Comrades Way — John McInroy',text:'Endurance-event stories and lessons from the Comrades Marathon.'}
-  ]},
+  blocks:[...readingBooks.map(book=>({title:book.title+' — '+book.author,text:book.description,book})),readingResearchLead]
+ },
  '/resources/ruck-clubs/':{
   eyebrow:'MAKE IT BIGGER THAN YOURSELF',title:'Start a ruck crew',lead:'A good crew is built through consistency, responsibility and making challenging rucks possible for more people.',
 
