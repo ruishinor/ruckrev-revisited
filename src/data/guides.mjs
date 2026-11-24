@@ -1,3 +1,4 @@
+import { expandEvents, newRoutes, expandArticles } from './event-route-editorial.mjs';
 import { crewGuides } from './crew-development.mjs';
 import { fieldReports } from './field-reports.mjs';
 import { additionalWorkouts, applyWorkoutDetails } from './workout-programmes.mjs';
@@ -104,6 +105,9 @@ const fieldPractice={
 for(const x of fieldNotes){const p=fieldPractice[x.slug];if(p)x.blocks.push(work('What to record',p.observe),para('Decision point',p.decide),para('Test the next improvement',p.next));}
 Object.assign(fieldNotes.find(x=>x.slug==='team-dynamics'),{image:'case-team-review.webp',imageAlt:'A group of ruckers reviewing a notebook and map together.',imageNote:'Illustrative group review, not a photograph of a reported event.'});
 fieldNotes.unshift(...fieldReports.map(r=>({path:'/resources/field-notes/'+r.slug+'/',parent:'/resources/field-notes/',slug:r.slug,title:r.title,level:'All',summary:r.summary,meta:r.meta,kind:'Field report',report:r,blocks:[para('Reported context',r.facts),work('Practical takeaways',r.takeaways)]})));
+expandEvents(events);
+routes.push(...newRoutes);
+expandArticles(articles);
 export const collections=Object.freeze(Object.fromEntries([workouts,exercises,articles,routes,fieldNotes,events,crewGuides].map(items=>[items[0].parent,items])));
 export const entries=Object.freeze(Object.fromEntries(Object.values(collections).flat().map(x=>[x.path,x])));
 export const featured=[{...articles[0],icon:'article'},{...workouts[7],icon:'workout'},{...events[0],icon:'calendar'}];
