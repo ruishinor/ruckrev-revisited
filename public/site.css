@@ -222,3 +222,6 @@ html{scroll-padding-top:90px}
 
 /* Local map and event discovery: equal keyboard/touch controls and responsive filters. */
 .gpx-pan{margin-top:8px}.gpx-pan button{min-width:44px;min-height:44px}.gpx-map{cursor:default}.gpx-map:not([viewBox="0 0 640 360"]){cursor:grab}.gpx-map:active{cursor:grabbing}#gpx-view-status{margin:8px 0 12px}#event-filter-message{padding:10px 0;color:var(--text)}#event-filter-message[hidden]{display:none}.guide-filter input[type=date]{color-scheme:dark;min-width:0}#event-reset{min-height:44px}
+
+/* Original course diagrams and source references; local, responsive, no third-party assets. */
+.course-diagram{margin:1.25rem 0;max-width:100%;min-width:0}.course-diagram svg{display:block;width:100%;max-width:420px;height:auto;margin:0 auto}.course-diagram figcaption{margin-top:.65rem;font-size:.9rem;line-height:1.5}.event-reference a,.unconfirmed-events a{overflow-wrap:anywhere}.unconfirmed-events article+article{margin-top:1rem}.unconfirmed-events{margin-top:2rem}

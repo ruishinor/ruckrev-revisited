@@ -2,17 +2,17 @@ import { test, expect } from '@playwright/test';
 test('library loads, search and clear filters work',async({page})=>{
  await page.goto('/testing-library/');
  await expect(page.getByRole('heading',{name:'TESTING LIBRARY'})).toBeVisible();
- await expect(page.locator('.test-card')).toHaveCount(8);
+ await expect(page.locator('.test-card')).toHaveCount(16);
  await page.getByRole('searchbox',{name:'Search tests, countries or activities'}).fill('beep');
- await expect(page.locator('.test-card')).toHaveCount(1);
+ await expect(page.locator('.test-card')).toHaveCount(2);
  await expect(page.getByRole('heading',{name:'NSW Police PCT'})).toBeVisible();
  await page.getByRole('button',{name:'Clear filters'}).click();
- await expect(page.locator('.test-card')).toHaveCount(8);
+ await expect(page.locator('.test-card')).toHaveCount(16);
 });
 test('categories, grid/list and comparison work',async({page})=>{
  await page.goto('/testing-library/');
  await page.getByRole('button',{name:'Running & Aerobic'}).click();
- await expect(page.locator('.test-card')).toHaveCount(8);
+ await expect(page.locator('.test-card')).toHaveCount(16);
  await page.getByRole('button',{name:'List'}).click();
  await expect(page.locator('#card-grid')).toHaveClass(/list-view/);
  await expect(page.locator('#compare-tray')).toContainText('0 tests selected');
@@ -40,7 +40,7 @@ test('mobile navigation, filters, cards and comparison are usable',async({page})
  for(const width of [320,390,414,690]){
   await page.setViewportSize({width,height:844});
   await page.goto('/testing-library/');
-  await expect(page.locator('.test-card')).toHaveCount(8);
+  await expect(page.locator('.test-card')).toHaveCount(16);
   await page.getByRole('button',{name:'Open menu'}).click();
   await expect(page.getByRole('navigation',{name:'Mobile navigation'})).toBeVisible();
   await page.getByRole('button',{name:'Close menu'}).click();
@@ -73,7 +73,7 @@ test('expanded sources, footer pages and upgraded image assets resolve',async({p
  await expect(page.locator('.apa-reference')).toContainText('National Tactical Officers Association');
  await page.getByRole('link',{name:'References',exact:true}).click();
  await expect(page.getByRole('heading',{name:'References'})).toBeVisible();
- await expect(page.locator('.bibliography-item')).toHaveCount(8);
+ await expect(page.locator('.bibliography-item')).toHaveCount(16);
  await page.goto('/resources/');
  await page.getByRole('link',{name:/Rucking routes/}).first().click();
  await expect(page.getByRole('heading',{name:'Rucking routes'})).toBeVisible();
@@ -241,9 +241,9 @@ test('early library controls survive startup and clearing cannot restore a stale
   await page.locator('#test-search').fill('nonexistent');
   await page.getByRole('button',{name:'Clear filters',exact:true}).click();
   await expect(page.locator('#test-search')).toHaveValue('');
-  await expect(page.locator('.test-card')).toHaveCount(8);
+  await expect(page.locator('.test-card')).toHaveCount(16);
   await page.waitForTimeout(250);
-  await expect(page.locator('.test-card')).toHaveCount(8);
+  await expect(page.locator('.test-card')).toHaveCount(16);
   await expect(page.locator('#compare-tray')).toContainText('1 test selected');
  }finally{release();}
 });
@@ -292,11 +292,11 @@ test('Tabler icon geometry, palette and accessibility are consistent',async({pag
 test('event discovery uses inclusive start-date ranges, unknown dates and reset',async({page})=>{
  await page.goto('/resources/events/');
  await page.locator('#event-date-from').fill('2027-05-01');await page.locator('#event-date-to').fill('2027-05-31');
- await expect(page.locator('.guide-card:visible')).toHaveCount(3);
+ await expect(page.locator('.guide-card:visible')).toHaveCount(4);
  await page.locator('#event-country').selectOption('United Kingdom');await expect(page.locator('.guide-card:visible')).toHaveCount(2);
  await page.locator('#event-date-to').fill('2027-04-30');await expect(page.locator('.guide-card:visible')).toHaveCount(0);await expect(page.locator('#event-filter-message')).toContainText('Start date');
- await page.getByRole('button',{name:'Reset event filters'}).click();await expect(page.locator('.guide-card:visible')).toHaveCount(18);
- await page.locator('#event-date-status').selectOption('undated');await expect(page.locator('.guide-card:visible')).toHaveCount(3);await expect(page.locator('.guide-card:visible').filter({hasText:'Fan Dance'})).toHaveCount(1);
+ await page.getByRole('button',{name:'Reset event filters'}).click();await expect(page.locator('.guide-card:visible')).toHaveCount(27);
+ await page.locator('#event-date-status').selectOption('undated');await expect(page.locator('.guide-card:visible')).toHaveCount(8);await expect(page.locator('.guide-card:visible').filter({hasText:'Fan Dance'})).toHaveCount(1);
 });
 test('GPX route navigation works with native buttons and does not send the file or request external resources',async({page})=>{
  const external=[];page.on('request',r=>{if(!r.url().startsWith('http://127.0.0.1:')&&!r.url().startsWith('http://localhost:')&&!r.url().startsWith('data:'))external.push(r.url());});
@@ -313,3 +313,6 @@ test('GPX route navigation works with native buttons and does not send the file 
 
 test('NSW activity instructions are keyboard accessible and specific to the test',async({page})=>{await page.setViewportSize({width:390,height:844});await page.goto('/testing-library/nsw-pct/');const summary=page.locator('.component-protocol summary').filter({hasText:'Illinois agility course'});await expect(summary).toHaveCount(1);await summary.focus();await page.keyboard.press('Enter');await expect(page.locator('.component-protocol[open]').getByText('Setup',{exact:true})).toBeVisible();await expect(page.locator('.component-protocol[open]')).toContainText('9.14 m long × 4.6 m wide');await page.keyboard.press('Space');await expect(page.locator('.component-protocol[open]')).toHaveCount(0);});
 test('international events can be discovered by country',async({page})=>{await page.goto('/resources/events/');await page.locator('#event-country').selectOption('Japan');await expect(page.locator('.guide-card:visible')).toHaveCount(1);await expect(page.locator('.guide-card:visible')).toContainText('Kyushu');await page.locator('#event-country').selectOption('South Korea');await expect(page.locator('.guide-card:visible')).toHaveCount(1);});
+
+test('international assessment diagrams have accessible names and fit mobile width',async({page})=>{await page.setViewportSize({width:320,height:844});await page.goto('/testing-library/foreign-legion/');const diagram=page.getByRole('img',{name:/Luc Léger/});await expect(diagram).toBeVisible();await expect(page.getByRole('heading',{name:'How to run the beep test'})).toBeVisible();await expect(page.locator('.course-diagram')).toContainText('20 metres');const dimensions=await page.evaluate(()=>({width:document.documentElement.scrollWidth,viewport:innerWidth}));expect(dimensions.width).toBeLessThanOrEqual(dimensions.viewport);await page.goto('/testing-library/nsw-pct/');await page.locator('.component-protocol summary').filter({hasText:'Illinois agility course'}).click();await expect(page.getByRole('img',{name:'NSW Police Illinois agility test'})).toBeVisible();});
+test('adventure directory separates unconfirmed leads and includes archive references',async({page})=>{await page.goto('/resources/events/');await expect(page.getByRole('heading',{name:'Unconfirmed adventures and event leads'})).toBeVisible();await expect(page.locator('.guide-card').filter({hasText:'Odesa 100 km'})).toHaveCount(0);await page.locator('#event-country').selectOption('Denmark');await expect(page.locator('.guide-card:visible').filter({hasText:'Road to Valhalla'})).toHaveCount(1);await page.goto('/resources/events/road-to-valhalla/');await expect(page.getByRole('heading',{name:'Reference and archive'})).toBeVisible();await expect(page.getByRole('link',{name:'Search Wayback Machine captures'})).toHaveAttribute('href','https://web.archive.org/web/*/https://mjoelnertrail.dk/');await expect(page.getByText('capture availability has not been verified.',{exact:false})).toBeVisible();});

@@ -13,7 +13,7 @@ node scripts/check-site.mjs
 npm run dev
 ```
 
-Open http://127.0.0.1:4173/. The build exports 154 routes to `dist/`, including complete pre-rendered page content. Interactive controls use JavaScript. The library contains eight formal assessments and the resource collections contain 123 individual entries, including 41 workouts with structured purpose, equipment and estimated session duration.
+Open http://127.0.0.1:4173/. The build exports 171 routes to `dist/`, including complete pre-rendered page content. Interactive controls use JavaScript. The library contains 16 formal assessments and the resource collections contain 132 individual entries, including 41 workouts with structured purpose, equipment and estimated session duration.
 
 ## Structure
 
