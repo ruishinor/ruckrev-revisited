@@ -6,11 +6,11 @@ function makeDocument(){
  const doc={title:'',body:{append(){}},querySelector(selector){if(selector==='#app')return app;if(selector==='h1')return {textContent:'Testing Library'};if(['.mobile-toggle','#library-search','#test-search','#main'].includes(selector))return passive;return null;}};
  return {app,doc};
 }
-test('test library builds sixteen cards with filter controls and an empty comparison',async()=>{
+test('test library builds seventeen cards with filter controls and an empty comparison',async()=>{
  const {app,doc}=makeDocument();globalThis.document=doc;
  globalThis.location={pathname:'/testing-library/',search:'',hash:''};
  await import('../src/app.mjs?bootstrap=library');
- assert.equal((app.innerHTML.match(/class="test-card"/g)||[]).length,16);
+ assert.equal((app.innerHTML.match(/class="test-card"/g)||[]).length,17);
  assert.match(app.innerHTML,/Search tests, countries or activities/);
  assert.match(app.innerHTML,/0 tests selected/);
  assert.doesNotMatch(app.innerHTML,/data-select="[^"]+" checked/);

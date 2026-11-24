@@ -6,8 +6,8 @@ import {renderEntry,renderCollection,workoutFilterMatch} from '../src/lib/resour
 import {pathwayArticles,pathwayGuides,pathwayWorkouts} from '../src/data/training-pathways.mjs';
 const article='/resources/articles/',workout='/training/workouts/';
 test('programme export and catalogue are aligned; every reference resolves',()=>{
- assert.equal(trainingProgrammes.length,12);
- assert.equal(collections[article].filter(a=>a.trainingPlan).length,12);
+ assert.equal(trainingProgrammes.length,14);
+ assert.equal(collections[article].filter(a=>a.trainingPlan).length,14);
  assert.equal(trainingProgrammes.filter(p=>p.scheduleFormat==='legacy-text').length,4);
  const targets=new Set([...Object.keys(entries),...assessments.map(a=>`/testing-library/${a.id}/`)]);
  for(const plan of trainingProgrammes){assert.equal(entries[plan.path].programme,plan);assert.ok(targets.has(plan.path));assert.ok(plan.related.length);for(const r of plan.related)assert.ok(targets.has(r.path),r.path);for(const w of plan.weeks)for(const s of w.sessions)if(s.workoutPath)assert.ok(entries[s.workoutPath]?.kind==='Workout',s.workoutPath);}

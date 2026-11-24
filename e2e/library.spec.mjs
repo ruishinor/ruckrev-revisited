@@ -2,17 +2,17 @@ import { test, expect } from '@playwright/test';
 test('library loads, search and clear filters work',async({page})=>{
  await page.goto('/testing-library/');
  await expect(page.getByRole('heading',{name:'TESTING LIBRARY'})).toBeVisible();
- await expect(page.locator('.test-card')).toHaveCount(16);
+ await expect(page.locator('.test-card')).toHaveCount(17);
  await page.getByRole('searchbox',{name:'Search tests, countries or activities'}).fill('beep');
  await expect(page.locator('.test-card')).toHaveCount(2);
  await expect(page.getByRole('heading',{name:'NSW Police PCT'})).toBeVisible();
  await page.getByRole('button',{name:'Clear filters'}).click();
- await expect(page.locator('.test-card')).toHaveCount(16);
+ await expect(page.locator('.test-card')).toHaveCount(17);
 });
 test('categories, grid/list and comparison work',async({page})=>{
  await page.goto('/testing-library/');
  await page.getByRole('button',{name:'Running & Aerobic'}).click();
- await expect(page.locator('.test-card')).toHaveCount(16);
+ await expect(page.locator('.test-card')).toHaveCount(17);
  await page.getByRole('button',{name:'List'}).click();
  await expect(page.locator('#card-grid')).toHaveClass(/list-view/);
  await expect(page.locator('#compare-tray')).toContainText('0 tests selected');
@@ -40,7 +40,7 @@ test('mobile navigation, filters, cards and comparison are usable',async({page})
  for(const width of [320,390,414,690]){
   await page.setViewportSize({width,height:844});
   await page.goto('/testing-library/');
-  await expect(page.locator('.test-card')).toHaveCount(16);
+  await expect(page.locator('.test-card')).toHaveCount(17);
   await page.getByRole('button',{name:'Open menu'}).click();
   await expect(page.getByRole('navigation',{name:'Mobile navigation'})).toBeVisible();
   await page.getByRole('button',{name:'Close menu'}).click();
@@ -73,7 +73,7 @@ test('expanded sources, footer pages and upgraded image assets resolve',async({p
  await expect(page.locator('.apa-reference')).toContainText('National Tactical Officers Association');
  await page.getByRole('link',{name:'References',exact:true}).click();
  await expect(page.getByRole('heading',{name:'References'})).toBeVisible();
- await expect(page.locator('.bibliography-item')).toHaveCount(16);
+ await expect(page.locator('.bibliography-item')).toHaveCount(17);
  await page.goto('/resources/');
  await page.getByRole('link',{name:/Rucking routes/}).first().click();
  await expect(page.getByRole('heading',{name:'Rucking routes'})).toBeVisible();
@@ -241,9 +241,9 @@ test('early library controls survive startup and clearing cannot restore a stale
   await page.locator('#test-search').fill('nonexistent');
   await page.getByRole('button',{name:'Clear filters',exact:true}).click();
   await expect(page.locator('#test-search')).toHaveValue('');
-  await expect(page.locator('.test-card')).toHaveCount(16);
+  await expect(page.locator('.test-card')).toHaveCount(17);
   await page.waitForTimeout(250);
-  await expect(page.locator('.test-card')).toHaveCount(16);
+  await expect(page.locator('.test-card')).toHaveCount(17);
   await expect(page.locator('#compare-tray')).toContainText('1 test selected');
  }finally{release();}
 });
@@ -295,7 +295,7 @@ test('event discovery uses inclusive start-date ranges, unknown dates and reset'
  await expect(page.locator('.guide-card:visible')).toHaveCount(4);
  await page.locator('#event-country').selectOption('United Kingdom');await expect(page.locator('.guide-card:visible')).toHaveCount(2);
  await page.locator('#event-date-to').fill('2027-04-30');await expect(page.locator('.guide-card:visible')).toHaveCount(0);await expect(page.locator('#event-filter-message')).toContainText('Start date');
- await page.getByRole('button',{name:'Reset event filters'}).click();await expect(page.locator('.guide-card:visible')).toHaveCount(44);
+ await page.getByRole('button',{name:'Reset event filters'}).click();await expect(page.locator('.guide-card:visible')).toHaveCount(46);
  await page.locator('#event-date-status').selectOption('undated');await expect(page.locator('.guide-card:visible')).toHaveCount(17);await expect(page.locator('.guide-card:visible').filter({hasText:'Fan Dance'})).toHaveCount(1);
 });
 test('GPX route navigation works with native buttons and does not send the file or request external resources',async({page})=>{
@@ -318,10 +318,10 @@ test('international assessment diagrams have accessible names and fit mobile wid
 test('adventure directory separates unconfirmed leads and includes archive references',async({page})=>{await page.goto('/resources/events/');await expect(page.getByRole('heading',{name:'Unconfirmed adventures and event leads'})).toBeVisible();await expect(page.locator('.guide-card').filter({hasText:'Odesa 100 km'})).toHaveCount(0);await page.locator('#event-country').selectOption('Denmark');await expect(page.locator('.guide-card:visible').filter({hasText:'Road to Valhalla'})).toHaveCount(1);await page.goto('/resources/events/road-to-valhalla/');await expect(page.getByRole('heading',{name:'Reference and archive'})).toBeVisible();await expect(page.getByRole('link',{name:'Search Wayback Machine captures'})).toHaveAttribute('href','https://web.archive.org/web/*/https://mjoelnertrail.dk/');await expect(page.getByText('capture availability has not been verified.',{exact:false})).toBeVisible();});
 
 
-test('adventure facets match a single option and reset without affecting archive sections',async({page})=>{await page.goto('/resources/events/');await page.locator('#event-country').selectOption('New Zealand');await page.locator('#event-facet-participation').selectOption('team');await page.locator('#event-facet-days').selectOption('one');await expect(page.locator('.guide-card:visible')).toHaveCount(0);await page.locator('#event-facet-days').selectOption('few');await expect(page.locator('.guide-card:visible')).toHaveCount(1);await expect(page.locator('.guide-card:visible')).toContainText('Coast to Coast');await page.getByRole('button',{name:'Reset event filters'}).click();await expect(page.locator('.guide-card:visible')).toHaveCount(44);await expect(page.locator('#event-facet-participation')).toHaveValue('all');await page.goto('/resources/events/mds-legendary/');await expect(page.getByRole('heading',{name:'Participant experiences and discussions'})).toBeVisible();await expect(page.locator('a[href="https://web.archive.org/web/*/https://www.reddit.com/r/ultrarunning/comments/13y1huf/"]')).toBeVisible();});
+test('adventure facets match a single option and reset without affecting archive sections',async({page})=>{await page.goto('/resources/events/');await page.locator('#event-country').selectOption('New Zealand');await page.locator('#event-facet-participation').selectOption('team');await page.locator('#event-facet-days').selectOption('one');await expect(page.locator('.guide-card:visible')).toHaveCount(0);await page.locator('#event-facet-days').selectOption('few');await expect(page.locator('.guide-card:visible')).toHaveCount(1);await expect(page.locator('.guide-card:visible')).toContainText('Coast to Coast');await page.getByRole('button',{name:'Reset event filters'}).click();await expect(page.locator('.guide-card:visible')).toHaveCount(46);await expect(page.locator('#event-facet-participation')).toHaveValue('all');await page.goto('/resources/events/mds-legendary/');await expect(page.getByRole('heading',{name:'Participant experiences and discussions'})).toBeVisible();await expect(page.locator('a[href="https://web.archive.org/web/*/https://www.reddit.com/r/ultrarunning/comments/13y1huf/"]')).toBeVisible();});
 
 
-test('resource totals and original training plans are visible',async({page})=>{await page.goto('/resources/');await expect(page.getByRole('link',{name:/Events & challenges \(44\)/})).toBeVisible();await page.goto('/training/ruck-plans/');await expect(page.getByRole('heading',{name:'Training plans (12)'})).toBeVisible();await page.getByRole('link',{name:'Your first 12 weeks of rucking'}).click();await expect(page.getByRole('heading',{name:'Week by week'})).toBeVisible();await page.goto('/resources/events/');await expect(page.locator('#guide-count')).toHaveText('44 results');await expect(page.getByText('(44 total)',{exact:true})).toBeVisible();await page.locator('#event-country').selectOption('United Kingdom');await expect(page.locator('#guide-count')).toHaveText('6 results');await expect(page.getByText('(44 total)',{exact:true})).toBeVisible();await page.goto('/testing-library/');await expect(page.getByText('(16 total)',{exact:true})).toBeVisible();});
+test('resource totals and original training plans are visible',async({page})=>{await page.goto('/resources/');await expect(page.getByRole('link',{name:/Events & challenges \(46\)/})).toBeVisible();await page.goto('/training/ruck-plans/');await expect(page.getByRole('heading',{name:'Training plans (14)'})).toBeVisible();await page.getByRole('link',{name:'Your first 12 weeks of rucking'}).click();await expect(page.getByRole('heading',{name:'Week by week'})).toBeVisible();await page.goto('/resources/events/');await expect(page.locator('#guide-count')).toHaveText('46 results');await expect(page.getByText('(46 total)',{exact:true})).toBeVisible();await page.locator('#event-country').selectOption('United Kingdom');await expect(page.locator('#guide-count')).toHaveText('6 results');await expect(page.getByText('(46 total)',{exact:true})).toBeVisible();await page.goto('/testing-library/');await expect(page.getByText('(17 total)',{exact:true})).toBeVisible();});
 test('event category icons have text, respect mixed entry formats and fit mobile cards',async({page})=>{
  await page.setViewportSize({width:390,height:844});await page.goto('/resources/events/');
  const card=title=>page.locator('.guide-card').filter({has:page.getByRole('heading',{name:title,exact:true})});
@@ -334,7 +334,7 @@ test('event category icons have text, respect mixed entry formats and fit mobile
  await expect(card('World’s Toughest Mudder').locator('.event-marker').last()).toHaveText('Team option');
  await expect(card('Spartan Death Race').locator('.event-markers svg')).toHaveCount(0);
  await page.locator('#event-country').selectOption('New Zealand');await expect(page.locator('.guide-card:visible')).toHaveCount(1);
- await expect(page.locator('#guide-count')).toHaveText('1 results');await expect(page.getByText('(44 total)',{exact:true})).toBeVisible();
+ await expect(page.locator('#guide-count')).toHaveText('1 results');await expect(page.getByText('(46 total)',{exact:true})).toBeVisible();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBeTruthy();
 });
 test('training article links connect to actual event and report pages',async({page})=>{

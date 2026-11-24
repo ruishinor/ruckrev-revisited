@@ -1,3 +1,4 @@
+import {europeanAdventures} from './european-adventures.mjs';
 import {regionalAdventures} from './adventure-asia-africa.mjs';
 import {newAdventureEvents} from './adventure-next.mjs';
 import {adventureEvents,attachEventCitations} from './adventure-catalogue.mjs';
@@ -27,7 +28,7 @@ export function expandEvents(events){
  const known={nijmegen:['Netherlands','Multi-day march','2027-07-20'], 'mammutmarsch-stockholm':['Sweden','Distance challenge','2027-04-17'], 'mammutmarsch-copenhagen':['Denmark','Distance challenge','2027-05-01']};
  for(const x of events){[x.eventCountry,x.eventType,x.eventDate]=known[x.slug];x.checked='24 November 2026';}
  const n=events.find(x=>x.slug==='nijmegen');n.meta='Netherlands · 20–23 July 2027 · 30, 40 or 50 km per day';n.links.push(['Official event dates','https://www.4daagse.nl/en/media']);
- events.push(...newEvents,...internationalEvents,...adventureEvents,...discoveryEvents,...newAdventureEvents,...regionalAdventures);attachEventCitations(events);attachDiscovery(events);events.sort((a,b)=>(a.eventDate||'9999').localeCompare(b.eventDate||'9999'));
+ events.push(...newEvents,...internationalEvents,...adventureEvents,...discoveryEvents,...newAdventureEvents,...regionalAdventures,...europeanAdventures);attachEventCitations(events);attachDiscovery(events);events.sort((a,b)=>(a.eventDate||'9999').localeCompare(b.eventDate||'9999'));
 }
 const reference=(label,url,note)=>({label,url,note});
 export const articleAdditions={

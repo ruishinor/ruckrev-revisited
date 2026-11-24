@@ -21,9 +21,9 @@ test('category icons retain visible labels and distinguish mixed participation f
  assert.match(renderCollection(events),/class="event-markers"/);
 });
 test('each existing article has a real event, assessment or field-report connection',()=>{
- const articles=collections['/resources/articles/'];assert.equal(articles.length,50);
+ const articles=collections['/resources/articles/'];assert.equal(articles.length,52);
  const targets=new Set([...Object.keys(entries),...assessments.map(a=>'/testing-library/'+a.id+'/')]);
  for(const a of articles){assert.ok(a.related?.length,a.slug);for(const r of a.related){assert.ok(targets.has(r.path),r.path);assert.ok(r.context);assert.ok(r.label);assert.ok(renderEntry(a).includes('href="'+r.path+'"'));}}
  for(const a of articles.filter(x=>x.worksheet)){assert.ok(existsSync(new URL('../public'+a.worksheet.path,import.meta.url)));assert.ok(renderEntry(a).includes('href="'+a.worksheet.path+'" download'));}
- assert.equal(events.length,44);assert.equal(collections['/training/workouts/'].length,50);
+ assert.equal(events.length,46);assert.equal(collections['/training/workouts/'].length,50);
 });

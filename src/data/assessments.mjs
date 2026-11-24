@@ -1,3 +1,4 @@
+import {wctAssessment} from './work-capacity.mjs';
 import {militaryAssessments} from './military-catalogue.mjs';
 /* Rucking Revolution: assessment catalogue.
    Source links are maintained per entry. A listed event is not the entire programme. */
@@ -90,7 +91,8 @@ export const assessments = Object.freeze([
   {
     id:'uk-police-jrft',shortName:'Police JRFT',name:'Job-related fitness test',subtitle:'Police fitness standards in England and Wales',country:'United Kingdom',countryCode:'GB',domain:'Police',kind:'POLICE FITNESS TEST',category:['all','work','running'],scoring:'Pass / fail',reproducibility:'Published instructions',status:'Official source',image:null,keywords:'UK England Wales police job related shuttle bleep fitness',metric:{label:'15 m shuttle run',detail:'Level 5.4 under the pre-PPST standard',icon:'shuttle'},tags:['Running','Aerobic','Work Capacity'],overview:'The College of Policing describes a 15-metre multi-stage shuttle run. Its guidance is under review during the transition to the new public and personal safety training curriculum; confirm current requirements with the force.',components:['15 m multi-stage fitness test'],notes:['Level 5.4 means completing four shuttles at level five at the required pace.','Check the standard for your actual role; do not substitute a 20 m shuttle protocol.'],source:{label:'College of Policing — Job-related fitness standards',url:'https://www.college.police.uk/support-forces/health-safety-welfare/job-related-fitness-standards',publisher:'College of Policing'}
   },
-  ...militaryAssessments
+  ...militaryAssessments,
+  wctAssessment
 ]);
 export const byId = Object.freeze(Object.fromEntries(assessments.map(a=>[a.id,a])));
 export const countries = [...new Set(assessments.map(a=>a.country))].sort();
