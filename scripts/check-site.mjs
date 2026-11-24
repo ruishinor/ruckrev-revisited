@@ -2,6 +2,7 @@ import { readFile, stat } from 'node:fs/promises';
 import { sections } from '../src/data/content.mjs';
 import { entries } from '../src/data/guides.mjs';
 import { assessments } from '../src/data/assessments.mjs';
+import { auditPhotoPlacements } from './photo-policy.mjs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root=resolve(fileURLToPath(new URL('../dist/',import.meta.url)));
@@ -12,7 +13,7 @@ for(const path of ['','testing-library/','testing-library/compare/',...assessmen
  const f=join(root,path,'index.html');const html=await readFile(f,'utf8');
  if(!html.includes('src/app.mjs')||!html.includes('site.css')||!html.includes('<main')||!html.includes('<h1'))throw Error(`HTML imports missing: ${path}`);
 }
-for(const item of ['mountain-atmosphere.webp','rasp.webp','pfq.webp','artillerijaeger.webp','norway.webp','nsw-police.webp','danish-police.webp','icon.svg'])if(!(await stat(join(root,'assets',item))).size)throw Error(`Missing: ${item}`);
+for(const item of ['mountain-atmosphere.webp','rasp.webp','artillerijaeger.webp','norway.webp','aft-running.webp','icon.svg'])if(!(await stat(join(root,'assets',item))).size)throw Error(`Missing: ${item}`);
 for(const item of ['progress-ruck.webp','glyph-ruck.png','glyph-run.png','glyph-compare.png','glyph-layers.png','glyph-filter.png'])if(!(await stat(join(root,'assets',item))).size)throw Error(`Missing generated asset: ${item}`);
 for(const flag of ['us','no','dk','au','gb','nl','se'])if(!(await stat(join(root,'assets','flags',flag+'.svg'))).size)throw Error(`Missing flag: ${flag}`);
 for(const p of ['favicon.svg','favicon.png','favicon.ico','apple-touch-icon.png','assets/brand-mark.png','assets/brand-mark.svg'])if(!(await stat(join(root,p))).size)throw Error(`Missing RR hex brand asset: ${p}`);
@@ -33,3 +34,5 @@ for(const route of routes){
  }
 }
 console.log(`Verified ${urls} local URL occurrences across ${routes.length} routes.`);
+
+await auditPhotoPlacements(root,routes,css,assessments);
