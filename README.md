@@ -43,3 +43,9 @@ Keep training guidance practical, adaptable and appropriate to the demands of th
 GitHub Actions runs unit tests, the static build, asset checks and browser tests in the version- and digest-pinned Playwright container. Merge only after the checks pass for the reviewed commit.
 
 The privacy notice describes the application as implemented. Confirm controller identity, mail handling, hosting/log retention and data-processing arrangements with the responsible person before making compliance claims. Route profiles link to the published maps and elevation profiles; the site does not claim to have independently surveyed them. Training blocks are adjustable planning templates, not personalised coaching or readiness predictions.
+
+## Local route inspection and field worksheets
+
+The route hub reads user-selected GPX files in memory, with a 5 MB / 50,000-point limit. It renders the supplied track and estimates distance and, only when complete elevation is available, ascent/descent. The preview has no base map, routing engine or live location. Published route profiles continue to link to their actual source maps; no third-party track data is reproduced without permission. Four local editable worksheets are available in Tools & templates.
+
+The delivery policy blocks native form submissions with CSP `form-action 'none'`; browser tools use event handlers and local downloads. Referrer information is suppressed and camera, microphone, geolocation and payment permissions are disabled. Verify these headers on the deployed site before claiming enforcement. Provider logs, identity, mail handling and retention still require operator confirmation.

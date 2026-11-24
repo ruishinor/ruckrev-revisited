@@ -188,3 +188,19 @@ test('events are directly navigable and filter by country and format',async({pag
 test('mobile menu Escape restores focus without navigation',async({page})=>{await page.setViewportSize({width:390,height:844});await page.goto('/');const toggle=page.locator('.mobile-toggle');await toggle.click();await expect(page.locator('#mobile-nav')).toBeVisible();await page.locator('#mobile-nav a').first().focus();await page.keyboard.press('Escape');await expect(page.locator('#mobile-nav')).toBeHidden();await expect(toggle).toBeFocused();});
 
 test('route discovery distinguishes mapped profiles from templates',async({page})=>{await page.goto('/resources/routes/');await page.locator('#route-type').selectOption('Route profile');await expect(page.locator('.guide-card:visible')).toHaveCount(4);await expect(page.locator('.guide-card:visible').first().getByRole('link',{name:'Published map and elevation'})).toBeVisible();await page.locator('#route-type').selectOption('Route template');await expect(page.locator('.guide-card:visible')).toHaveCount(6);});
+
+test('local GPX viewer preserves segments, rejects malformed input and clears the route',async({page})=>{
+ await page.goto('/resources/routes/');
+ const input=page.locator('#gpx-file');
+ const fixture='<gpx xmlns="http://www.topografix.com/GPX/1/1" version="1.1"><trk><trkseg><trkpt lat="59.9" lon="10.7"><ele>10</ele></trkpt><trkpt lat="59.901" lon="10.7"><ele>20</ele></trkpt></trkseg><trkseg><trkpt lat="59.95" lon="10.8"><ele>100</ele></trkpt><trkpt lat="59.951" lon="10.8"><ele>97</ele></trkpt></trkseg></trk></gpx>';
+ await input.setInputFiles({name:'test.gpx',mimeType:'application/gpx+xml',buffer:Buffer.from(fixture)});
+ await expect(page.locator('#gpx-status')).toContainText('0.22 km');await expect(page.locator('#gpx-map polyline')).toHaveCount(2);await expect(page.locator('#gpx-elevation-note')).toContainText('ascent 10 m');
+ await page.getByRole('button',{name:'Zoom in',exact:true}).click();await expect(page.locator('#gpx-map')).not.toHaveAttribute('viewBox','0 0 640 360');await page.getByRole('button',{name:'Fit route'}).click();await expect(page.locator('#gpx-map')).toHaveAttribute('viewBox','0 0 640 360');
+ await page.getByRole('button',{name:'Clear file'}).click();await expect(page.locator('#gpx-results')).toBeHidden();await expect(input).toBeFocused();
+ await input.setInputFiles({name:'bad.gpx',mimeType:'application/gpx+xml',buffer:Buffer.from('<gpx><trk>')});await expect(page.locator('#gpx-status')).toContainText('Invalid GPX document');await expect(page.locator('#gpx-results')).toBeHidden();
+});
+test('local native form submissions are blocked without JavaScript and worksheet downloads work',async({browser,page})=>{
+ const response=await page.goto('/resources/tools/');expect(response.headers()['content-security-policy']).toContain("form-action 'none'");expect(response.headers()['referrer-policy']).toBe('no-referrer');
+ const download=page.waitForEvent('download');await page.getByRole('link',{name:'Route brief (.txt)',exact:true}).click();expect((await download).suggestedFilename()).toBe('route-brief.txt');
+ const ctx=await browser.newContext({javaScriptEnabled:false});try{const nojs=await ctx.newPage();await nojs.goto(new URL('/resources/tools/',page.url()).href);const initial=nojs.url();let submissions=0;nojs.on('request',r=>{if(r.isNavigationRequest())submissions++;});await nojs.locator('#log-form input[name=date]').fill('2026-11-24');await nojs.locator('#log-form input[name=distance]').fill('5');await nojs.locator('#log-form input[name=load]').fill('10');await nojs.locator('#log-form input[name=minutes]').fill('60');await nojs.locator('#log-form textarea[name=notes]').fill('private-test-input');await nojs.getByRole('button',{name:'Download session CSV'}).click({noWaitAfter:true});await nojs.waitForTimeout(250);expect(nojs.url()).toBe(initial);expect(submissions).toBe(0);}finally{await ctx.close();}
+});
