@@ -7,7 +7,7 @@ test('collection startup retains prerendered controls and applies early input',a
  const cards=items.map(x=>({dataset:{guide:x.title.toLowerCase(),eventCountry:x.eventCountry,eventType:x.eventType},hidden:false}));
  const control=value=>({value,listeners:{},addEventListener(type,fn){this.listeners[type]=fn;}});
  const country=control('United Kingdom'),format=control('all'),search=control('');
- const count={textContent:'9 results'};
+ const count={textContent:`${items.length} results`};
  const controls={'#guide-search':search,'#event-country':country,'#event-type':format,'#guide-count':count};
  let replacements=0;
  const app={querySelector(selector){return selector==='main#main'?{}:null;},set innerHTML(value){replacements++;country.value='all';}};
@@ -18,7 +18,7 @@ test('collection startup retains prerendered controls and applies early input',a
   await import('../src/app.mjs?startup=early-country');
   assert.equal(replacements,0);
   assert.equal(country.value,'United Kingdom');
-  assert.equal(count.textContent,'3 results');
+  assert.equal(count.textContent,'4 results');
   format.value='Distance challenge';format.listeners.change();
   assert.equal(count.textContent,'2 results');
   assert.deepEqual(cards.filter(x=>!x.hidden).map(x=>x.dataset.guide),['jurassic coast ultra challenge','london to brighton ultra challenge']);

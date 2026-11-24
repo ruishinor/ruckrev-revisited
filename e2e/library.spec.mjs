@@ -184,7 +184,7 @@ test('crew leadership practice filters and exports a distinct plan',async({page}
  await page.goto('/resources/ruck-clubs/start-a-crew/');await expect(page.getByRole('heading',{name:'From first ruck to regular crew',level:1})).toBeVisible();
 });
 
-test('events are directly navigable and filter by country and format',async({page})=>{await page.setViewportSize({width:1440,height:900});await page.goto('/');await page.getByRole('navigation',{name:'Main navigation'}).getByRole('link',{name:'Events',exact:true}).click();await expect(page).toHaveURL(/\/resources\/events\/$/);await page.locator('#event-country').selectOption('United Kingdom');await expect(page.locator('.guide-card:visible')).toHaveCount(3);await page.locator('#event-type').selectOption('Distance challenge');await expect(page.locator('.guide-card:visible')).toHaveCount(2);await expect(page.locator('.guide-card:visible').first().getByRole('link',{name:'Official organiser'})).toBeVisible();});
+test('events are directly navigable and filter by country and format',async({page})=>{await page.setViewportSize({width:1440,height:900});await page.goto('/');await page.getByRole('navigation',{name:'Main navigation'}).getByRole('link',{name:'Events',exact:true}).click();await expect(page).toHaveURL(/\/resources\/events\/$/);await page.locator('#event-country').selectOption('United Kingdom');await expect(page.locator('.guide-card:visible')).toHaveCount(4);await page.locator('#event-type').selectOption('Distance challenge');await expect(page.locator('.guide-card:visible')).toHaveCount(2);await expect(page.locator('.guide-card:visible').first().getByRole('link',{name:'Official organiser'})).toBeVisible();});
 test('mobile menu Escape restores focus without navigation',async({page})=>{await page.setViewportSize({width:390,height:844});await page.goto('/');const toggle=page.locator('.mobile-toggle');await toggle.click();await expect(page.locator('#mobile-nav')).toBeVisible();await page.locator('#mobile-nav a').first().focus();await page.keyboard.press('Escape');await expect(page.locator('#mobile-nav')).toBeHidden();await expect(toggle).toBeFocused();});
 
 test('route discovery distinguishes mapped profiles from templates',async({page})=>{await page.goto('/resources/routes/');await page.locator('#route-type').selectOption('Route profile');await expect(page.locator('.guide-card:visible')).toHaveCount(6);await expect(page.locator('.guide-card:visible').first().getByRole('link',{name:'Published map and elevation'})).toBeVisible();await page.locator('#route-type').selectOption('Route template');await expect(page.locator('.guide-card:visible')).toHaveCount(6);});
@@ -215,7 +215,7 @@ test('early event filter input survives delayed application startup',async({page
   await country.selectOption('United Kingdom');
   await expect(country).toHaveValue('United Kingdom');
   release();
-  await expect(page.locator('#guide-count')).toHaveText('3 results');
+  await expect(page.locator('#guide-count')).toHaveText('4 results');
   await expect(country).toHaveValue('United Kingdom');
   await page.locator('#event-type').selectOption('Distance challenge');
   await expect(page.locator('.guide-card:visible')).toHaveCount(2);
@@ -295,8 +295,8 @@ test('event discovery uses inclusive start-date ranges, unknown dates and reset'
  await expect(page.locator('.guide-card:visible')).toHaveCount(3);
  await page.locator('#event-country').selectOption('United Kingdom');await expect(page.locator('.guide-card:visible')).toHaveCount(2);
  await page.locator('#event-date-to').fill('2027-04-30');await expect(page.locator('.guide-card:visible')).toHaveCount(0);await expect(page.locator('#event-filter-message')).toContainText('Start date');
- await page.getByRole('button',{name:'Reset event filters'}).click();await expect(page.locator('.guide-card:visible')).toHaveCount(10);
- await page.locator('#event-date-status').selectOption('undated');await expect(page.locator('.guide-card:visible')).toHaveCount(1);await expect(page.locator('.guide-card:visible')).toContainText('Fan Dance');
+ await page.getByRole('button',{name:'Reset event filters'}).click();await expect(page.locator('.guide-card:visible')).toHaveCount(18);
+ await page.locator('#event-date-status').selectOption('undated');await expect(page.locator('.guide-card:visible')).toHaveCount(3);await expect(page.locator('.guide-card:visible').filter({hasText:'Fan Dance'})).toHaveCount(1);
 });
 test('GPX route navigation works with native buttons and does not send the file or request external resources',async({page})=>{
  const external=[];page.on('request',r=>{if(!r.url().startsWith('http://127.0.0.1:')&&!r.url().startsWith('http://localhost:')&&!r.url().startsWith('data:'))external.push(r.url());});
@@ -310,3 +310,6 @@ test('GPX route navigation works with native buttons and does not send the file 
  await page.getByRole('button',{name:'Fit route'}).click();await expect(map).toHaveAttribute('viewBox','0 0 640 360');await expect(east).toBeDisabled();
  await page.getByRole('button',{name:'Clear file'}).click();await expect(input).toBeFocused();await expect(map).toBeHidden();expect(external).toEqual([]);
 });
+
+test('NSW activity instructions are keyboard accessible and specific to the test',async({page})=>{await page.setViewportSize({width:390,height:844});await page.goto('/testing-library/nsw-pct/');const summary=page.locator('.component-protocol summary').filter({hasText:'Illinois agility course'});await expect(summary).toHaveCount(1);await summary.focus();await page.keyboard.press('Enter');await expect(page.locator('.component-protocol[open]').getByText('Setup',{exact:true})).toBeVisible();await expect(page.locator('.component-protocol[open]')).toContainText('9.14 m long × 4.6 m wide');await page.keyboard.press('Space');await expect(page.locator('.component-protocol[open]')).toHaveCount(0);});
+test('international events can be discovered by country',async({page})=>{await page.goto('/resources/events/');await page.locator('#event-country').selectOption('Japan');await expect(page.locator('.guide-card:visible')).toHaveCount(1);await expect(page.locator('.guide-card:visible')).toContainText('Kyushu');await page.locator('#event-country').selectOption('South Korea');await expect(page.locator('.guide-card:visible')).toHaveCount(1);});
