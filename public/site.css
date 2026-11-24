@@ -135,3 +135,33 @@ body:has(main.guide-page)::before,body:has(main.content-hub)::before,body:has(ma
 @media print{.legal-index{display:none}.legal-layout{display:block}.editorial-row,.article-index article,.guide-card,.legal-section,.article-content-grid .content-panel,.guide-body .content-panel{background:white;color:black;border-color:#ccc}.legal-section p,.legal-section li{color:#111}}
 .progression-weeks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:15px}.progression-weeks section{border-top:1px solid var(--line);padding-top:12px}.progression-weeks h4{margin:0 0 8px}.assessment-practice select{display:block;margin:8px 0 16px;max-width:100%}.assessment-practice h4{margin-bottom:8px}.assessment-practice a{text-decoration:underline;text-underline-offset:3px}@media(max-width:620px){.progression-weeks{grid-template-columns:1fr}}@media print{.quick-guide .hero-actions{display:none}.quick-guide{color:#111;background:#fff}.quick-guide p,.quick-guide li{color:#111}.quick-guide h1,.quick-guide h2{color:#111}.quick-guide .content-panel{border-bottom:1px solid #aaa}.quick-guide .eyebrow{color:#111}}
 @media(max-width:390px){.header-inner{gap:4px}.mobile-toggle{min-width:40px;padding:5px}.mobile-toggle .control-label{display:inline}.header-actions{flex:0 0 auto}.brand-mark img{width:31px;height:31px}.brand-text strong{overflow-wrap:anywhere;line-height:1.25}.filters-main,.filters-end,.filter-control,.filter-copy,.tray-items,.tray-item,.tray-actions{min-width:0;max-width:100%}.tray-submit{min-width:0;white-space:normal}.tray-actions{flex-wrap:wrap}.legal-index a,.page-lead,.guide-meta{overflow-wrap:anywhere}.tool-panel select{min-width:0}.editorial-row>img{min-width:0}.publication-feature .button{max-width:100%;white-space:normal}}
+
+/* Keep mobile filter groups in separate rows; avoid flex-basis:0 inherited from tablet rules. */
+@media (max-width:690px){
+  .library-page .filters-panel{flex-direction:column;align-items:stretch;gap:10px}
+  .library-page .filters-main,.library-page .filters-end{flex:0 0 auto;width:100%;min-width:0;max-width:100%;margin-left:0}
+  .library-page .filters-main{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .library-page .filters-main .filter-control{width:100%;min-width:0;max-width:none}
+  .library-page .filters-end{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:8px;align-items:center}
+  .library-page .filters-end .filter-separator{display:none}
+  .library-page .filters-end .filter-control{width:100%;min-width:0;max-width:none}
+  .library-page .filters-end .text-button{min-width:0;white-space:normal}
+  .library-page .filter-copy{min-width:0}
+  .library-page .filter-copy>span{overflow-wrap:anywhere}
+}
+@media (max-width:360px){
+  .library-page .filters-main{grid-template-columns:minmax(0,1fr)}
+}
+/* A selected comparison must not squeeze its three removal controls into one narrow column. */
+@media (max-width:690px){
+  .library-page .compare-tray{flex-direction:column;align-items:stretch;gap:10px}
+  .library-page .tray-copy,.library-page .tray-items,.library-page .tray-actions{flex:0 0 auto;width:100%;min-width:0;max-width:100%;margin:0}
+  .library-page .tray-items{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;overflow:visible}
+  .library-page .tray-items:empty{display:none}
+  .library-page .tray-item{width:100%;min-width:0;padding:6px 10px;gap:10px}
+  .library-page .tray-item>span:nth-child(2){flex:1;min-width:0;overflow-wrap:anywhere}
+  .library-page .tray-flag,.library-page .tray-remove{flex:none}
+  .library-page .tray-remove{min-width:44px;min-height:44px;width:auto;padding:6px;white-space:nowrap}
+  .library-page .tray-actions{gap:8px;flex-wrap:wrap}
+  .library-page .tray-submit{min-width:0;max-width:100%;white-space:normal;padding-inline:12px}
+}

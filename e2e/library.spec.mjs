@@ -28,15 +28,34 @@ test('source detail shows correct country and linked source',async({page})=>{
  await expect(page.getByRole('link',{name:/Visit Forsvaret/})).toHaveAttribute('href',/forsvaret\.no/);
 });
 test('mobile navigation, filters, cards and comparison are usable',async({page})=>{
- await page.setViewportSize({width:390,height:844});
- await page.goto('/testing-library/');
- await expect(page.locator('.test-card')).toHaveCount(8);
- await page.getByRole('button',{name:'Open menu'}).click();
- await expect(page.getByRole('navigation',{name:'Mobile navigation'})).toBeVisible();
- await page.getByRole('button',{name:'Close menu'}).click();
- await expect(page.getByRole('navigation',{name:'Mobile navigation'})).toBeHidden();
- const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth);
- expect(overflow).toBe(false);
+ test.setTimeout(60000);
+ const assertFits=async(label)=>{
+  const dims=await page.evaluate(()=>{
+   const panel=document.querySelector('.filters-panel');
+   return {viewport:innerWidth,document:document.documentElement.scrollWidth,filterContent:panel?.scrollWidth??0,filterWidth:panel?.clientWidth??0};
+  });
+  expect(dims.document,`${label}: document width ${JSON.stringify(dims)}`).toBeLessThanOrEqual(dims.viewport);
+  expect(dims.filterContent,`${label}: filter panel width ${JSON.stringify(dims)}`).toBeLessThanOrEqual(dims.filterWidth+1);
+ };
+ for(const width of [320,390,414,690]){
+  await page.setViewportSize({width,height:844});
+  await page.goto('/testing-library/');
+  await expect(page.locator('.test-card')).toHaveCount(8);
+  await page.getByRole('button',{name:'Open menu'}).click();
+  await expect(page.getByRole('navigation',{name:'Mobile navigation'})).toBeVisible();
+  await page.getByRole('button',{name:'Close menu'}).click();
+  await expect(page.getByRole('navigation',{name:'Mobile navigation'})).toBeHidden();
+  await assertFits(`${width}px initial`);
+  for(const name of ['PFQ','RASP','Artillerijeger'])await page.getByRole('checkbox',{name:`Compare ${name}`,exact:true}).check();
+  await expect(page.locator('.tray-item')).toHaveCount(3);
+  await assertFits(`${width}px selected grid`);
+  await page.getByRole('button',{name:'List',exact:true}).click();
+  await assertFits(`${width}px selected list`);
+  await page.getByRole('link',{name:'Compare 3 tests',exact:true}).click();
+  await expect(page.getByRole('heading',{name:'Compare fitness tests'})).toBeVisible();
+  await expect(page.locator('thead th')).toHaveCount(4);
+  await assertFits(`${width}px comparison page`);
+ }
 });
 test('training hub has a working goal-based week builder and useful next steps',async({page})=>{
  await page.goto('/training/');
