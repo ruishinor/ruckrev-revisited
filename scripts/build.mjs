@@ -10,7 +10,7 @@ const dist=join(root,'dist');
 await rm(dist,{recursive:true,force:true});await mkdir(dist,{recursive:true});
 for(const p of ['src','public'])await cp(join(root,p),p==='public'?dist:join(dist,p),{recursive:true});
 const baseRoutes=['','training','resources','about','testing-library','testing-library/compare',...assessments.map(a=>'testing-library/'+a.id)];
-const extraRoutes=[...Object.keys(sections).map(x=>x.slice(1,-1)),...Object.keys(entries).map(x=>x.slice(1,-1)),'references','privacy','terms','learn','lead','learn/first-three-rucks',...challengeRoutes.map(x=>x.slice(1,-1))];
+const extraRoutes=[...Object.keys(sections).map(x=>x.slice(1,-1)),...Object.keys(entries).map(x=>x.slice(1,-1)),'references','privacy','terms','learn','lead','learn/first-three-rucks','my-training',...challengeRoutes.map(x=>x.slice(1,-1))];
 let i=0;
 for(const p of [...baseRoutes,...extraRoutes]){
  const dest=join(dist,p);await mkdir(dest,{recursive:true});

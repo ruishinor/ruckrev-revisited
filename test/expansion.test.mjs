@@ -4,7 +4,7 @@ import { readFile, stat } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { sections, footerColumns } from '../src/data/content.mjs';
 import {challengeRoutes} from '../src/data/challenges.mjs';
-const customFooterRoutes=[...challengeRoutes];
+const customFooterRoutes=[...challengeRoutes,'/my-training/'];
 import { assessments } from '../src/data/assessments.mjs';
 const root=resolve(import.meta.dirname,'..');
 function fakeDocument(){

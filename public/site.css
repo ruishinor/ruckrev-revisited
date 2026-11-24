@@ -234,3 +234,7 @@ html{scroll-padding-top:90px}
 .challenge-card .guide-meta .icon{vertical-align:middle}.challenge-record dd{margin:8px 0 18px;overflow-wrap:anywhere}.challenge-record dt{font-weight:600}.challenge-related a{text-decoration:underline;text-underline-offset:3px}
 @media(max-width:800px){.challenge-types{grid-template-columns:1fr}}
 @media print{.challenge-detail,.challenge-detail h1,.challenge-detail h2,.challenge-detail h3,.challenge-detail p,.challenge-detail dt,.challenge-detail dd,.challenge-detail .eyebrow,.challenge-detail a{color:#111!important;background:#fff!important}.challenge-detail .breadcrumbs,.challenge-detail .challenge-related,.challenge-detail .hero-actions{display:none!important}.challenge-record{break-inside:avoid}.challenge-detail .content-panel{border-color:#aaa}}
+
+/* P1 workspace */
+.training-workspace .content-panel{margin-block:1.5rem}.training-workspace .guide-card{margin-block:.75rem;overflow-wrap:anywhere}.training-workspace .tool-grid{margin-block:1rem}.training-actions{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-block:.75rem}.training-workspace button{white-space:normal}.training-workspace [hidden]{display:none!important}.training-workspace textarea,.training-workspace input,.training-workspace select{max-width:100%;min-width:0}.training-workspace [role=status]{overflow-wrap:anywhere}
+@media print{.training-workspace form,.training-workspace button,.training-workspace input[type=file]{display:none!important}}
