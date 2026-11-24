@@ -173,3 +173,18 @@ body:has(main.training-hub)::before{height:460px;background-image:linear-gradien
 .photo-note{font-size:11px!important;margin-top:6px!important;color:var(--muted)}
 .photo-ntoa-pfq,.photo-nsw-pct,.photo-danish-police,.photo-uk-police-jrft{background-color:#131c20}
 @media(max-width:520px){.editorial-row.text-row{grid-template-columns:minmax(0,1fr) auto;min-height:88px}}
+
+/* Dark red is the identity and filled-control palette; foreground accents need visible contrast. */
+:root{--rr-icon-red:#CB6060;--rr-nav-hover:#E18484;--rr-button-red:#6F0000;--rr-button-hover:#8B0000}
+svg.icon[data-icon],.category-pill:not(.active) svg.icon,.filter-control svg.icon,.editorial-row svg.icon{color:var(--rr-icon-red);stroke-width:2.4;background:transparent;box-shadow:none}
+.button-primary,.tray-submit,.category-pill.active,.view-switch button.active{background:var(--rr-button-red);border-color:#8B0000;box-shadow:none;color:#fff}
+.button-primary:hover,.tray-submit:hover,.category-pill.active:hover,.view-switch button.active:hover{background:var(--rr-button-hover);border-color:#A00000}
+.button-primary svg.icon,.tray-submit svg.icon,.category-pill.active svg.icon,.view-switch button.active svg.icon{color:#fff}
+.nav-link:hover,.nav-link.active:hover,.mobile-nav a:hover,.mobile-nav a.active:hover,.header-actions .icon-button:hover,.header-actions .icon-button:hover .control-label,.footer-links a:hover{color:var(--rr-nav-hover)}
+.nav-link:hover,.mobile-nav a:hover{text-decoration:underline;text-underline-offset:4px}
+.nav-link:focus-visible,.mobile-nav a:focus-visible,.header-actions .icon-button:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+.field-narrative{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8;color:var(--text);font-size:16px}
+.field-account{margin:24px 0 32px;max-width:72ch}.field-account h2{margin:12px 0}.field-account .guide-meta{margin-bottom:12px}
+.field-review-fields{display:grid;gap:16px}.field-review-fields label{display:grid;gap:6px}.field-review-fields textarea{width:100%;max-width:100%;min-width:0;font:inherit;color:var(--text);background:var(--panel);border:1px solid var(--line);padding:10px;border-radius:4px;resize:vertical}
+.exercise-detail .guide-entry-image{width:100%;height:auto;max-height:none;aspect-ratio:3/2;object-fit:contain;background:transparent}
+@media(max-width:690px){.category-row{flex-wrap:wrap;overflow:visible;padding-bottom:0;gap:6px}.category-pill{flex:1 1 auto;min-width:0;max-width:100%;padding:8px 10px;gap:7px;white-space:normal}.category-pill .icon{width:19px;height:19px}.field-narrative{font-size:15px}}
