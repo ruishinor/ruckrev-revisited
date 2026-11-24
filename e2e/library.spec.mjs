@@ -25,7 +25,7 @@ test('source detail shows correct country and linked source',async({page})=>{
  await page.goto('/testing-library/artillerijaeger/');
  await expect(page.getByRole('heading',{name:'Artillerijeger'})).toBeVisible();
  await expect(page.getByText('8 km pack run',{exact:true})).toBeVisible();
- await expect(page.getByRole('link',{name:/Visit Forsvaret/})).toHaveAttribute('href',/forsvaret\.no/);
+ await expect(page.getByRole('link',{name:'Visit Norwegian Armed Forces',exact:true})).toHaveAttribute('href','https://www.forsvaret.no/utdanning/utdanninger/artillerijeger');
 });
 test('mobile navigation, filters, cards and comparison are usable',async({page})=>{
  test.setTimeout(60000);
