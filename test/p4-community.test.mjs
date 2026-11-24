@@ -34,8 +34,8 @@ test('directory binder updates results and preserves readable static content',()
  try{bindDirectory();assert.equal(controls['#crew-dir-count'].textContent,'12 of 12 communities');controls['#crew-dir-country'].value='Norway';controls['#crew-dir-country'].listeners.change();assert.equal(cards.filter(c=>!c.hidden).length,2);controls['#crew-dir-type'].value='Rucking';controls['#crew-dir-type'].listeners.change();assert.equal(cards.filter(c=>!c.hidden).length,1);controls['#crew-dir-search'].value='no matches';controls['#crew-dir-search'].listeners.input();assert.match(controls['#crew-dir-count'].textContent,/0 of 12/);}
  finally{globalThis.document=original;}
 });
-test('contribution is local-only, downloads exist, no form or submission endpoint',()=>{
- const html=renderContribution();assert.match(html,/No submission destination is currently configured/);assert.doesNotMatch(html,/<form|mailto:|<input/);
+test('contribution templates stay local with an explicit manual email and no submission endpoint',()=>{
+ const html=renderContribution();assert.match(html,/Send a draft by email when you are ready/);assert.match(html,/mailto:info@ruckingrevolution\.org\?subject=/);assert.match(html,/Nothing is uploaded, emailed, saved by the site or published automatically/);assert.doesNotMatch(html,/<form|<input/);
  for(const name of ['rr-editorial-submission.txt','rr-interview-template.txt','rr-equipment-review.txt']){assert.ok(html.includes(`/downloads/${name}" download`));const body=readFileSync(new URL('../public/downloads/'+name,import.meta.url),'utf8');assert.match(body,/LOCAL ONLY/);}
  assert.ok(Object.values(communitySections).every(s=>s.blocks.length>=2));
 });
