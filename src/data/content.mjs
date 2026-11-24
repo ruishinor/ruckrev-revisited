@@ -1,4 +1,6 @@
+import {communitySections} from '../lib/p4-community.mjs';
 export const sections={
+ ...communitySections,
  '/training/ruck-plans/':{
   eyebrow:'RUCK WITH A PURPOSE',title:'Rucking plans',lead:'Pick a direction, build your engine, and earn the next distance. These are starting points you can adjust, not one-size-fits-all rules.',
 
@@ -96,6 +98,6 @@ export const sections={
 export const footerColumns=[
  {title:'Explore',items:[['Home','/'],['Training','/training/'],['Testing Library','/testing-library/'],['Resources','/resources/'],['About','/about/']]},
  {title:'Training',items:[['Rucking plans','/training/ruck-plans/'],['Workouts','/training/workouts/'],['Assessment prep','/training/assessment-prep/'],['Strength & conditioning','/training/strength/']]},
- {title:'Resources',items:[['Articles','/resources/articles/'],['Field notes','/resources/field-notes/'],['Rucking routes','/resources/routes/'],['Events & challenges','/resources/events/'],['Reading','/resources/reading/'],['Start a ruck crew','/resources/ruck-clubs/'],['Tools & templates','/resources/tools/']]},
+ {title:'Resources',items:[['Articles','/resources/articles/'],['Field notes','/resources/field-notes/'],['Rucking routes','/resources/routes/'],['Events & challenges','/resources/events/'],['Reading','/resources/reading/'],['Start a ruck crew','/resources/ruck-clubs/'],['Find a crew','/resources/crew-directory/'],['Contribute','/resources/contribute/'],['Tools & templates','/resources/tools/']]},
  {title:'Connect',items:[['Email us','mailto:info@ruckingrevolution.org'],['Instagram','https://instagram.com/ruckingrevolution'],['Facebook','https://facebook.com/ruckingrevolution']]}
 ];

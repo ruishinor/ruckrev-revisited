@@ -1,3 +1,4 @@
+import {p4CrewGuides,p4Drills,enrichLegacyDrill} from './p4-crew.mjs';
 const section=(title,text,items)=>({title,text,items});
 const guide=(slug,title,summary,meta,blocks)=>({slug,title,summary,meta,blocks,kind:'Crew guide',level:'All',parent:'/resources/ruck-clubs/',path:`/resources/ruck-clubs/${slug}/`});
 export const crewGuides=[
@@ -47,3 +48,7 @@ export const crewDrills=[
  drill('changed-plan','Adaptability','Applied','Practise a changed plan','Discuss a hypothetical closed path. Choose an alternative using the actual map without entering a closed or unsafe area.','Did everyone understand the new route and why it was selected?'),
  drill('resource','Adaptability','Applied','Use what is available','Discuss what to do if a nonessential item is forgotten. Decide whether to adapt, borrow safely or shorten the session. Never remove essential equipment for the exercise.','Did the alternative preserve the intended learning and safety?')
 ];
+
+crewGuides.push(...p4CrewGuides);
+for(let i=0;i<crewDrills.length;i++)crewDrills[i]=enrichLegacyDrill(crewDrills[i]);
+crewDrills.push(...p4Drills);
