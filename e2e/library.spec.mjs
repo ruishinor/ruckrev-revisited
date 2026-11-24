@@ -106,7 +106,7 @@ test('selection starts empty, preserves keyboard focus and does not cover footer
  await expect(page.getByRole('link',{name:'Compare 2 tests'})).toBeVisible();
 });
 test('catalogues, plan, pace and assessment gap tools work',async({page})=>{
- await page.goto('/training/workouts/');await expect(page.locator('.guide-card')).toHaveCount(41);
+ await page.goto('/training/workouts/');await expect(page.locator('.guide-card')).toHaveCount(45);
  await page.locator('#guide-search').fill('hill repeats');await expect(page.locator('.guide-card:visible')).toHaveCount(1);
  await page.getByRole('link',{name:'Open workout: Hill repeats'}).click();await expect(page.getByRole('heading',{name:'Hill repeats',level:1})).toBeVisible();
  await page.goto('/resources/tools/');await page.locator('#pace-distance').fill('10');await page.locator('#pace-minutes').fill('90');await page.getByRole('button',{name:'Calculate pace'}).click();await expect(page.locator('#pace-output')).toContainText('9:00 min/km');
@@ -215,7 +215,7 @@ test('early event filter input survives delayed application startup',async({page
   await country.selectOption('United Kingdom');
   await expect(country).toHaveValue('United Kingdom');
   release();
-  await expect(page.locator('#guide-count')).toHaveText('4 results');
+  await expect(page.locator('#guide-count')).toHaveText('6 results');
   await expect(country).toHaveValue('United Kingdom');
   await page.locator('#event-type').selectOption('Distance challenge');
   await expect(page.locator('.guide-card:visible')).toHaveCount(2);
@@ -319,3 +319,6 @@ test('adventure directory separates unconfirmed leads and includes archive refer
 
 
 test('adventure facets match a single option and reset without affecting archive sections',async({page})=>{await page.goto('/resources/events/');await page.locator('#event-country').selectOption('New Zealand');await page.locator('#event-facet-participation').selectOption('team');await page.locator('#event-facet-days').selectOption('one');await expect(page.locator('.guide-card:visible')).toHaveCount(0);await page.locator('#event-facet-days').selectOption('few');await expect(page.locator('.guide-card:visible')).toHaveCount(1);await expect(page.locator('.guide-card:visible')).toContainText('Coast to Coast');await page.getByRole('button',{name:'Reset event filters'}).click();await expect(page.locator('.guide-card:visible')).toHaveCount(37);await expect(page.locator('#event-facet-participation')).toHaveValue('all');await page.goto('/resources/events/mds-legendary/');await expect(page.getByRole('heading',{name:'Participant experiences and discussions'})).toBeVisible();await expect(page.locator('a[href="https://web.archive.org/web/*/https://www.reddit.com/r/ultrarunning/comments/13y1huf/"]')).toBeVisible();});
+
+
+test('resource totals and original training plans are visible',async({page})=>{await page.goto('/resources/');await expect(page.getByRole('link',{name:/Events & challenges \(37\)/})).toBeVisible();await page.goto('/training/ruck-plans/');await expect(page.getByRole('heading',{name:'Training plans (4)'})).toBeVisible();await page.getByRole('link',{name:'Your first 12 weeks of rucking'}).click();await expect(page.getByRole('heading',{name:'Week by week'})).toBeVisible();await page.goto('/resources/events/');await expect(page.locator('#guide-count')).toHaveText('37 results');await expect(page.getByText('(37 total)',{exact:true})).toBeVisible();await page.locator('#event-country').selectOption('United Kingdom');await expect(page.locator('#guide-count')).toHaveText('6 results');await expect(page.getByText('(37 total)',{exact:true})).toBeVisible();await page.goto('/testing-library/');await expect(page.getByText('(16 total)',{exact:true})).toBeVisible();});

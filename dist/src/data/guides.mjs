@@ -2,6 +2,7 @@ import { expandEvents, newRoutes, expandArticles } from './event-route-editorial
 import { crewGuides } from './crew-development.mjs';
 import { fieldReports } from './field-reports.mjs';
 import { additionalWorkouts, applyWorkoutDetails } from './workout-programmes.mjs';
+import {newTrainingArticles,newTrainingWorkouts} from './training-expansion.mjs';
 // Structured editorial material. Distances, loads and sessions are examples, not entry standards.
 const make=(base,rows,kind)=>rows.map(([slug,title,level,summary,meta,blocks,extra={}])=>({path:base+slug+'/',parent:base,slug,title,level,summary,meta,blocks,kind,...extra}));
 const work=(title,items)=>({title,items});
@@ -70,6 +71,7 @@ articles.push(...make("/resources/articles/",[["community-programmes","Build a t
 fieldNotes.push(...make("/resources/field-notes/",[["night-navigation","Night route review","All","Explore how visibility changes route choices.","Practice scenario · darkness",[{"title":"Situation","text":"A familiar route looks different after dark, and part of the group loses sight of the next junction."},{"title":"Review prompts","items":["Were lights and reflective equipment ready?","Did the group have a clear regroup plan?","What route change would make the next session easier to manage?"]}]],["long-stage-preparation","Long stage preparation","All","Review pacing, food and repeated days.","Practice scenario · distance",[{"title":"Situation","text":"An extended route takes longer than planned. The group reaches the intended break late and still has a long way to go."},{"title":"Review prompts","items":["Was the time estimate realistic?","What food, water or transport options were available?","What would trigger a shorter route next time?"]}]],["foot-care-review","Foot care review","All","Recognise a manageable problem before it becomes a reason to stop.","Practice scenario · footwear",[{"title":"Situation","text":"A participant notices rubbing early in a ruck. The next planned stop is some distance away."},{"title":"Review prompts","items":["What was the footwear and sock setup?","Could the group stop somewhere safe to address the rubbing?","How could the route or kit be adjusted next time?"]}]],["fatigue-and-pace","Fatigue and pace review","All","Look at changes in movement and effort over a session.","Practice scenario · pacing",[{"title":"Situation","text":"An initially manageable effort becomes harder later in a session and pack comfort declines."},{"title":"Review prompts","items":["Which changes in pace, terrain or load might explain the difference?","Did people have enough time to recover?","What would you change before repeating the route?"]}]]],"Field-note exercise"));
 workouts.push(...make('/training/workouts/',additionalWorkouts,'Workout'));
 applyWorkoutDetails(workouts);
+workouts.push(...make('/training/workouts/',newTrainingWorkouts,'Workout'));
 // Published route profiles: distance and ascent refer to the linked route, not a guarantee of conditions.
 routes.push(...make('/resources/routes/',[
  ['sognsvann-loop','Sognsvann lakeside loop','Beginner','A short gravel route for repeatable pacing and load checks.','Oslo, Norway · 3.7 km · 17 m total ascent',[para('Route profile','The published route follows a gravel path around the lake. It is a loop with a low elevation gain. The profile is suitable for planning a short, repeatable ruck, subject to weather and access.'),work('Rucking application',['Use the same start and finish for repeatable measurements.','Record the actual route, elapsed time and pack load.','Check surface conditions and respect other users.']),para('Map and access','The linked UT.no route includes a map and elevation profile. It is a privately submitted route suggestion; confirm the actual path and conditions before departure.')],{country:'NO',links:[['Published route, map and elevation profile','https://ut.no/turforslag/115076']]}],
@@ -108,6 +110,7 @@ fieldNotes.unshift(...fieldReports.map(r=>({path:'/resources/field-notes/'+r.slu
 expandEvents(events);
 routes.push(...newRoutes);
 expandArticles(articles);
+articles.push(...make('/resources/articles/',newTrainingArticles,'Article'));
 export const collections=Object.freeze(Object.fromEntries([workouts,exercises,articles,routes,fieldNotes,events,crewGuides].map(items=>[items[0].parent,items])));
 export const entries=Object.freeze(Object.fromEntries(Object.values(collections).flat().map(x=>[x.path,x])));
 export const featured=[{...articles[0],icon:'article'},{...workouts[7],icon:'workout'},{...events[0],icon:'calendar'}];
