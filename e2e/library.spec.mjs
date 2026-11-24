@@ -106,7 +106,7 @@ test('selection starts empty, preserves keyboard focus and does not cover footer
  await expect(page.getByRole('link',{name:'Compare 2 tests'})).toBeVisible();
 });
 test('catalogues, plan, pace and assessment gap tools work',async({page})=>{
- await page.goto('/training/workouts/');await expect(page.locator('.guide-card')).toHaveCount(22);
+ await page.goto('/training/workouts/');await expect(page.locator('.guide-card')).toHaveCount(41);
  await page.locator('#guide-search').fill('hill repeats');await expect(page.locator('.guide-card:visible')).toHaveCount(1);
  await page.getByRole('link',{name:'Open workout: Hill repeats'}).click();await expect(page.getByRole('heading',{name:'Hill repeats',level:1})).toBeVisible();
  await page.goto('/resources/tools/');await page.locator('#pace-distance').fill('10');await page.locator('#pace-minutes').fill('90');await page.getByRole('button',{name:'Calculate pace'}).click();await expect(page.locator('#pace-output')).toContainText('9:00 min/km');
@@ -160,3 +160,5 @@ test('published route profiles and legal rights pages expose their actual source
  await page.goto('/privacy/');await expect(page.locator('#privacy-rights')).toContainText('Request erasure');await expect(page.locator('#article-17')).toContainText('does not remove browser history');
  await page.locator('#privacy-link').fill(new URL('/testing-library/?country=Norway&compare=rasp',page.url()).href);const download=page.waitForEvent('download');await page.getByRole('button',{name:'Download browser choices'}).click();expect((await download).suggestedFilename()).toBe('rucking-revolution-browser-choices.json');
 });
+
+test('workout filters combine purpose, equipment and estimated duration',async({page})=>{await page.goto('/training/workouts/');await page.locator('#guide-purpose').selectOption('Strength');await page.locator('#guide-equipment').selectOption('Sandbag');await page.locator('#guide-duration').selectOption('30');const items=page.locator('.guide-card:visible');expect(await items.count()).toBeGreaterThan(0);for(const item of await items.all()){await expect(item).toHaveAttribute('data-purpose','Strength');expect((await item.getAttribute('data-equipment')).split('|')).toContain('Sandbag');expect(Number(await item.getAttribute('data-minutes'))).toBeLessThanOrEqual(30);} });

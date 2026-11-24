@@ -165,3 +165,8 @@ body:has(main.guide-page)::before,body:has(main.content-hub)::before,body:has(ma
   .library-page .tray-actions{gap:8px;flex-wrap:wrap}
   .library-page .tray-submit{min-width:0;max-width:100%;white-space:normal;padding-inline:12px}
 }
+
+/* Workout filters are compact, with wrap at narrow viewport widths. */
+.guide-filter.workout-filter{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:end;gap:.75rem}.guide-filter.workout-filter label{min-width:0}.guide-filter.workout-filter input,.guide-filter.workout-filter select{min-width:0;width:100%}
+@media(max-width:1024px){.guide-filter.workout-filter{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){.guide-filter.workout-filter{grid-template-columns:minmax(0,1fr)}}
