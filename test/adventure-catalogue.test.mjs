@@ -19,9 +19,9 @@ test('military fitness catalogue covers ten nations without treating every entry
 test('new and existing events retain references, preserve uncertain dates and separate research leads',()=>{
  const events=collections['/resources/events/'];assert.equal(events.length,46);assert.equal(adventureEvents.length,9);
  assert.equal(events.filter(x=>!x.eventDate).length,17);
- for(const e of events){assert.equal(e.citation.url,e.links[0][1]);assert.match(renderEventCitation(e),/web\.archive\.org\/web\/\*/);assert.match(renderEntry(e),/Reference and archive/);}
+ for(const e of events){assert.equal(e.citation.url,e.links[0][1]);assert.doesNotMatch(renderEventCitation(e),/web\.archive\.org/);assert.match(renderEntry(e),/Official reference/);assert.ok(renderEventCitation(e).includes(e.citation.url.replaceAll('&','&amp;')));}
  const road=entries['/resources/events/road-to-valhalla/'];assert.equal(road.eventDate,'2027-11-11');assert.match(road.meta,/248 km/);assert.match(renderEntry(road),/Historical rules, not yet confirmed for 2027/);
- assert.ok(!events.some(x=>x.eventCountry==='Ukraine'));assert.match(renderUnconfirmedEvents(),/Odesa 100 km/);assert.match(renderCollection(events),/Unconfirmed adventures and event leads/);
+ assert.ok(!events.some(x=>x.eventCountry==='Ukraine'));assert.match(renderUnconfirmedEvents(),/Odesa 100 km/);assert.doesNotMatch(renderCollection(events),/Unconfirmed adventures and event leads/);
 });
 test('course figures carry accessible text and exact protocol dimensions without inline script or remote dependencies',()=>{
  for(const [id,title,measure] of [['foreign-legion','luc-diagram-title','20 metres'],['nsw-pct','illinois-diagram-title','9.14 m']]){const html=renderComponentProtocols(id);assert.match(html,/<figure class="course-diagram">/);assert.ok(html.includes(title));assert.ok(html.includes(measure));assert.match(html,/role="img" aria-labelledby=/);assert.doesNotMatch(html,/<script|<iframe/);}
