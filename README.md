@@ -13,13 +13,16 @@ node scripts/check-site.mjs
 npm run dev
 ```
 
-Open http://127.0.0.1:4173/. The build exports a static site to `dist/`.
+Open http://127.0.0.1:4173/. The build exports 99 routes to `dist/`, including complete pre-rendered page content. Interactive controls use JavaScript. The library contains eight formal assessments and the resource collections contain 71 individual entries.
 
 ## Structure
 
 - `src/app.mjs`: shared layout, pages and interactive controls.
 - `src/data/assessments.mjs`: structured fitness tests and official publisher links.
-- `src/data/content.mjs`: training, articles, field notes, route planning, events, reading, crew development and tools.
+- `src/data/content.mjs`: section introductions, navigation and supporting guidance.
+- `src/data/guides.mjs`: searchable catalogues of workouts, exercises, articles, route templates, field-note exercises and organiser-linked events.
+- `src/lib/resource-pages.mjs`: collection rendering, pace and assessment calculations, training-week planning, checklists and local exports.
+- `src/lib/icons.mjs`: semantic vector symbols and locally bundled pictograms.
 - `src/lib/catalog.mjs`: filter and comparison logic.
 - `public/`: local images, icons, flags, branding and styles.
 - `test/` and `e2e/`: Node and Playwright tests.

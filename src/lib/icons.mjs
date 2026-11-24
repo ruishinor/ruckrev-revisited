@@ -1,4 +1,17 @@
 export const paths={
+ article:'<path d="M5 3h10l4 4v14H5zM14 3v5h5M8 12h8M8 16h8"/>',
+ journal:'<rect x="5" y="3" width="15" height="18" rx="2"/><path d="M8 3v18M3 7h4M3 12h4M3 17h4m4-2 2 2 5-5"/>',
+ route:'<circle cx="5" cy="5" r="2"/><circle cx="19" cy="19" r="2"/><path d="M7 5h8a4 4 0 0 1 0 8H9a3 3 0 0 0 0 6h8"/>',
+ calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18m-9 3 1.2 2.5 2.8.5-2 2 .5 2.8-2.5-1.4-2.5 1.4.5-2.8-2-2 2.8-.5Z"/>',
+ toolbox:'<rect x="3" y="8" width="18" height="13" rx="2"/><path d="M8 8V5h8v3M3 13h18M10 12v3h4v-3"/>',
+ target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+ workout:'<path d="M8 3h8M12 3v3m6 1 2-2M12 6a8 8 0 1 0 0 16 8 8 0 0 0 0-16Zm0 4v4l3 2"/>',
+ plan:'<rect x="5" y="4" width="14" height="17" rx="2"/><rect x="9" y="2" width="6" height="4" rx="1"/><path d="m8 10 1 1 2-2m2 1h3m-8 5 1 1 2-2m2 1h3"/>',
+ learning:'<path d="M3 8 12 3l9 5-9 5-9-5Zm4 3v6c3 3 7 3 10 0v-6m4-3v9"/>',
+ pulse:'<path d="M3 12h4l3-7 4 14 3-7h4"/>',
+ clipboard:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2M8 10h8M8 14h8M8 18h5"/>',
+ source:'<path d="M5 3h10l4 4v14H5zM14 3v5h5m-10 7 2 2 4-5"/>',
+
  chart:'<path d="M4 21V14m6 7V9m6 12V4m4 17V11"/>',ruck:'<path d="M7 9V7a5 5 0 0 1 10 0v2M6 8h12l2 12H4L6 8Zm4 0V6a2 2 0 0 1 4 0v2M8 14h8"/>',
  shield:'<path d="m12 2 8 4v6c0 5-4 8-8 10-4-2-8-5-8-10V6l8-4Zm0 4v10"/>',
  chevrons:'<path d="m5 15 7-7 7 7M5 20l7-7 7 7"/>',barbell:'<path d="M3 9v6m4-9v12m10-12v12m4-9v6M7 12h10"/>',
@@ -12,7 +25,8 @@ export const paths={
  tag:'<path d="M2 3h10l10 10-9 9L3 12V3Zm5 5h.01"/>',sort:'<path d="M4 4h15M4 9h11M4 14h7m1 4 4 4 4-4m-4-3v7"/>',
  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/>',back:'<path d="M20 12H4m7-7-7 7 7 7"/>',
  menu:'<path d="M3 6h18M3 12h18M3 18h18"/>',external:'<path d="M14 4h6v6m0-6-9 9M20 14v6H4V4h6"/>',
+ book:'<path d="M3 5c4-2 7-1 9 1 2-2 5-3 9-1v15c-4-2-7-1-9 1-2-2-5-3-9-1zM12 6v15"/>',people:'<circle cx="9" cy="8" r="3"/><path d="M2 20v-2a7 7 0 0 1 14 0v2m1-15a3 3 0 0 1 0 6m1 3a5 5 0 0 1 4 5v1"/>',
  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/>',scale:'<path d="M12 3v18M4 7h16M3 18l4-11 4 11a4 4 0 0 1-8 0Zm10 0 4-11 4 11a4 4 0 0 1-8 0Z"/>',
 };
-const premium=Object.freeze({chart:'grid',ruck:'ruck',run:'run',compare:'compare',layers:'layers',globe:'globe',shield:'shield',chevrons:'chevrons',barbell:'barbell',waves:'waves',search:'search',grid:'grid',tag:'filter',sort:'sort',close:'close'});
-export function icon(name, size=20){if(premium[name])return `<img class="icon icon-asset" src="/assets/glyph-${premium[name]}.png" width="${size}" height="${size}" loading="lazy" alt="" aria-hidden="true"/>`;return `<svg class="icon" viewBox="0 0 24 24" width="${size}" height="${size}" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round" stroke-linecap="round">${paths[name]??paths.info}</svg>`}
+const premium=Object.freeze({ruck:'ruck',run:'run',compare:'compare',layers:'layers',globe:'globe',shield:'shield',chevrons:'chevrons',barbell:'barbell',waves:'waves',search:'search',grid:'grid',tag:'filter',sort:'sort',close:'close'});
+export function icon(name, size=20){if(premium[name])return `<img class="icon icon-asset" data-icon="${name}" src="/assets/glyph-${premium[name]}.png" width="${size}" height="${size}" loading="lazy" alt="" aria-hidden="true"/>`;return `<svg class="icon" data-icon="${Object.hasOwn(paths,name)?name:'info'}" viewBox="0 0 24 24" width="${size}" height="${size}" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round" stroke-linecap="round">${paths[name]??paths.info}</svg>`}

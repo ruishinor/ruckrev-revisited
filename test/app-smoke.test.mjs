@@ -6,13 +6,14 @@ function makeDocument(){
  const doc={title:'',body:{append(){}},querySelector(selector){if(selector==='#app')return app;if(selector==='h1')return {textContent:'Testing Library'};if(['.mobile-toggle','#library-search','#test-search','#main'].includes(selector))return passive;return null;}};
  return {app,doc};
 }
-test('test library builds six cards with filter controls and sample comparison',async()=>{
+test('test library builds eight cards with filter controls and an empty comparison',async()=>{
  const {app,doc}=makeDocument();globalThis.document=doc;
  globalThis.location={pathname:'/testing-library/',search:'',hash:''};
  await import('../src/app.mjs?bootstrap=library');
- assert.equal((app.innerHTML.match(/class="test-card"/g)||[]).length,6);
+ assert.equal((app.innerHTML.match(/class="test-card"/g)||[]).length,8);
  assert.match(app.innerHTML,/Search tests, countries or activities/);
- assert.match(app.innerHTML,/Compare 3 tests/);
+ assert.match(app.innerHTML,/0 tests selected/);
+ assert.doesNotMatch(app.innerHTML,/data-select="[^"]+" checked/);
  assert.match(app.innerHTML,/href="\/testing-library\/artillerijaeger\/"/);
  assert.match(app.innerHTML,/aria-pressed="true"/);
  assert.doesNotMatch(app.innerHTML,/style="/);

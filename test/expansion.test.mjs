@@ -42,8 +42,8 @@ test('the revised training page prompts action and includes a goal selector',asy
 });
 test('references appear in details, comparison and bibliography',async()=>{
  const detail=await renderRoute('/testing-library/ntoa-pfq/');assert.match(detail,/apa-reference/);assert.match(detail,/NTOA/);
- const page=await renderRoute('/references/');assert.equal((page.match(/bibliography-item/g)||[]).length,6);
- const sources=new Set(assessments.map(x=>x.source.publisher));assert.equal(sources.size,5); // Norwegian general and Artillerijeger use same publisher.
+ const page=await renderRoute('/references/');assert.equal((page.match(/bibliography-item/g)||[]).length,8);
+ const sources=new Set(assessments.map(x=>x.source.publisher));assert.equal(sources.size,6); // Norwegian general and Artillerijeger use same publisher.
 });
 test('new images and icon set are bundled in public assets',async()=>{
  for(const item of ['mountain-atmosphere.webp','progress-ruck.webp','glyph-ruck.png','glyph-run.png','glyph-compare.png','glyph-globe.png','glyph-shield.png','glyph-filter.png','glyph-waves.png']){
@@ -72,8 +72,8 @@ test('public pages present the site directly and keep legal and publisher links'
 test('icon accents use a common contrasting dark-surface presentation',async()=>{
  const css=await readFile(resolve(root,'public/site.css'),'utf8');
  assert.match(css,/--rr-brand-red:#8B0000/);
- assert.match(css,/--rr-glyph-dark-surface:#D75252/);
- assert.match(css,/\.icon\.icon-asset\{filter:invert\(20%\) brightness\(1\.6\)\}/);
+ assert.match(css,/--rr-glyph-dark-surface:#8B0000/);
+ assert.match(css,/\.icon\.icon-asset\{filter:none\}/);
  assert.doesNotMatch(css,/\.category-pill \.icon-asset\{[^}]*filter:/);
  assert.match(css,/\.category-pill\.active \.icon-asset,\.view-switch button\.active \.icon-asset\{filter:brightness\(0\) invert\(1\)\}/);
 });

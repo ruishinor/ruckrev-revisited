@@ -1,7 +1,7 @@
-import { assessments, byId } from '../data/assessments.mjs';
+import { assessments, byId, categories, countries, domains } from '../data/assessments.mjs';
 export const FILTER_DEFAULTS = Object.freeze({q:'',category:'all',country:'all',domain:'all',scoring:'all',reproducibility:'all',status:'all',sort:'relevance',view:'grid'});
 const allowed = Object.freeze({
-  sort:['relevance','name','country'], view:['grid','list']
+  sort:['relevance','name','country'], view:['grid','list'],category:categories.map(c=>c.id),country:['all',...countries],domain:['all',...domains],...Object.fromEntries(['scoring','reproducibility','status'].map(k=>[k,['all',...new Set(assessments.map(a=>a[k]))]]))
 });
 export function normalizeParams(params) {
   const result={...FILTER_DEFAULTS};
@@ -28,7 +28,7 @@ export function filterAssessments(data=assessments, f=FILTER_DEFAULTS) {
   if(f.sort==='country')result.sort((a,b)=>a.country.localeCompare(b.country,'en')||a.shortName.localeCompare(b.shortName,'en'));
   return result;
 }
-export function validSelection(ids,max=3){return [...new Set(ids)].filter(id=>Boolean(byId[id])).slice(0,max);}
+export function validSelection(ids,max=3){return [...new Set(ids)].filter(id=>Object.hasOwn(byId,id)).slice(0,max);}
 export function parseSelection(s){return validSelection((s??'').split(','));}
 export function withParams(filters, selection, basePath='/testing-library/'){
   const url=new URL(basePath,'https://ruckrev.local');
