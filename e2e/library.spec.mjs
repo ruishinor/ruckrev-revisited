@@ -12,7 +12,8 @@ test('library loads, search and clear filters work',async({page})=>{
 test('categories, grid/list and comparison work',async({page})=>{
  await page.goto('/testing-library/');
  await page.getByRole('button',{name:'Running & Aerobic'}).click();
- await expect(page.locator('.test-card')).toHaveCount(22);
+ await expect(page.locator('.test-card')).toHaveCount(23);
+ await expect(page.locator('.test-card[data-id="pararescue-ift"]')).toBeVisible();
  await page.getByRole('button',{name:'List'}).click();
  await expect(page.locator('#card-grid')).toHaveClass(/list-view/);
  await expect(page.locator('#compare-tray')).toContainText('0 tests selected');

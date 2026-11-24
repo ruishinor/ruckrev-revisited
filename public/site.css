@@ -286,9 +286,9 @@ svg.icon[data-icon="run"] .approved-glyph{mask:url("/assets/glyph-run.png") cent
 .photo-mjk{--card-photo:url('/assets/assessment-mjk.webp');--detail-image:url('/assets/assessment-mjk.webp')}
 .photo-fsk{--card-photo:url('/assets/assessment-fsk.webp');--detail-image:url('/assets/assessment-fsk.webp')}
 .photo-sfas{--card-photo:url('/assets/assessment-sfas.webp');--detail-image:url('/assets/assessment-sfas.webp')}
-.photo-seal-pst{--card-photo:url('/assets/assessment-seal-pst.svg');--detail-image:url('/assets/assessment-seal-pst.svg')}
+.photo-seal-pst{--card-photo:url('/assets/assessment-seal-pst.webp');--detail-image:url('/assets/assessment-seal-pst.webp')}
 .photo-pararescue-ift{--card-photo:url('/assets/assessment-pararescue-ift.webp');--detail-image:url('/assets/assessment-pararescue-ift.webp')}
-.photo-gign{--card-photo:url('/assets/assessment-gign.svg');--detail-image:url('/assets/assessment-gign.svg')}
+.photo-gign{--card-photo:url('/assets/assessment-gign.webp');--detail-image:url('/assets/assessment-gign.webp')}
 .photo-cpat{--card-photo:url('/assets/assessment-cpat.svg');--detail-image:url('/assets/assessment-cpat.svg')}
 .photo-vessel-operator{--card-photo:url('/assets/assessment-vessel-operator.webp');--detail-image:url('/assets/assessment-vessel-operator.webp')}
 .reference-card-label{font-size:11px;color:#f2f6f7;background:#172329;padding:6px 9px;border:1px solid #829199;border-radius:5px;white-space:nowrap}
@@ -307,3 +307,14 @@ main .guide-body .original-reading li{margin-bottom:10px}
 .assessment-table .grouped-standards thead th:first-child{width:46%}
 .assessment-table .grouped-standards .assessment-stage th{padding-top:18px;padding-bottom:10px;background:var(--panel,#18262c);color:var(--rr-heading-red);font-weight:700;font-size:1.02rem;border-top:2px solid var(--line)}
 @media(max-width:520px){main .guide-body>h1{font-size:1.85rem;overflow-wrap:anywhere}.assessment-table .grouped-standards th,.assessment-table .grouped-standards td{padding:9px 7px;font-size:.86rem}}
+
+/* Challenge detail narrow viewport containment */
+@media(max-width:520px){
+ main .wrap.challenge-detail{width:calc(100% - 24px);max-width:74ch;min-width:0}
+ .challenge-detail .content-panel{min-width:0;max-width:100%;overflow-wrap:anywhere}
+ .challenge-detail .breadcrumbs{flex-wrap:wrap}
+ .challenge-detail .challenge-photo{min-width:0;max-width:100%}
+ .challenge-detail .challenge-share img{max-width:100%;height:auto}
+ .challenge-detail .challenge-share textarea{min-width:0;max-width:100%}
+ .challenge-detail .button{min-width:0;max-width:100%;overflow-wrap:anywhere}
+}
