@@ -3,6 +3,7 @@ import { crewGuides } from './crew-development.mjs';
 import { fieldReports } from './field-reports.mjs';
 import { additionalWorkouts, applyWorkoutDetails } from './workout-programmes.mjs';
 import {newTrainingArticles,newTrainingWorkouts} from './training-expansion.mjs';
+import { enrichArticles } from './editorial-connections.mjs';
 // Structured editorial material. Distances, loads and sessions are examples, not entry standards.
 const make=(base,rows,kind)=>rows.map(([slug,title,level,summary,meta,blocks,extra={}])=>({path:base+slug+'/',parent:base,slug,title,level,summary,meta,blocks,kind,...extra}));
 const work=(title,items)=>({title,items});
@@ -111,6 +112,7 @@ expandEvents(events);
 routes.push(...newRoutes);
 expandArticles(articles);
 articles.push(...make('/resources/articles/',newTrainingArticles,'Article'));
+enrichArticles(articles);
 export const collections=Object.freeze(Object.fromEntries([workouts,exercises,articles,routes,fieldNotes,events,crewGuides].map(items=>[items[0].parent,items])));
 export const entries=Object.freeze(Object.fromEntries(Object.values(collections).flat().map(x=>[x.path,x])));
 export const featured=[{...articles[0],icon:'article'},{...workouts[7],icon:'workout'},{...events[0],icon:'calendar'}];
