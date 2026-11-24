@@ -25,5 +25,5 @@ test('each existing article has a real event, assessment or field-report connect
  const targets=new Set([...Object.keys(entries),...assessments.map(a=>'/testing-library/'+a.id+'/')]);
  for(const a of articles){assert.ok(a.related?.length,a.slug);for(const r of a.related){assert.ok(targets.has(r.path),r.path);assert.ok(r.context);assert.ok(r.label);assert.ok(renderEntry(a).includes('href="'+r.path+'"'));}}
  for(const a of articles.filter(x=>x.worksheet)){assert.ok(existsSync(new URL('../public'+a.worksheet.path,import.meta.url)));assert.ok(renderEntry(a).includes('href="'+a.worksheet.path+'" download'));}
- assert.equal(events.length,41);assert.equal(collections['/training/workouts/'].length,50);
+ assert.equal(events.length,44);assert.equal(collections['/training/workouts/'].length,50);
 });

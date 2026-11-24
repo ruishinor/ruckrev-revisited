@@ -1,5 +1,6 @@
 // Local cover files retrieved from the sources recorded in reading.mjs.
 export const coverFiles=Object.freeze({
+  "longest-race": "/book-covers/longest-race.jpg",
   "endure": "/book-covers/endure.jpg",
   "fixing-your-feet": "/book-covers/fixing-your-feet.jpg",
   "born-to-run": "/book-covers/born-to-run.jpg",

@@ -1,3 +1,4 @@
+import {photoScenes,challengePhoto} from '../src/data/challenge-photography.mjs';
 import {challengeCard} from '../src/data/challenge-card.mjs';
 import {communityPost} from '../src/data/community-posts.mjs';
 import { readFile, stat } from 'node:fs/promises';
@@ -46,4 +47,5 @@ for(const c of challenges){const record=await readFile(join(root,'challenge-reco
 for(const c of challenges){const post=await readFile(join(root,'challenge-posts',c.id+'.txt'),'utf8');if(post!==communityPost(c))throw Error('Incorrect community post '+c.id);}
 const logoBase64=(await readFile(join(root,'assets/brand-mark.png'))).toString('base64');
 for(const c of challenges){const svg=await readFile(join(root,'challenge-posts',c.id+'.svg'),'utf8');if(svg!==challengeCard(c,logoBase64))throw Error('Incorrect or missing branded card '+c.id);}
+for(const c of challenges){if(!Object.hasOwn(photoScenes,c.id))continue;const photo=(await readFile(join(root,'..','artwork/challenges',c.id+'.jpg'))).toString('base64');const svg=await readFile(join(root,'challenge-posts',c.id+'-photo.svg'),'utf8');if(svg!==challengePhoto(c,logoBase64,photo))throw Error('Incorrect photographic illustration '+c.id);}
 await auditPhotoPlacements(root,routes,css,assessments);
