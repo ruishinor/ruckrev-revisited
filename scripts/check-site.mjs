@@ -1,3 +1,4 @@
+import {communityPost} from '../src/data/community-posts.mjs';
 import { readFile, stat } from 'node:fs/promises';
 import { sections } from '../src/data/content.mjs';
 import { entries } from '../src/data/guides.mjs';
@@ -41,4 +42,5 @@ for(const route of routes){
 console.log(`Verified ${urls} local URL occurrences across ${routes.length} routes.`);
 
 for(const c of challenges){const record=await readFile(join(root,'challenge-records',c.id+'.txt'),'utf8');if(record!==completionSheet(c))throw Error('Incorrect completion record '+c.id);}
+for(const c of challenges){const post=await readFile(join(root,'challenge-posts',c.id+'.txt'),'utf8');if(post!==communityPost(c))throw Error('Incorrect community post '+c.id);}
 await auditPhotoPlacements(root,routes,css,assessments);

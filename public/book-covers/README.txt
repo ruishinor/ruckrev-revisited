@@ -1,0 +1,1 @@
+Book cover artwork belongs to its respective rights holder. Source: the author or publisher URLs listed on the reading page. Displayed solely to identify the recommended editions; not represented as freely licensed. No affiliation or sponsorship is claimed.

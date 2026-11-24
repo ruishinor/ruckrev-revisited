@@ -1,11 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {programmes,pathwayArticles,pathwayWorkouts,pathwayGuides,attachLegacyProgrammes} from '../src/data/training-pathways.mjs';
-test('seven distinct structured programmes cover requested lengths and missing pathways',()=>{
- assert.equal(programmes.length,7);
- assert.deepEqual([...new Set(programmes.map(x=>x.weeks.length))].sort((a,b)=>a-b),[4,8,12,16,20]);
- assert.equal(new Set(programmes.map(x=>x.id)).size,7);
- assert.deepEqual(programmes.map(x=>x.pathway),['build','carry','return','long-days','hybrid','benchmark','distance-extension']);
+test('eight distinct structured programmes cover requested lengths and missing pathways',()=>{
+ assert.equal(programmes.length,8);
+ assert.deepEqual([...new Set(programmes.map(x=>x.weeks.length))].sort((a,b)=>a-b),[4,6,8,12,16,20]);
+ assert.equal(new Set(programmes.map(x=>x.id)).size,8);
+ assert.deepEqual(programmes.map(x=>x.pathway),['build','carry','return','long-days','hybrid','benchmark','distance-extension','event-rehearsal']);
  for(const x of programmes){
   assert.equal(x.schemaVersion,1);assert.equal(x.scheduleFormat,'structured');
   for(const key of ['audience','baseline','missedSessions','adaptation','progress','repeatReduceExtend'])assert.ok(x[key].length>20,`${x.id}: ${key}`);
@@ -23,7 +23,7 @@ test('seven distinct structured programmes cover requested lengths and missing p
  }
 });
 test('all new rows have unique slugs, complete copy and valid workout metadata',()=>{
- const rows=[...pathwayArticles,...pathwayGuides,...pathwayWorkouts];assert.equal(rows.length,17);assert.equal(new Set(rows.map(x=>x[0])).size,17);
+ const rows=[...pathwayArticles,...pathwayGuides,...pathwayWorkouts];assert.equal(rows.length,19);assert.equal(new Set(rows.map(x=>x[0])).size,19);
  for(const r of [...pathwayArticles,...pathwayGuides]){assert.ok(r[5].length>=4);assert.ok(r[6].related.some(x=>x.path.startsWith('/resources/events/')||x.path.startsWith('/testing-library/')));}
  for(const r of pathwayWorkouts){const x=r[6];assert.ok(x.minutes>0);assert.ok(x.purpose);assert.ok(x.equipment.length);assert.match(x.dose,/\d/);assert.ok(r[5].some(b=>b.title==='Working dose'));}
 });

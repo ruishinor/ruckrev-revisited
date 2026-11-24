@@ -238,3 +238,15 @@ html{scroll-padding-top:90px}
 /* P1 workspace */
 .training-workspace .content-panel{margin-block:1.5rem}.training-workspace .guide-card{margin-block:.75rem;overflow-wrap:anywhere}.training-workspace .tool-grid{margin-block:1rem}.training-actions{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-block:.75rem}.training-workspace button{white-space:normal}.training-workspace [hidden]{display:none!important}.training-workspace textarea,.training-workspace input,.training-workspace select{max-width:100%;min-width:0}.training-workspace [role=status]{overflow-wrap:anywhere}
 @media print{.training-workspace form,.training-workspace button,.training-workspace input[type=file]{display:none!important}}
+
+/* Editorial heading colour: deep brand red remains the accent; the tint is for readable text on dark surfaces. */
+@media screen {
+ :root{--rr-heading-red:#D87878}
+ main .content-panel :is(h2,h3,h4),main .guide-collection>h2,main .guide-card h3,main .editorial-section h2,main .editorial-feature-copy h3,main .content-route>h1,main .challenge-library>h1,main .challenge-detail>h1,main .guide-body>h1,main.training-workspace .inner-page>h1{color:var(--rr-heading-red)}
+}
+.reading-card{display:grid;grid-template-columns:minmax(96px,150px) minmax(0,1fr);gap:22px;align-items:start;min-height:0}
+.reading-cover img{display:block;width:100%;height:auto;max-height:250px;object-fit:contain;object-position:top left;border-radius:3px}
+.reading-copy{min-width:0}.reading-copy h2{padding-right:0;margin-bottom:6px}.reading-copy .guide-meta{margin-bottom:10px}.reading-links{overflow-wrap:anywhere}.reading-links a,.reading-copy a,.reading-lead a{ text-decoration:underline;text-underline-offset:3px }
+.challenge-share label{display:block;margin-block:8px;font-weight:600}.challenge-share textarea{display:block;width:100%;max-width:100%;min-height:230px;background:#132024;color:var(--text);border:1px solid var(--border);border-radius:6px;padding:12px;font:inherit;resize:vertical;line-height:1.55}.challenge-share textarea:focus-visible{outline:3px solid var(--focus);outline-offset:3px}.challenge-share button,.challenge-share a{margin-block:12px 2px;white-space:normal}.challenge-share [role=status]{overflow-wrap:anywhere}
+@media(max-width:540px){.reading-card{grid-template-columns:100px minmax(0,1fr);gap:13px;padding:16px}.reading-copy h2{font-size:1.25rem}.reading-cover img{max-height:180px}.challenge-share textarea{min-height:300px}}
+@media print{.challenge-share{display:none!important}}
