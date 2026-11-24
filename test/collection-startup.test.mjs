@@ -10,7 +10,7 @@ test('collection startup retains prerendered controls and applies early input',a
  const count={textContent:'9 results'};
  const controls={'#guide-search':search,'#event-country':country,'#event-type':format,'#guide-count':count};
  let replacements=0;
- const app={querySelector(selector){return selector==='main.content-hub .guide-collection'?{}:null;},set innerHTML(value){replacements++;country.value='all';}};
+ const app={querySelector(selector){return selector==='main#main'?{}:null;},set innerHTML(value){replacements++;country.value='all';}};
  const doc={title:'',querySelector(selector){return selector==='#app'?app:controls[selector]||null;},querySelectorAll(selector){assert.equal(selector,'[data-guide]');return cards;}};
  globalThis.document=doc;
  globalThis.location={pathname:'/resources/events/',search:'',hash:''};
