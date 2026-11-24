@@ -8,7 +8,12 @@
     "dev": "npm run build && node scripts/dev.mjs",
     "test": "node --test test/*.test.mjs",
     "build": "node scripts/build.mjs",
-    "verify": "npm test && npm run build"
+    "verify": "npm test && npm run build && node scripts/check-site.mjs"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1"
+  }
 }

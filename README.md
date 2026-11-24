@@ -13,7 +13,7 @@ node scripts/check-site.mjs
 npm run dev
 ```
 
-Open http://127.0.0.1:4173/. The build exports 171 routes to `dist/`, including complete pre-rendered page content. Interactive controls use JavaScript. The library contains 16 formal assessments and the resource collections contain 132 individual entries, including 41 workouts with structured purpose, equipment and estimated session duration.
+Open http://127.0.0.1:4173/. The build exports the current route catalogue to `dist/`, including complete pre-rendered page content. Interactive controls use JavaScript. Counts on the site are derived from the actual catalogues.
 
 ## Structure
 
@@ -26,7 +26,7 @@ Open http://127.0.0.1:4173/. The build exports 171 routes to `dist/`, including 
 - `src/lib/legal.mjs`: legal documents, local choice export and privacy contact pathways.
 - `src/lib/progression.mjs`: deadline-based training blocks and assessment-specific preparation.
 - `src/lib/resource-pages.mjs`: collection rendering, pace and assessment calculations, training-week planning, checklists and local exports.
-- `src/data/crew-development.mjs`: five crew guides and sixteen leadership practice exercises.
+- `src/data/crew-development.mjs`: crew guides and leadership practice exercises.
 - `src/lib/crew-practice.mjs`: filtered exercise selection and local practice plan export.
 - `src/lib/icons.mjs`: transparent semantic SVG stencil symbols; legacy PNG files are retained but are not used as UI glyphs.
 - `src/lib/catalog.mjs`: filter and comparison logic.
@@ -40,7 +40,9 @@ Use clear conversational English. Preserve official test names, requirements and
 
 Keep training guidance practical, adaptable and appropriate to the demands of the user's goal. Verify event and test requirements with their organisers. Review legal and privacy wording when hosting, tracking, forms or accounts change. No claim of accessibility conformance follows from automated testing alone.
 
-GitHub Actions runs unit tests, the static build, asset checks and browser tests in the version- and digest-pinned Playwright container. Merge only after the checks pass for the reviewed commit.
+GitHub Actions runs unit tests, the static build, asset checks and browser tests in the version- and digest-pinned Playwright container. Both jobs use Node.js 22. The GitHub actions themselves use their own Node.js 24 runtimes and are pinned to full release commit SHAs. Merge only after the checks pass for the reviewed commit.
+
+For local browser testing, run `npm ci --include=dev --ignore-scripts`, `npx --no-install playwright install chromium`, `npm run build`, then `npx --no-install playwright test --config=playwright.config.mjs`. Update the exact Playwright version, npm lockfile, pinned container tag and digest together; verify Chromium before running the suite. Do not replace the locked install with an untracked ad hoc installation.
 
 The privacy notice describes the application as implemented. Confirm controller identity, mail handling, hosting/log retention and data-processing arrangements with the responsible person before making compliance claims. Route profiles link to the published maps and elevation profiles; the site does not claim to have independently surveyed them. Training blocks are adjustable planning templates, not personalised coaching or readiness predictions.
 
