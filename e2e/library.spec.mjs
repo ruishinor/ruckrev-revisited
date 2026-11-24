@@ -275,14 +275,20 @@ test('comparison link clipboard success and denial are reported accessibly',asyn
  }
  });
 
-test('Tabler icon geometry, palette and accessibility are consistent',async({page})=>{
+test('Approved activity silhouettes, palette and accessibility are consistent',async({page})=>{
  await page.goto('/testing-library/');
  const run=page.locator('.test-card[data-id="danish-police"] .metric-row svg[data-icon="run"]');
  await expect(run).toBeVisible();
  await expect(run).toHaveAttribute('focusable','false');
  await expect(run).toHaveAttribute('aria-hidden','true');
- await expect(run.locator('path')).toHaveCount(4);
- await expect(run.locator('path').first()).toHaveAttribute('d','M12 4a1 1 0 1 0 2 0a1 1 0 1 0 -2 0');
+ const glyph=run.locator('rect.approved-glyph');
+ await expect(glyph).toHaveCount(1);
+ await expect(glyph).toBeVisible();
+ await expect(glyph).toHaveAttribute('fill','currentColor');
+ await expect(glyph).toHaveAttribute('stroke','none');
+ await expect(run.locator('path')).toHaveCount(0);
+ expect(await glyph.evaluate(e=>getComputedStyle(e).maskImage)).toContain('/assets/glyph-run.png');
+ expect((await page.request.get('/assets/glyph-run.png')).ok()).toBeTruthy();
  await expect(run).toHaveCSS('color','rgb(203, 96, 96)');
  await expect(run).toHaveCSS('stroke-width','2px');
  await page.goto('/testing-library/artillerijaeger/');

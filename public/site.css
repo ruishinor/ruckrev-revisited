@@ -263,3 +263,7 @@ html{scroll-padding-top:90px}
 
 /* Challenge illustration and assessment sequence. */
 .challenge-photo{margin:1rem 0;max-width:640px}.challenge-photo img{display:block;width:100%;height:auto;border:1px solid var(--border);border-radius:6px}.challenge-photo figcaption{color:var(--muted);font-size:.875rem;margin-top:.5rem}.assessment-sequence{margin:1rem 0}.assessment-sequence ol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem;padding-left:1.75rem}.assessment-sequence li{border:1px solid var(--border);padding:.5rem;border-radius:4px}.assessment-sequence figcaption{margin-bottom:.5rem}@media(max-width:520px){.assessment-sequence ol{grid-template-columns:1fr}}
+
+/* Restored owner-selected original PNG silhouettes; recolor only, no new geometry. */
+svg.icon[data-icon="ruck"] .approved-glyph{mask:url("/assets/glyph-ruck.png") center / contain no-repeat;mask-mode:alpha}
+svg.icon[data-icon="run"] .approved-glyph{mask:url("/assets/glyph-run.png") center / contain no-repeat;mask-mode:alpha}

@@ -3,10 +3,10 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {icon,paths,upstream} from '../src/lib/icons.mjs';
 import {renderAssessmentDetails} from '../src/lib/assessment-details.mjs';
-test('all 42 semantic icon keys use a unique locally vendored Tabler path',()=>{
+test('all 42 upstream icon definitions remain distinct; owner-selected silhouettes are rendered for ruck and run',()=>{
  assert.equal(Object.keys(paths).length,42);assert.deepEqual(Object.keys(paths),Object.keys(upstream));assert.equal(new Set(Object.values(paths)).size,42);
  for(const name of Object.keys(paths)){const html=icon(name,24);assert.match(html,/focusable="false"/);assert.match(html,/aria-hidden="true"/);assert.match(html,/stroke="currentColor"/);assert.match(html,/stroke-width="2"/);assert.match(paths[name],/^(<path d="[^"<>]+" \/>)+$/);}
- assert.equal(upstream.run,'run');assert.equal(upstream.ruck,'backpack');assert.equal(upstream.shuttle,'arrows-exchange');assert.equal(upstream.waves,'swimming');assert.match(icon('run'),/M12 4a1 1 0 1 0 2 0a1 1 0 1 0 -2 0/);
+ assert.equal(upstream.run,'run');assert.equal(upstream.ruck,'backpack');assert.equal(upstream.shuttle,'arrows-exchange');assert.equal(upstream.waves,'swimming');assert.match(icon('run'),/class="approved-glyph"/);assert.match(icon('ruck'),/class="approved-glyph"/);
  assert.equal(icon('" onclick="alert(1)'),icon('info'));assert.equal(icon('__proto__'),icon('info'));assert.equal(icon('run','" onclick="alert(1)'),icon('run'));
  const license=readFileSync(new URL('../public/licenses/tabler-icons.txt',import.meta.url),'utf8');assert.match(license,/MIT License/);assert.match(license,/Paweł Kuna/);
 });

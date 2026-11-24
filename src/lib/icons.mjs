@@ -91,5 +91,5 @@ export const paths = Object.freeze({
 export function icon(name, size=20){
  const key=typeof name==='string'&&Object.hasOwn(paths,name)?name:'info';
  const dimension=Number.isFinite(size)&&size>0&&size<=128?size:20;
- return `<svg class="icon" data-icon="${key}" viewBox="0 0 24 24" width="${dimension}" height="${dimension}" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">${paths[key]}</svg>`;
+ return `<svg class="icon" data-icon="${key}" viewBox="0 0 24 24" width="${dimension}" height="${dimension}" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">${key==='ruck'||key==='run'?'<rect class="approved-glyph" width="24" height="24" fill="currentColor" stroke="none"/>':paths[key]}</svg>`;
 }
