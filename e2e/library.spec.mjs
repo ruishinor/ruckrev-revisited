@@ -394,9 +394,9 @@ test('P4 article topics compose with search and show related articles',async({pa
  await expect(page.getByRole('heading',{name:'More on Leadership'})).toBeVisible();
  await expect(page.locator('.article-connections')).toContainText('Milton Memorial');
 });
-test('P4 contribution is explicitly offline and downloads a template',async({page})=>{
+test('P4 contribution downloads a local template and exposes a manual email path',async({page})=>{
  await page.goto('/resources/contribute/');
- await expect(page.getByText('No submission destination is currently configured for this page.',{exact:true})).toBeVisible();
+ await expect(page.getByText('Send a draft by email when you are ready.',{exact:true})).toBeVisible();await expect(page.getByRole('link',{name:'Prepare an editorial email'})).toHaveAttribute('href','mailto:info@ruckingrevolution.org?subject=Rucking%20Revolution%20editorial%20submission');
  const dl=page.waitForEvent('download');await page.getByRole('link',{name:'Download interview and consent template'}).click();
  expect((await dl).suggestedFilename()).toBe('rr-interview-template.txt');
  await expect(page.locator('main form')).toHaveCount(0);
