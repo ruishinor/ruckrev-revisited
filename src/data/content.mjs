@@ -58,7 +58,7 @@ export const sections={
    {title:'Long-distance stage',text:'Borrow a lesson from multi-day route planning: be ready to repeat the work tomorrow.',items:['Set a realistic stage distance.','Plan water, food and foot-care stops.','Track time moving and time stopped.']}
   ]},
  '/resources/events/':{
-  eyebrow:'A DATE ON THE CALENDAR',title:'Events & challenges',lead:'Having a date and a course can sharpen training. Explore different types of events and check each organiser for current dates, registration and rules.',
+  eyebrow:'A DATE ON THE CALENDAR',title:'Events & challenges',lead:'Find rucking events, mountain challenges, distance challenges and multi-day marches. Compare formats and locations, then check the organiser’s current rules and dates before committing.',
 
   blocks:[
    {title:'Long-distance marches',text:'Events such as the Nijmegen Four Days Marches ask participants to manage repeated long days.',items:['Check the organiser’s current registration and entry rules.','Train back-to-back sessions when the event requires them.','Practise recovery and foot care between days.']},

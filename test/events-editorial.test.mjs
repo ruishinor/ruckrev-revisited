@@ -1,0 +1,9 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {collections,entries} from '../src/data/guides.mjs';
+import {assessments} from '../src/data/assessments.mjs';
+import {renderCollection,renderEntry} from '../src/lib/resource-pages.mjs';
+test('event directory uses dated or explicitly undated organiser-backed records and filters',()=>{const e=collections['/resources/events/'];assert.equal(e.length,9);assert.ok(e.every(x=>x.eventCountry&&x.eventType&&x.checked&&x.links.length));assert.equal(e.at(-1).slug,'fan-dance');assert.equal(e.at(-1).eventDate,null);assert.match(e.at(-1).meta,/confirm next date/);const html=renderCollection(e);assert.match(html,/id="event-country"/);assert.match(html,/id="event-type"/);assert.match(html,/Official organiser/);assert.doesNotMatch(html,/id="guide-level"/);});
+test('route additions retain published distances and links',()=>{assert.match(entries['/resources/routes/ostensjovannet-loop/'].meta,/4.3 km.*46 m/);assert.match(entries['/resources/routes/ekeberg-loop/'].meta,/4.0 km.*175 m/);const html=renderCollection(collections['/resources/routes/']);assert.match(html,/id="route-type"/);assert.match(html,/Published map and elevation/);});
+test('articles have practical additions and source notes where applicable',()=>{const a=collections['/resources/articles/'];assert.ok(a.every(x=>x.blocks.length>=4));assert.ok(a.filter(x=>x.sources?.length).length>=4);assert.match(renderEntry(entries['/resources/articles/nutrition-for-endurance/']),/Further reading/);});
+test('assessment interface subtitles and publisher labels use English',()=>{for(const a of assessments){assert.doesNotMatch(a.subtitle,/Fysiske tester|Fysisk prøve/);assert.doesNotMatch(a.source.label,/Fysiske tester/);}});

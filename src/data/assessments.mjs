@@ -36,15 +36,15 @@ export const assessments = Object.freeze([
   },
   {
     id:'norwegian-armed-forces',shortName:'Norwegian Armed Forces',name:'Norwegian Armed Forces fitness tests',
-    subtitle:'Fysiske tester i Forsvaret',country:'Norway',countryCode:'NO',flag:'🇳🇴',domain:'Armed forces',
+    subtitle:'General armed forces fitness tests',country:'Norway',countryCode:'NO',flag:'🇳🇴',domain:'Armed forces',
     kind:'FITNESS TEST',category:['all','work','selection','strength','running'],scoring:'Graded',reproducibility:'Published instructions',status:'Official source',
     image:'norway.webp',keywords:'Norway Forsvaret running 3000 meter Norwegian physical fitness',
     metric:{label:'3,000 m run',detail:'See the official table for your test',icon:'run'},
     tags:['Running','Strength','General Fitness'],
-    overview:'Forsvaret has several fitness tests for different stages and roles. The 3,000 m run is one familiar part, but there is no single time that applies to everyone.',
+    overview:'The Norwegian Armed Forces has several fitness tests for different stages and roles. The 3,000 m run is one familiar part, but there is no single time that applies to everyone.',
     components:['3,000 m run','Pull-ups','Standing long jump','Medicine-ball throw'],
-    notes:['The required result depends on which test is being taken and the relevant official criteria.','Check the tables on the Forsvaret website rather than relying on a single number.'],
-    source:{label:'Forsvaret — Fysiske tester',url:'https://www.forsvaret.no/krav/fysiske-tester-i-forsvaret',publisher:'Forsvaret'}
+    notes:['The required result depends on which test is being taken and the relevant official criteria.','Check the tables on the Norwegian Armed Forces website rather than relying on a single number.'],
+    source:{label:'Norwegian Armed Forces — Physical fitness tests',url:'https://www.forsvaret.no/krav/fysiske-tester-i-forsvaret',publisher:'Norwegian Armed Forces'}
   },
   {
     id:'artillerijaeger',shortName:'Artillerijeger',name:'Artillerijeger fitness requirements',
@@ -56,7 +56,7 @@ export const assessments = Object.freeze([
     overview:'The Norwegian Artillerijeger entry page lists an 8 km run with a 22 kg pack, alongside running, strength and swimming tests. ',
     components:['8 km pack run with 22 kg in 52 minutes','3,000 m run in 12 minutes 30 seconds','30 push-ups and 6 pull-ups','Medicine-ball throw and standing long jump','400 m swim'],
     notes:['These figures come from the role’s published entry page. Other admission stages may use different distances and requirements.','Check the latest role page before making an application or setting a training target.'],
-    source:{label:'Forsvaret — Artillerijeger',url:'https://www.forsvaret.no/utdanning/utdanninger/artillerijeger',publisher:'Forsvaret'}
+    source:{label:'Norwegian Armed Forces — Artillerijeger entry requirements',url:'https://www.forsvaret.no/utdanning/utdanninger/artillerijeger',publisher:'Norwegian Armed Forces'}
   },
   {
     id:'nsw-pct',shortName:'NSW Police PCT',name:'NSW Police Physical Capacity Test',
@@ -72,7 +72,7 @@ export const assessments = Object.freeze([
   },
   {
     id:'danish-police',shortName:'Danish Police',name:'Danish Police fitness admission test',
-    subtitle:'Fysisk prøve til politiuddannelsen',country:'Denmark',countryCode:'DK',flag:'🇩🇰',domain:'Police',
+    subtitle:'Police training admission fitness test',country:'Denmark',countryCode:'DK',flag:'🇩🇰',domain:'Police',
     kind:'POLICE ENTRY TEST',category:['all','work','selection','strength','running'],scoring:'Pass / fail',reproducibility:'Published instructions',status:'Official source',
     image:null,keywords:'Denmark Danish police physical entry fitness test politi',
     metric:{label:'2,400 m run',detail:'Time depends on the applicant criteria',icon:'run'},

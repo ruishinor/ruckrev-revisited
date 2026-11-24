@@ -188,3 +188,7 @@ svg.icon[data-icon],.category-pill:not(.active) svg.icon,.filter-control svg.ico
 .field-review-fields{display:grid;gap:16px}.field-review-fields label{display:grid;gap:6px}.field-review-fields textarea{width:100%;max-width:100%;min-width:0;font:inherit;color:var(--text);background:var(--panel);border:1px solid var(--line);padding:10px;border-radius:4px;resize:vertical}
 .exercise-detail .guide-entry-image{width:100%;height:auto;max-height:none;aspect-ratio:3/2;object-fit:contain;background:transparent}
 @media(max-width:690px){.category-row{flex-wrap:wrap;overflow:visible;padding-bottom:0;gap:6px}.category-pill{flex:1 1 auto;min-width:0;max-width:100%;padding:8px 10px;gap:7px;white-space:normal}.category-pill .icon{width:19px;height:19px}.field-narrative{font-size:15px}}
+
+/* Compact intentional text-only assessments; never reserve a fake photo slot. */
+.card-photo.text-only-assessment{background:#131c20;min-height:0;height:auto;justify-content:flex-start;gap:12px}.card-photo.text-only-assessment:after{display:none}.detail-hero.text-only-assessment{background:#131c20;min-height:0;padding-block:24px}.guide-card .event-organiser{font-size:13px;align-self:flex-start}.article-sources li{overflow-wrap:anywhere}.footer-column a:hover,.footer-bottom a:hover,.editorial-row:hover strong,.article-index h3 a:hover{color:var(--rr-nav-hover)}
+@media(min-width:1281px) and (max-width:1500px){.nav-desktop{gap:2px}.nav-link{padding-inline:5px;font-size:12px}.header-inner{gap:9px}.header-join{padding-inline:9px;font-size:12px}}
