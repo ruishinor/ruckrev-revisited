@@ -187,7 +187,7 @@ test('crew leadership practice filters and exports a distinct plan',async({page}
 test('events are directly navigable and filter by country and format',async({page})=>{await page.setViewportSize({width:1440,height:900});await page.goto('/');await page.getByRole('navigation',{name:'Main navigation'}).getByRole('link',{name:'Events',exact:true}).click();await expect(page).toHaveURL(/\/resources\/events\/$/);await page.locator('#event-country').selectOption('United Kingdom');await expect(page.locator('.guide-card:visible')).toHaveCount(3);await page.locator('#event-type').selectOption('Distance challenge');await expect(page.locator('.guide-card:visible')).toHaveCount(2);await expect(page.locator('.guide-card:visible').first().getByRole('link',{name:'Official organiser'})).toBeVisible();});
 test('mobile menu Escape restores focus without navigation',async({page})=>{await page.setViewportSize({width:390,height:844});await page.goto('/');const toggle=page.locator('.mobile-toggle');await toggle.click();await expect(page.locator('#mobile-nav')).toBeVisible();await page.locator('#mobile-nav a').first().focus();await page.keyboard.press('Escape');await expect(page.locator('#mobile-nav')).toBeHidden();await expect(toggle).toBeFocused();});
 
-test('route discovery distinguishes mapped profiles from templates',async({page})=>{await page.goto('/resources/routes/');await page.locator('#route-type').selectOption('Route profile');await expect(page.locator('.guide-card:visible')).toHaveCount(4);await expect(page.locator('.guide-card:visible').first().getByRole('link',{name:'Published map and elevation'})).toBeVisible();await page.locator('#route-type').selectOption('Route template');await expect(page.locator('.guide-card:visible')).toHaveCount(6);});
+test('route discovery distinguishes mapped profiles from templates',async({page})=>{await page.goto('/resources/routes/');await page.locator('#route-type').selectOption('Route profile');await expect(page.locator('.guide-card:visible')).toHaveCount(6);await expect(page.locator('.guide-card:visible').first().getByRole('link',{name:'Published map and elevation'})).toBeVisible();await page.locator('#route-type').selectOption('Route template');await expect(page.locator('.guide-card:visible')).toHaveCount(6);});
 
 test('local GPX viewer preserves segments, rejects malformed input and clears the route',async({page})=>{
  await page.goto('/resources/routes/');
@@ -287,4 +287,26 @@ test('Tabler icon geometry, palette and accessibility are consistent',async({pag
  await expect(run).toHaveCSS('stroke-width','2px');
  await page.goto('/testing-library/artillerijaeger/');
  await expect(page.locator('.activity-highlight svg[data-icon="ruck"]')).toHaveCSS('color','rgb(203, 96, 96)');
+});
+
+test('event discovery uses inclusive start-date ranges, unknown dates and reset',async({page})=>{
+ await page.goto('/resources/events/');
+ await page.locator('#event-date-from').fill('2027-05-01');await page.locator('#event-date-to').fill('2027-05-31');
+ await expect(page.locator('.guide-card:visible')).toHaveCount(3);
+ await page.locator('#event-country').selectOption('United Kingdom');await expect(page.locator('.guide-card:visible')).toHaveCount(2);
+ await page.locator('#event-date-to').fill('2027-04-30');await expect(page.locator('.guide-card:visible')).toHaveCount(0);await expect(page.locator('#event-filter-message')).toContainText('Start date');
+ await page.getByRole('button',{name:'Reset event filters'}).click();await expect(page.locator('.guide-card:visible')).toHaveCount(10);
+ await page.locator('#event-date-status').selectOption('undated');await expect(page.locator('.guide-card:visible')).toHaveCount(1);await expect(page.locator('.guide-card:visible')).toContainText('Fan Dance');
+});
+test('GPX route navigation works with native buttons and does not send the file or request external resources',async({page})=>{
+ const external=[];page.on('request',r=>{if(!r.url().startsWith('http://127.0.0.1:')&&!r.url().startsWith('http://localhost:')&&!r.url().startsWith('data:'))external.push(r.url());});
+ await page.goto('/resources/routes/');
+ const input=page.locator('#gpx-file');const fixture='<gpx><trk><trkseg><trkpt lat="59.9" lon="10.7"/><trkpt lat="59.901" lon="10.71"/></trkseg></trk></gpx>';
+ await input.setInputFiles({name:'private-test.gpx',mimeType:'application/gpx+xml',buffer:Buffer.from(fixture)});
+ const map=page.locator('#gpx-map'),east=page.getByRole('button',{name:'Pan east'});
+ await expect(map).toBeVisible();await expect(east).toBeDisabled();await expect(map.locator('circle.gpx-start')).toHaveCount(1);await expect(map.locator('rect.gpx-finish')).toHaveCount(1);
+ await page.getByRole('button',{name:'Zoom in',exact:true}).click();await expect(east).toBeEnabled();const before=await map.getAttribute('viewBox');
+ await east.focus();await page.keyboard.press('Enter');await expect(map).not.toHaveAttribute('viewBox',before);await expect(east).toBeFocused();
+ await page.getByRole('button',{name:'Fit route'}).click();await expect(map).toHaveAttribute('viewBox','0 0 640 360');await expect(east).toBeDisabled();
+ await page.getByRole('button',{name:'Clear file'}).click();await expect(input).toBeFocused();await expect(map).toBeHidden();expect(external).toEqual([]);
 });
