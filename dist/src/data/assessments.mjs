@@ -14,7 +14,7 @@ export const assessments = Object.freeze([
     id:'ntoa-pfq',shortName:'PFQ',name:'Physical Fitness Qualification',
     subtitle:'NTOA physical fitness test',country:'United States',countryCode:'US',flag:'🇺🇸',domain:'Police',
     kind:'POLICE FITNESS TEST',category:['all','work','strength','running'],scoring:'Points',reproducibility:'Published instructions',status:'Official source',
-    image:'pfq.webp',keywords:'PFQ NTOA US police physical fitness qualification',
+    image:null,keywords:'PFQ NTOA US police physical fitness qualification',
     metric:{label:'800 m run',detail:'3:14 or faster earns 10 points',icon:'run'},
     tags:['Running','Strength','Work Capacity'],
     overview:'The National Tactical Officers Association (NTOA) has a five-part fitness test that mixes running and bodyweight exercises. It is more than one run, and each part contributes to the final score.',
@@ -62,7 +62,7 @@ export const assessments = Object.freeze([
     id:'nsw-pct',shortName:'NSW Police PCT',name:'NSW Police Physical Capacity Test',
     subtitle:'Police candidate fitness test',country:'Australia',countryCode:'AU',flag:'🇦🇺',domain:'Police',
     kind:'POLICE ENTRY TEST',category:['all','work','selection','strength','running'],scoring:'Pass / fail',reproducibility:'Published requirements',status:'Official source',
-    image:'nsw-police.webp',keywords:'new south wales police pct NSW Australia beep test',
+    image:null,keywords:'new south wales police pct NSW Australia beep test',
     metric:{label:'Multi-stage fitness test',detail:'Level 7.1 required',icon:'run'},
     tags:['Running','Bodyweight','Agility'],
     overview:'New South Wales Police uses six fitness activities for applicants. The requirements include a multi-stage fitness test (often called a beep test), alongside strength and agility activities.',
@@ -74,7 +74,7 @@ export const assessments = Object.freeze([
     id:'danish-police',shortName:'Danish Police',name:'Danish Police fitness admission test',
     subtitle:'Fysisk prøve til politiuddannelsen',country:'Denmark',countryCode:'DK',flag:'🇩🇰',domain:'Police',
     kind:'POLICE ENTRY TEST',category:['all','work','selection','strength','running'],scoring:'Pass / fail',reproducibility:'Published instructions',status:'Official source',
-    image:'danish-police.webp',keywords:'Denmark Danish police physical entry fitness test politi',
+    image:null,keywords:'Denmark Danish police physical entry fitness test politi',
     metric:{label:'2,400 m run',detail:'Time depends on the applicant criteria',icon:'run'},
     tags:['Running','Strength','Agility'],
     overview:'Danish Police uses a six-part fitness test for admission. The test includes a 2,400 m run. The running time and other targets depend on the published criteria.',
@@ -84,10 +84,10 @@ export const assessments = Object.freeze([
     otherSources:[{label:'Guidance for women',url:'https://politi.dk/politiskolen/adgangskrav-ansoegning-og-proeveforloeb/fysisk-proeve-for-kvinder'}]
   },
   {
-    id:'army-aft',shortName:'U.S. Army AFT',name:'Army Fitness Test',subtitle:'Five-event fitness assessment',country:'United States',countryCode:'US',domain:'Armed forces',kind:'FITNESS TEST',category:['all','work','strength','running'],scoring:'Points',reproducibility:'Published instructions',status:'Official source',image:'nsw-police.webp',keywords:'AFT deadlift army fitness test',metric:{label:'Two-mile run',detail:'Use the published scoring table for your category',icon:'run'},tags:['Running','Strength','Work Capacity'],overview:'The Army Fitness Test combines five strength, endurance and running events. It is distinct from the Ranger selection programme and from the separate Combat Field Test.',components:['Three-repetition maximum deadlift','Hand-release push-up','Sprint-drag-carry','Plank','Two-mile run'],notes:['The applicable scoring and testing requirements depend on the current Army rules and the person’s category.','Check the scoring tables and instructions before attempting a practice test.'],source:{label:'U.S. Army — Army Fitness Test',url:'https://www.army.mil/aft/',publisher:'U.S. Army'}
+    id:'army-aft',shortName:'U.S. Army AFT',name:'Army Fitness Test',subtitle:'Five-event fitness assessment',country:'United States',countryCode:'US',domain:'Armed forces',kind:'FITNESS TEST',category:['all','work','strength','running'],scoring:'Points',reproducibility:'Published instructions',status:'Official source',image:'aft-running.webp',keywords:'AFT deadlift army fitness test',metric:{label:'Two-mile run',detail:'Use the published scoring table for your category',icon:'run'},tags:['Running','Strength','Work Capacity'],overview:'The Army Fitness Test combines five strength, endurance and running events. It is distinct from the Ranger selection programme and from the separate Combat Field Test.',components:['Three-repetition maximum deadlift','Hand-release push-up','Sprint-drag-carry','Plank','Two-mile run'],notes:['The applicable scoring and testing requirements depend on the current Army rules and the person’s category.','Check the scoring tables and instructions before attempting a practice test.'],source:{label:'U.S. Army — Army Fitness Test',url:'https://www.army.mil/aft/',publisher:'U.S. Army'}
   },
   {
-    id:'uk-police-jrft',shortName:'Police JRFT',name:'Job-related fitness test',subtitle:'Police fitness standards in England and Wales',country:'United Kingdom',countryCode:'GB',domain:'Police',kind:'POLICE FITNESS TEST',category:['all','work','running'],scoring:'Pass / fail',reproducibility:'Published instructions',status:'Official source',image:'danish-police.webp',keywords:'UK England Wales police job related shuttle bleep fitness',metric:{label:'15 m shuttle run',detail:'Level 5.4 for officers requiring personal safety training',icon:'run'},tags:['Running','Aerobic','Work Capacity'],overview:'The College of Policing publishes a job-related fitness standard based on a 15-metre multi-stage shuttle run. Some specialist roles have different standards.',components:['15 m multi-stage fitness test'],notes:['Level 5.4 means completing four shuttles at level five at the required pace.','Check the standard for your actual role; do not substitute a 20 m shuttle protocol.'],source:{label:'College of Policing — Job-related fitness standards',url:'https://www.college.police.uk/support-forces/health-safety-welfare/job-related-fitness-standards',publisher:'College of Policing'}
+    id:'uk-police-jrft',shortName:'Police JRFT',name:'Job-related fitness test',subtitle:'Police fitness standards in England and Wales',country:'United Kingdom',countryCode:'GB',domain:'Police',kind:'POLICE FITNESS TEST',category:['all','work','running'],scoring:'Pass / fail',reproducibility:'Published instructions',status:'Official source',image:null,keywords:'UK England Wales police job related shuttle bleep fitness',metric:{label:'15 m shuttle run',detail:'Level 5.4 for officers requiring personal safety training',icon:'run'},tags:['Running','Aerobic','Work Capacity'],overview:'The College of Policing publishes a job-related fitness standard based on a 15-metre multi-stage shuttle run. Some specialist roles have different standards.',components:['15 m multi-stage fitness test'],notes:['Level 5.4 means completing four shuttles at level five at the required pace.','Check the standard for your actual role; do not substitute a 20 m shuttle protocol.'],source:{label:'College of Policing — Job-related fitness standards',url:'https://www.college.police.uk/support-forces/health-safety-welfare/job-related-fitness-standards',publisher:'College of Policing'}
   }
 ]);
 export const byId = Object.freeze(Object.fromEntries(assessments.map(a=>[a.id,a])));

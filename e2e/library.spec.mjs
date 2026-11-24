@@ -135,7 +135,7 @@ test('training and resources use meaningful distinct glyphs and accessible exact
 
 test('home uses the brand title, plain red hero, and actual Learn Train Lead destinations',async({page})=>{
  await page.goto('/');await expect(page).toHaveTitle('Rucking Revolution');
- const purpose=page.locator('.home-hero h1 em');await expect(purpose).toHaveCSS('color','rgb(139, 0, 0)');await expect(purpose).toHaveCSS('background-color','rgba(0, 0, 0, 0)');
+ const purpose=page.locator('.home-hero h1 em');await expect(purpose).toHaveCSS('color','rgb(139, 0, 0)');await expect(purpose).toHaveCSS('background-color','rgba(0, 0, 0, 0)');await expect(purpose).toHaveCSS('-webkit-text-stroke-width','0px');await expect(purpose).toHaveCSS('text-shadow','none');
  await expect(page.locator('.hero-fact')).toHaveCount(0);await expect(page.getByRole('heading',{name:'What is rucking?'})).toBeVisible();
  for(const [name,href] of [['Explore learn','/learn/'],['Explore train','/training/'],['Explore lead','/lead/']])await expect(page.getByRole('link',{name,exact:true})).toHaveAttribute('href',href);
  await expect(page.getByRole('link',{name:'Free guide: the first three rucks'})).toHaveAttribute('href','/learn/first-three-rucks/');
@@ -162,3 +162,5 @@ test('published route profiles and legal rights pages expose their actual source
 });
 
 test('workout filters combine purpose, equipment and estimated duration',async({page})=>{await page.goto('/training/workouts/');await page.locator('#guide-purpose').selectOption('Strength');await page.locator('#guide-equipment').selectOption('Sandbag');await page.locator('#guide-duration').selectOption('30');const items=page.locator('.guide-card:visible');expect(await items.count()).toBeGreaterThan(0);for(const item of await items.all()){await expect(item).toHaveAttribute('data-purpose','Strength');expect((await item.getAttribute('data-equipment')).split('|')).toContain('Sandbag');expect(Number(await item.getAttribute('data-minutes'))).toBeLessThanOrEqual(30);} });
+
+ test('assessment photos are distinct and comparisons do not repeat them',async({page})=>{await page.goto('/testing-library/');const photos=await page.locator('.card-photo').evaluateAll(els=>els.map(el=>getComputedStyle(el).getPropertyValue('--card-photo').trim()).filter(Boolean));expect(photos.length).toBe(4);expect(new Set(photos).size).toBe(photos.length);await page.goto('/testing-library/compare/?ids=ntoa-pfq,rasp,army-aft');await expect(page.locator('.compare-table thead img:not(.flag)')).toHaveCount(0);await page.goto('/training/workouts/hill-repeats/');await expect(page.locator('.guide-entry-image')).toHaveCount(0);});

@@ -15,12 +15,12 @@ test('catalogue has eight distinct assessments and distinct formal publishers',(
  assert.equal(byId['danish-police'].metric.label,'2,400 m run');
  assert.equal(byId['ntoa-pfq'].components.length,5);
 });
-test('every test has working link format, short description and locally bundled image',async()=>{
+test('every test has working link format, short description and a locally bundled image where appropriate',async()=>{
  for(const item of assessments){
   assert.ok(item.name&&item.overview&&item.shortName&&item.metric.label);
   assert.ok(item.source?.url?.startsWith('https://'),`Missing original source for ${item.id}`);
   const url=new URL(item.source.url); assert.ok(url.hostname.includes('.'));
-  assert.ok((await stat(join(root,'public/assets',item.image))).size>200);
+  if(item.image)assert.ok((await stat(join(root,'public/assets',item.image))).size>200);else assert.equal(item.image,null);
   const dir=await stat(join(root,'testing-library',item.id,'index.html'));
   assert.ok(dir.size>100);
  }
