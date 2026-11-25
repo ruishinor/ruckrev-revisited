@@ -2,6 +2,28 @@
 
 **Baseline 25 November 2026:** PR #34, `b9845cc1e4eba6e9d822bd8d86f43de897f5c134`, main and Vercel production alias confirmed READY. Local 156 unit + 82 browser tests green, hosted PR CI green. Post-merge Verify v2 run 45511338378 independently confirmed successful. Production route rendering not independently inspected in this review. No open PRs/issues at time of read. This roadmap consolidates retrieved conversations, logs and repository docs; it is not a claim to have searched every conversation or verified every page or competitor anew.
 
+## Integration register — 25 November 2026
+
+Current main and production alias independently resolved to PR #35, `38f535acbc7b26f604e5344e77fd9862b7181b4a`. Vercel deployment `dpl_21TfmfgbokeQynyVqrQKrnRvVept` READY; main run 45513470652 check/browser successful. No open PRs returned at inspection. Q02/Q03 delivered technically; Q04 remains open. Q01 live rendering not verified: direct retrieval unavailable. The inventory below is historical #34, not a fresh count. GitHub connector branch creation returned HTTP 403; local Git DNS failed. No parallel agent execution established.
+
+Accountable ownership (roles, not claims of active parallel agents):
+
+| Role | IDs |
+|---|---|
+| Integrator | Q02, Q03, X07, X10 |
+| Engineering | Q04, Q11, X05, X06, X09 |
+| Assessments | Q05, Q06, Q07, R01, R02, R03, R04 |
+| P2 | Q08, C01, C02, C03, C04, C05, C06, C07, C08, C09, C10, C11, C12, C13, C14, C15, C16 |
+| P3 | T01, T02, T03, T04, T05, T06, T07, T08, T09, T10, T11, T12, T13 |
+| P4 | L01, L02, L03, L04, L05, L06, L07, L08, L09, L10 |
+| P1 | W01, W02, W03, W04, W05, W06, W07, W08, W09, W10, W11 |
+| P5 | R05, R06, R07, R08, R09, R10, R11, R12, R13, R14, R15, R16, R17 |
+| UX | Q01, Q09, Q10, Q12, Q13, Q14, X01, X02, X03, X04, X08 |
+
+Collaborators: Q09 domain owners; Q10/R12/X04 UX asset policy, domain factual relevance; R13/L08 P5 research and P4 publication; W04/C06/T05 assessments protocol, P1 records, P2 targets, P3 preparation; C14/W05 one integrated optional planner; R03/R04 P5 research support. Integrator owns shared route/schema changes. Optional proposals remain optional.
+
+Wave A candidate: bounded Q04 cleanup of four unit suites; full residual browser/copy inventory and validation still pending. No source, security or CI changes. Do not close Q04 until exhaustive review.
+
 ## Current inventory and acceptance status
 
 | Domain | Established baseline | Not established / remaining |
@@ -23,8 +45,8 @@ Prior owner feature priority was P2 → P3 → P4 → P1 → P5. Keep that order
 | ID | State | Work | Acceptance / dependency |
 |---|---|---|---|
 | Q01 | OPEN | Verify production pages for #34 | Exact SHA and main CI already confirmed; live PJ, SEAL, GIGN, CPAT and challenge pages inspected, no CSS/asset mismatch. Production alias already verified. |
-| Q02 | OPEN | Adopt canonical content standards, test policy, lessons and roadmap | Repo docs installed, historical docs marked superseded for status only, not deleted; one current decision register. |
-| Q03 | OPEN | Apply bounded test pruning | Supplied patch; no source/CI weakening, preserved existing route IDs, all final required checks pass. |
+| Q02 | DONE-TECH | Adopt canonical content standards, test policy, lessons and roadmap | Repo docs installed, historical docs marked superseded for status only, not deleted; one current decision register. |
+| Q03 | DONE-TECH | Apply bounded test pruning | Supplied patch; no source/CI weakening, preserved existing route IDs, all final required checks pass. |
 | Q04 | OPEN | Complete remaining test inventory consolidation | Immediate: remove all residual verbatim public-copy assertions, prose hashes, word bans and copy-dependent selectors; replace with stable structural/behavioral checks. Retain real regressions, structured factual values and data/security. No arbitrary test target. |
 | Q05 | OPEN | CPAT photograph | Actual relevant reusable image with provenance/permission; otherwise clearly identified protocol graphic + official gallery, open gap. Do not mislabel substitute. |
 | Q06 | AUDIT | Every existing assessment page | Individual publisher manuals/forms, exact component scopes, values, dates, administration, preparation, source links; discrepancy register. Start with all nine reference-only entries and assess all 26. |
